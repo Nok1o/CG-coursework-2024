@@ -1,0 +1,10 @@
+C:\Users\nikit\source\repos\RayTracerGUI\bin\Debug\RayTracerGUI.exe.config
+C:\Users\nikit\source\repos\RayTracerGUI\bin\Debug\RayTracerGUI.exe
+C:\Users\nikit\source\repos\RayTracerGUI\bin\Debug\RayTracerGUI.pdb
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.csproj.AssemblyReference.cache
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.Form1.resources
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.Properties.Resources.resources
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.csproj.GenerateResource.cache
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.csproj.CoreCompileInputs.cache
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.exe
+C:\Users\nikit\source\repos\RayTracerGUI\obj\Debug\RayTracerGUI.pdb
