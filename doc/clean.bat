@@ -1,0 +1,1 @@
+del *.aux *.bbl *.blg *.log *.out *.toc *.tex.bak

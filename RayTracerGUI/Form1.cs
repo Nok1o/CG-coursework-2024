@@ -7,24 +7,148 @@ using Assimp;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 
-namespace RayTracerGUI
+
+
+namespace RayTracerGUI 
 {
     public partial class Form1 : Form
     {
         private double reflectionFactor = 0.5; // Default reflection value
         private double intensity = 0.2;
         private string selectedScene = "Default";
+        private ColorDialog colorDialog;
+
+
+        ObjectScene sphereScene = new ObjectScene();
+        ObjectScene chessScene = new ObjectScene();
+        ObjectScene knightScene = new ObjectScene();
+
+        ObjectScene currentScene = null;
+
+
+        //Sphere[] spheres = Array.Empty<Sphere>();
+        //Wall[] walls = Array.Empty<Wall>();
+        //ChessPiece[] chessPieces = Array.Empty<ChessPiece>();
+        (object Object, int index, string type) selectedObject = (null, -1, null);
+
+        Vector3 cameraPos, lightPos;
+        Vector3 cameraDirection = new Vector3(0, 0, -1);
+
 
         public Form1()
         {
             InitializeComponent();
             InitializeComboBox();
+            colorDialog = new ColorDialog();
+
+            // Initialize the reflectiveness slider
+            trackBarReflectiveness.Minimum = 0;
+            trackBarReflectiveness.Maximum = 100;
+            trackBarReflectiveness.ValueChanged += TrackBarReflectiveness_ValueChanged;
+
+            // Color button event
+            btnChangeColor.Click += BtnChangeColor_Click;
+
+            pictureBox1.MouseClick += PictureBox1_MouseClick;
+
+            InitializeListView();
+        }
+
+        private void InitializeListView()
+        {
+            objectListView.View = View.Details;
+            objectListView.FullRowSelect = true;
+            objectListView.Columns.Add("Object Type", -2, HorizontalAlignment.Left);
+            objectListView.Columns.Add("Index", -2, HorizontalAlignment.Left);
+
+            //PopulateListView();
+
+            objectListView.SelectedIndexChanged += ObjectListView_SelectedIndexChanged;
+        }
+
+        private void PopulateListView()
+        {
+            objectListView.Items.Clear();
+
+            for (int i = 0; i < currentScene.spheres.Length; i++)
+                objectListView.Items.Add(new ListViewItem(new[] { "Sphere", i.ToString() }));
+
+            for (int i = 0; i < currentScene.walls.Length; i++)
+                objectListView.Items.Add(new ListViewItem(new[] { "Wall", i.ToString() }));
+
+            for (int i = 0; i < currentScene.chessPieces.Length; i++)
+                objectListView.Items.Add(new ListViewItem(new[] { "ChessPiece", i.ToString() }));
+        }
+
+        private void ObjectListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (objectListView.SelectedItems.Count == 0)
+                return;
+
+            ListViewItem item = objectListView.SelectedItems[0];
+            string type = item.SubItems[0].Text;
+            int index = int.Parse(item.SubItems[1].Text);
+
+            selectedObject = (GetObjectByTypeAndIndex(type, index), index, type);
+            //HighlightSelectedObject();
+        }
+
+        private object GetObjectByTypeAndIndex(string type, int index)
+        {
+            switch (type)
+            {
+                case "Sphere":
+                    return currentScene.spheres[index];
+                case "ChessPiece":
+                    return currentScene.chessPieces[index];
+                case "Wall":
+                    return currentScene.walls[index];
+                default:
+                    return null;
+            };
+        }
+
+        private void SelectListViewItem(string type, int index)
+        {
+            objectListView.SelectedItems.Clear();
+            foreach (ListViewItem item in objectListView.Items)
+            {
+                if (item.SubItems[0].Text == type && item.SubItems[1].Text == index.ToString())
+                {
+                    item.Selected = true;
+                    item.EnsureVisible();
+                }
+            }
+            objectListView.Select();
+        }
+
+
+        private void BtnChangeColor_Click(object sender, EventArgs e)
+        {
+            if (selectedObject.Object != null && colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                UpdateObjectColor(selectedObject, colorDialog.Color);
+                btnRender.PerformClick();
+            }
+        }
+
+        private void TrackBarReflectiveness_ValueChanged(object sender, EventArgs e)
+        {
+            if (selectedObject.Object != null)
+            {
+                double reflectiveness = trackBarReflectiveness.Value / 100.0;
+                UpdateObjectReflectiveness(selectedObject, reflectiveness);
+                labelReflectiveness.Text = $"Reflectiveness: {trackBarReflectiveness.Value}%";
+                //btnRender.PerformClick();
+            }
         }
 
         private void InitializeComboBox()
         {
-            SceneChooser.Items.Add("Default");
+            SceneChooser.Items.Add("Sphere Scene");
             SceneChooser.Items.Add("Chess Scene");
+            SceneChooser.Items.Add("Knight Scene");
+
             SceneChooser.SelectedIndexChanged += SceneComboBox_SelectedIndexChanged;
             SceneChooser.SelectedIndex = 0;  // Default scene
         }
@@ -38,8 +162,8 @@ namespace RayTracerGUI
         // Update reflection factor when the slider is adjusted
         private void trackBarReflection_Scroll(object sender, EventArgs e)
         {
-            reflectionFactor = trackBarReflection.Value / 100.0; // Convert from 0-100 to 0-1
-            labelReflection.Text = $"Reflection: {trackBarReflection.Value}%";
+            reflectionFactor = trackBarReflectiveness.Value / 100.0; // Convert from 0-100 to 0-1
+            labelReflectiveness.Text = $"Reflection: {trackBarReflectiveness.Value}%";
         }
 
         private void trackIntensity_Scroll(object sender, EventArgs e)
@@ -48,41 +172,144 @@ namespace RayTracerGUI
             labelIntensity.Text = $"Intensity: {trackIntensity.Value}%";
         }
 
-        private Sphere[] GetDefaultSpheres()
+        private void PictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            return new Sphere[]
+            if (e.Button == MouseButtons.Left)
             {
-                new Sphere(new Vector3(-2, 0, -6), 2, Color.Red, reflectionFactor),
-                new Sphere(new Vector3(2, 0, -8), 2, Color.Green, reflectionFactor),
-            };
+                Vector3 cameraPos = new Vector3(0, 0, 0);
+                Vector3 cameraDirection = new Vector3(0, 0, -1);
+
+                // Convert screen coordinates to ray direction
+                double i = (2 * (e.X + 0.5) / pictureBox1.Width - 1) * pictureBox1.Width / pictureBox1.Height;
+                double j = -(2 * (e.Y + 0.5) / pictureBox1.Height - 1);
+                Vector3 rayDirection = (new Vector3(i, j, -1) + cameraDirection).Normalize();
+
+                // Trace ray to find the object clicked on
+                selectedObject = FindObjectUnderMouse(cameraPos, rayDirection);
+                SelectListViewItem(selectedObject.type, selectedObject.index);
+
+                //if (selection.selectedObject != null && colorDialog.ShowDialog() == DialogResult.OK)
+                //{
+                //    UpdateObjectColor(selection, colorDialog.Color);
+                //    btnRender.PerformClick(); // Re-render the scene to apply color change
+                //}
+            }
         }
 
-        private Plane[] GetDefaultWalls()
-        {
-            return new Plane[]
-            {
 
-                new Plane(new Vector3(-5, 0, 0), new Vector3(1, 0, 0), Color.Red),   // Left wall
-                new Plane(new Vector3(5, 0, 0), new Vector3(-1, 0, 0), Color.Green), // Right wall
-                new Plane(new Vector3(0, 0, -10), new Vector3(0, 0, 1), Color.Blue), // Back wall
-                new Plane(new Vector3(0, 5, 0), new Vector3(0, -1, 0), Color.White), // Ceiling
-                new Plane(new Vector3(0, -2, 0), new Vector3(0, 1, 0), Color.Yellow), // Floor
-                new Plane(new Vector3(0, 0, 1), new Vector3(0, 0, -1), Color.SandyBrown)
-            };
+        private (object selectedObject, int index, string type) FindObjectUnderMouse(Vector3 rayOrigin, Vector3 rayDirection)
+        {
+            double closestDistance = double.MaxValue;
+            object clickedObject = null;
+            int clickedIndex = -1;
+            string clickedType = "";
+
+            for (int i = 0; i < currentScene.spheres.Length; i++)
+            {
+                if (currentScene.spheres[i].Intersect(rayOrigin, rayDirection, out double distance) && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    clickedObject = currentScene.spheres[i];
+                    clickedIndex = i;
+                    clickedType = "Sphere";
+                }
+            }
+
+            for (int i = 0; i < currentScene.walls.Length; i++)
+            {
+                if (currentScene.walls[i].Intersect(rayOrigin, rayDirection, out double distance) && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    clickedObject = currentScene.walls[i];
+                    clickedIndex = i;
+                    clickedType = "Wall";
+                }
+            }
+
+            for (int i = 0; i < currentScene.chessPieces.Length; i++)
+            {
+                if (currentScene.chessPieces[i].IntersectRay(rayOrigin, rayDirection, out double distance, out _) && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    clickedObject = currentScene.chessPieces[i];
+                    clickedIndex = i;
+                    clickedType = "ChessPiece";
+                }
+            }
+
+            selectedObject = (clickedObject, clickedIndex, clickedType);
+            //HighlightSelectedObject();
+            return selectedObject;
         }
 
-        private Plane[] GetChessWalls()
-        {
-            return new Plane[]
-            {
+        //private void HighlightSelectedObject()
+        //{
+        //    if (selectedObject.Object is Sphere sphere)
+        //    {
+        //        originalColor = sphere.SurfaceColor;
+        //        sphere.SurfaceColor = Color.Yellow; // Highlight color
+        //    }
+        //    else if (selectedObject.Object is Wall wall)
+        //    {
+        //        originalColor = wall.SurfaceColor;
+        //        wall.SurfaceColor = Color.Yellow;
+        //    }
+        //    else if (selectedObject.Object is ChessPiece chessPiece)
+        //    {
+        //        originalColor = chessPiece.Color;
+        //        chessPiece.Color = Color.Yellow;
+        //    }
+        //    //btnRender.PerformClick(); // Update rendering to show the highlight
+        //}
 
-                new Plane(new Vector3(-6, 0, 0), new Vector3(1, 0, 0), Color.Red),   // Left wall
-                new Plane(new Vector3(6, 0, 0), new Vector3(-1, 0, 0), Color.Green), // Right wall
-                new Plane(new Vector3(0, 0, -12), new Vector3(0, 0, 1), Color.Blue), // Back wall
-                new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0), Color.White), // Ceiling
-                new Plane(new Vector3(0, 0, 0), new Vector3(0, 1, 0), Color.Yellow), // Floor
-                new Plane(new Vector3(0, 0, 12), new Vector3(0, 0, -1), Color.SandyBrown)
-            };
+        // Update object color
+        private void UpdateObjectColor((object obj, int index, string type) selection, Color newColor)
+        {
+            switch (selection.type)
+            {
+                case "Sphere":
+                    currentScene.spheres[selection.index].SurfaceColor = newColor;
+                    break;
+                case "Wall":
+                    currentScene.walls[selection.index].SurfaceColor = newColor;
+                    break;
+                case "ChessPiece":
+                    currentScene.chessPieces[selection.index].Color = newColor;
+                    break;
+            }
+        }
+
+        private void UpdateObjectReflectiveness((object obj, int index, string type) selection, double reflectiveness)
+        {
+            switch (selection.type)
+            {
+                case "Sphere":
+                    currentScene.spheres[selection.index].Reflection = reflectiveness;
+                    break;
+                case "Wall":
+                    currentScene.walls[selection.index].Reflection = reflectiveness;
+                    break;
+                case "ChessPiece":
+                    currentScene.chessPieces[selection.index].Reflection = reflectiveness;
+                    break;
+            }
+        }
+
+        private void fillListView()
+        {
+            objectListView.Items.Clear();
+            for (int i = 0; i < currentScene.spheres.Length; i++)
+            {
+                objectListView.Items.Add(new ListViewItem(new string[] { "Sphere", i.ToString() }));
+            }
+            for (int i = 0; i < currentScene.walls.Length; i++)
+            {
+                objectListView.Items.Add(new ListViewItem(new string[] { "Wall", i.ToString() }));
+            }
+            for (int i = 0; i < currentScene.chessPieces.Length; i++)
+            {
+                objectListView.Items.Add(new ListViewItem(new string[] { "ChessPiece", i.ToString() }));
+            }
         }
 
         private async void btnRender_Click(object sender, EventArgs e)
@@ -91,38 +318,56 @@ namespace RayTracerGUI
             int height = 600;
             Bitmap bitmap = new Bitmap(width, height);
             Color backgroundColor = Color.Gray;
-            Vector3 cameraPos = null, lightPos = null;
 
-            Sphere[] spheres = Array.Empty<Sphere>();
-            Plane[] walls = Array.Empty<Plane>();
-            ChessPiece[] chessPieces = Array.Empty<ChessPiece>();
 
-            if (selectedScene == "Default")
+            if (selectedScene == "Sphere Scene")
             {
-                cameraPos = new Vector3(0, 0, 0);
-                lightPos = new Vector3(0, 4.7, -8);
-                spheres = GetDefaultSpheres();
-                walls = GetDefaultWalls();
+                if (sphereScene.spheres.Length == 0)
+                {
+                    sphereScene = setupSphereScene();
+                }
+                setupSphereCamera();
+                currentScene = sphereScene;
             }
             else if (selectedScene == "Chess Scene")
             {
-                cameraPos = new Vector3(0, 2, 8);
-                lightPos = new Vector3(0, 6, 0);
-                chessPieces = LoadChessPieces();
-                walls = GetChessWalls();
+                if (chessScene.chessPieces.Length == 0)
+                {
+                    chessScene = setupChessScene();
+                }
+                setupChessCamera();
+                currentScene = chessScene;
             }
+            else if (selectedScene == "Knight Scene")
+            {
+                if (knightScene.chessPieces.Length == 0)
+                {
+                    knightScene = setupKnightScene();
+                }
+                setupKnightCamera();
+                currentScene = knightScene;
+            }
+
+            fillListView();
 
             // Run the render on a background thread
             await Task.Run(() =>
             {
-                RenderScene(bitmap, width, height, cameraPos, lightPos, backgroundColor, spheres, walls, chessPieces);
+                RenderScene(bitmap, width, height, cameraPos, cameraDirection, lightPos, backgroundColor, currentScene);
             });
 
             pictureBox1.Image = bitmap;
         }
 
-        private void RenderScene(Bitmap bitmap, int width, int height, Vector3 cameraPos, Vector3 lightPos, Color backgroundColor, Sphere[] spheres, Plane[] walls, ChessPiece[] chessPieces)
+        private void RenderScene(Bitmap bitmap, int width, int height, Vector3 cameraPos, Vector3 cameraDirection, Vector3 lightPos, Color backgroundColor, ObjectScene scene)
         {
+            Vector3 cameraRight = cameraDirection.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
+            Vector3 cameraUp = cameraRight.Cross(cameraDirection).Normalize();            // Y-axis in camera space
+
+            double aspectRatio = (double)width / height;
+            double fov = Math.PI / 3.0; // 60 degrees field of view
+            double scale = Math.Tan(fov / 2);
+
             int totalPixels = width * height;
             int processedPixels = 0;
             object lockObj = new object();
@@ -131,20 +376,24 @@ namespace RayTracerGUI
             {
                 for (int x = 0; x < width; x++)
                 {
-                    double i = (2 * (x + 0.5) / width - 1) * width / height;
-                    double j = -(2 * (y + 0.5) / height - 1);
-                    Vector3 rayDirection = new Vector3(i, j, -1).Normalize();
+                    // Convert pixel coordinates to normalized device coordinates (NDC)
+                    double ndcX = (2 * (x + 0.5) / width - 1) * aspectRatio;
+                    double ndcY = (1 - 2 * (y + 0.5) / height); // Flip Y-axis for screen space
 
-                    Color pixelColor = TraceRay(cameraPos, rayDirection, spheres, walls, chessPieces, lightPos, backgroundColor, 5);
+                    // Scale NDC by the FOV
+                    Vector3 rayDirInCameraSpace = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + cameraDirection).Normalize();
+
+                    // Ray originates at the camera position
+                    Vector3 rayOrigin = cameraPos;
+
+                    // Trace the ray
+                    Color pixelColor = TraceRay(rayOrigin, rayDirInCameraSpace, scene, lightPos, backgroundColor, 5);
 
                     lock (lockObj)
                     {
                         bitmap.SetPixel(x, y, pixelColor);
-                    }
 
-                    // Update the progress bar asynchronously
-                    lock (lockObj)
-                    {
+                        // Update progress bar
                         processedPixels++;
                         if (processedPixels % (totalPixels / 100) == 0)
                         {
@@ -159,10 +408,18 @@ namespace RayTracerGUI
             progressBar.Invoke(new Action(() => progressBar.Value = 100));
         }
 
-        private ChessPiece[] LoadChessPieces()
+        private ChessPiece[] LoadChessPieces(int mode = 1)
         {
             var importer = new AssimpContext();
-            var scene = importer.ImportFile("../../chess.obj", PostProcessSteps.Triangulate);
+            Scene scene;
+            if (mode == 1)
+            {
+                scene = importer.ImportFile("../../chess.obj", PostProcessSteps.Triangulate);
+            }
+            else
+            {
+                scene = importer.ImportFile("../../knight.obj", PostProcessSteps.Triangulate);
+            }
             var chessPieces = new List<ChessPiece>();
 
             int totalMeshes = scene.Meshes.Count;
@@ -171,9 +428,6 @@ namespace RayTracerGUI
 
             foreach (var mesh in scene.Meshes)
             {
-                //if (i++ > 2)
-                //    break;
-                //var mesh = scene.Meshes[0];
                 var triangles = new List<Triangle>();
 
                 foreach (var face in mesh.Faces)
@@ -183,13 +437,17 @@ namespace RayTracerGUI
                         var v0 = mesh.Vertices[face.Indices[0]];
                         var v1 = mesh.Vertices[face.Indices[1]];
                         var v2 = mesh.Vertices[face.Indices[2]];
-                        var normal = (mesh.Normals[face.Indices[0]] + mesh.Normals[face.Indices[1]] + mesh.Normals[face.Indices[2]]) / 3;
+                        var n0 = mesh.Normals[face.Indices[0]];
+                        var n1 = mesh.Normals[face.Indices[1]];
+                        var n2 = mesh.Normals[face.Indices[2]];
 
                         triangles.Add(new Triangle(
                             new Vector3(v0.X, v0.Y, v0.Z),
                             new Vector3(v1.X, v1.Y, v1.Z),
                             new Vector3(v2.X, v2.Y, v2.Z),
-                            new Vector3(normal.X, normal.Y, normal.Z)
+                            new Vector3(n0.X, n0.Y, n0.Z),
+                            new Vector3(n1.X, n1.Y, n1.Z),
+                            new Vector3(n2.X, n2.Y, n2.Z)
                         ));
                     }
                 }
@@ -203,119 +461,9 @@ namespace RayTracerGUI
 
             //progressBar.Value = 100; // Ensure it completes
             return chessPieces.ToArray();
-        }
+        }        
 
-        // Recursive ray tracing function
-        private Color TraceRay(Vector3 origin, Vector3 direction, Sphere[] spheres, Plane[] walls, ChessPiece[] chessPieces, Vector3 lightPos, Color backgroundColor, int depth)
-        {
-            if (depth <= 0)
-                return backgroundColor;
-
-            double nearestT = double.MaxValue;
-            Sphere nearestSphere = null;
-            Plane nearestPlane = null;
-            ChessPiece nearestChessPiece = null;
-            Vector3 closest_normal = null;
-            bool hitObject = false;
-
-            // Check intersection with spheres
-            foreach (Sphere sphere in spheres)
-            {
-                if (sphere.Intersect(origin, direction, out double t) && t < nearestT)
-                {
-                    nearestT = t;
-                    nearestSphere = sphere;
-                    nearestPlane = null;
-                    nearestChessPiece = null;
-                    hitObject = true;
-                }
-            }
-
-            // Check intersection with walls
-            foreach (Plane wall in walls)
-            {
-                if (wall.Intersect(origin, direction, out double t) && t < nearestT)
-                {
-                    nearestT = t;
-                    nearestPlane = wall;
-                    nearestChessPiece = null;
-                    nearestSphere = null;
-                    hitObject = true;
-                }
-            }
-
-            // Check intersection with chess pieces
-            foreach (ChessPiece chessPiece in chessPieces)
-            {
-                if (chessPiece.IntersectRay(origin, direction, out double t, out Vector3 potential_normal) && t < nearestT)
-                {
-                    nearestT = t;
-                    nearestChessPiece = chessPiece;
-                    nearestSphere = null;
-                    nearestPlane = null;
-                    hitObject = true;
-                    closest_normal = potential_normal;
-                }
-            }
-
-            if (!hitObject)
-                return backgroundColor; // No hit, return background color
-
-            Vector3 hitPoint = origin + direction * nearestT;
-            Vector3 normal;
-            Color objectColor;
-
-            if (nearestSphere != null)
-            {
-                // Sphere hit
-                normal = (hitPoint - nearestSphere.Center).Normalize();
-                objectColor = nearestSphere.SurfaceColor;
-
-                // Calculate lighting with shadow check
-                Color lightingColor = CalculateLighting(hitPoint, normal, lightPos, objectColor, spheres, walls, chessPieces);
-
-                // Reflection
-                if (nearestSphere.Reflection > 0)
-                {
-                    Vector3 reflectionDir = Reflect(direction, normal);
-                    Color reflectionColor = TraceRay(hitPoint, reflectionDir, spheres, walls, chessPieces, lightPos, backgroundColor, depth - 1);
-                    lightingColor = MixColors(lightingColor, reflectionColor, nearestSphere.Reflection);
-                }
-
-                return lightingColor;
-            }
-            else if (nearestPlane != null)
-            {
-                // Wall hit
-                normal = nearestPlane.Normal;
-                objectColor = nearestPlane.SurfaceColor;
-
-                // Calculate lighting with shadow check
-                return CalculateLighting(hitPoint, normal, lightPos, objectColor, spheres, walls, chessPieces);
-            }
-            else if (nearestChessPiece != null)
-            {
-                // Chess piece hit
-                objectColor = nearestChessPiece.Color;
-
-                Color lightingColor = CalculateLighting(hitPoint, closest_normal, lightPos, objectColor, spheres, walls, chessPieces);
-
-                // Reflection
-                if (nearestChessPiece.Reflection > 0)
-                {
-                    Vector3 reflectionDir = Reflect(direction, closest_normal);
-                    Color reflectionColor = TraceRay(hitPoint, reflectionDir, spheres, walls, chessPieces, lightPos, backgroundColor, depth - 1);
-                    lightingColor = MixColors(lightingColor, reflectionColor, nearestChessPiece.Reflection);
-                }
-
-                return lightingColor;
-            }
-
-
-            return backgroundColor;
-        }
-
-            private Color MultiplyColor(Color color, float intensity)
+        private Color MultiplyColor(Color color, float intensity)
         {
             int r = Math.Min(255, (int)(color.R * intensity));
             int g = Math.Min(255, (int)(color.G * intensity));
@@ -323,12 +471,11 @@ namespace RayTracerGUI
             return Color.FromArgb(r, g, b);
         }
 
-        // Updated lighting calculation to include shadows
-        // Updated lighting calculation to include both Phong and Fresnel shading
-        private Color CalculateLighting(Vector3 hitPoint, Vector3 normal, Vector3 lightPos, Color objectColor, Sphere[] spheres, Plane[] walls, ChessPiece[] chessPieces)
+
+        private Color CalculateLighting(Vector3 hitPoint, Vector3 normal, Vector3 lightPos, Color objectColor, ObjectScene scene)
         {
             // Ambient light factor (constant across the entire scene)
-            double ambientIntensity = 0.5;
+            double ambientIntensity = intensity;
             Color ambientLight = ApplyAmbientLight(objectColor, ambientIntensity);
 
             // Diffuse lighting (based on angle of incidence)
@@ -350,7 +497,7 @@ namespace RayTracerGUI
             Color finalColor = CombineLighting(objectColor, ambientLight, diffuseIntensity, specularLight);
 
             // Shadow checking
-            bool inShadow = IsInShadow(hitPoint, lightDir, lightPos, spheres, walls, chessPieces);
+            bool inShadow = IsInShadow(hitPoint, lightDir, lightPos, scene);
             if (inShadow)
             {
                 finalColor = ApplyShadow(finalColor);
@@ -366,53 +513,6 @@ namespace RayTracerGUI
                 (int)(objectColor.G * ambientIntensity),
                 (int)(objectColor.B * ambientIntensity)
             );
-        }
-
-        private Color CalculatePhongSpecular(Vector3 hitPoint, Vector3 normal, Vector3 lightPos)
-        {
-            // Phong specular intensity parameters
-            double specularIntensity = intensity;
-            int shininess = 32;
-
-            // Calculate reflection direction
-            Vector3 viewDir = (new Vector3(0, 0, 0) - hitPoint).Normalize(); // Assume camera at origin
-            Vector3 lightDir = (lightPos - hitPoint).Normalize();
-            Vector3 reflectDir = (normal * (2.0 * normal.Dot(lightDir)) - lightDir).Normalize();
-
-            // Calculate specular component
-            double specFactor = Math.Pow(Math.Max(viewDir.Dot(reflectDir), 0), shininess) * specularIntensity;
-
-            // Return specular component (white highlight)
-            return Color.FromArgb(
-                (int)(255 * specFactor),
-                (int)(255 * specFactor),
-                (int)(255 * specFactor)
-            );
-        }
-
-        private Color CalculateFresnelSpecular(Vector3 hitPoint, Vector3 normal, Vector3 lightPos)
-        {
-            // Fresnel reflection using Schlick's approximation
-            Vector3 viewDir = (new Vector3(0, 0, 0) - hitPoint).Normalize(); // Assume camera at origin
-            double cosTheta = Math.Max(0, viewDir.Dot(normal));
-            double fresnelFactor = Math.Pow(1 - cosTheta, 10) * 0.9 + 0.1; // Adjust reflection strength
-
-            // Return Fresnel reflection (white for simplicity)
-            return Color.FromArgb(
-                (int)(255 * fresnelFactor),
-                (int)(255 * fresnelFactor),
-                (int)(255 * fresnelFactor)
-            );
-        }
-
-        private Color CombineLighting(Color objectColor, Color ambientLight, double diffuseIntensity, Color specularLight)
-        {
-            // Combine ambient and diffuse lighting
-            int r = Math.Min(255, (int)(objectColor.R * diffuseIntensity + ambientLight.R + specularLight.R));
-            int g = Math.Min(255, (int)(objectColor.G * diffuseIntensity + ambientLight.G + specularLight.G));
-            int b = Math.Min(255, (int)(objectColor.B * diffuseIntensity + ambientLight.B + specularLight.B));
-
-            return Color.FromArgb(r, g, b);
         }
 
         private Color ApplyShadow(Color finalColor)
@@ -442,13 +542,13 @@ namespace RayTracerGUI
                 (int)(color1.B * (1 - factor) + color2.B * factor));
         }
         // Check if the point is in shadow by casting a ray towards the light
-        private bool IsInShadow(Vector3 hitPoint, Vector3 lightDir, Vector3 lightPos, Sphere[] spheres, Plane[] walls, ChessPiece[] chessPieces)
+        private bool IsInShadow(Vector3 hitPoint, Vector3 lightDir, Vector3 lightPos, ObjectScene scene)
         {
             Vector3 shadowOrigin = hitPoint + lightDir * 1e-4; // Small offset to avoid self-intersection
             double lightDistance = (lightPos - hitPoint).Dot(lightPos - hitPoint); // Square of distance to the light
 
             // Check for intersections with spheres
-            foreach (Sphere sphere in spheres)
+            foreach (Sphere sphere in scene.spheres)
             {
                 if (sphere.Intersect(shadowOrigin, lightDir, out double t))
                 {
@@ -458,7 +558,7 @@ namespace RayTracerGUI
             }
 
             // Check for intersections with walls
-            foreach (Plane wall in walls)
+            foreach (Wall wall in scene.walls)
             {
                 if (wall.Intersect(shadowOrigin, lightDir, out double t))
                 {
@@ -468,7 +568,7 @@ namespace RayTracerGUI
             }
 
             // Check for intersections with chess pieces
-            foreach (ChessPiece chessPiece in chessPieces)
+            foreach (ChessPiece chessPiece in scene.chessPieces)
             {
                 if (chessPiece.IntersectRay(shadowOrigin, lightDir, out double t, out Vector3 normal))
                 {
@@ -479,33 +579,5 @@ namespace RayTracerGUI
 
             return false; // No obstruction found, not in shadow
         }
-
-        // Phong shading model
-        private Color PhongShading(Color objectColor, double intensity)
-        {
-            return Color.FromArgb(
-                (int)(objectColor.R * intensity),
-                (int)(objectColor.G * intensity),
-                (int)(objectColor.B * intensity));
-        }
-
-        // Fresnel reflection model using Schlick's approximation
-        private Color FresnelShading(Color objectColor, Vector3 hitPoint, Vector3 normal, Vector3 lightPos)
-        {
-            // Calculate reflection angle (Fresnel effect)
-            Vector3 viewDir = (hitPoint - new Vector3(0, 0, 0)).Normalize(); // Assuming camera at origin
-            double cosTheta = Math.Max(0, viewDir.Dot(normal));
-            double fresnelFactor = Math.Pow(1 - cosTheta, 3) * 0.9 + 0.1; // Adjust reflection strength
-
-            // Mix object color with reflection color (here, we'll use white for simplicity)
-            Color reflectionColor = Color.White;
-
-            return Color.FromArgb(
-                (int)(objectColor.R * (1 - fresnelFactor) + reflectionColor.R * fresnelFactor),
-                (int)(objectColor.G * (1 - fresnelFactor) + reflectionColor.G * fresnelFactor),
-                (int)(objectColor.B * (1 - fresnelFactor) + reflectionColor.B * fresnelFactor));
-        }
-
-
     }
 }

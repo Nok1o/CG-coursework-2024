@@ -23,7 +23,21 @@ namespace RayTracerGUI
         public static Vector3 operator -(Vector3 a, Vector3 b) => new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 
         public static Vector3 operator *(Vector3 a, double scalar) => new Vector3(a.X * scalar, a.Y * scalar, a.Z * scalar);
+        public static Vector3 operator *(double scalar, Vector3 a) => new Vector3(a.X * scalar, a.Y * scalar, a.Z * scalar);
+
         public static Vector3 operator /(Vector3 a, double scalar) => new Vector3(a.X / scalar, a.Y / scalar, a.Z / scalar);
+
+        public double this[int num]
+        {
+            get
+            {
+                if (num == 0) return X;
+                if (num == 1) return Y;
+                if (num == 2) return Z;
+                else throw new ArgumentException("Bad index");
+            }
+        }
+         
 
 
         public double Dot(Vector3 other) => X * other.X + Y * other.Y + Z * other.Z;
@@ -45,9 +59,7 @@ namespace RayTracerGUI
 
         public double Length()
         {
-            return X * X + Y * Y + Z * Z;
+            return Math.Sqrt(X * X + Y * Y + Z * Z);
         }
     }
-
-
 }

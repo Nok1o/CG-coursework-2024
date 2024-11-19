@@ -1,13 +1,13 @@
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\RayTracerGUI.exe.config
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\RayTracerGUI.exe
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\RayTracerGUI.pdb
+C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\AssimpNet.dll
+C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\AssimpNet.xml
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\CG_coursework.csproj.AssemblyReference.cache
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\RayTracerGUI.Form1.resources
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\RayTracerGUI.Properties.Resources.resources
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\CG_coursework.csproj.GenerateResource.cache
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\CG_coursework.csproj.CoreCompileInputs.cache
+C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\CG_cours.094B4EDC.Up2Date
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\RayTracerGUI.exe
 C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\RayTracerGUI.pdb
-C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\AssimpNet.dll
-C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\bin\Debug\AssimpNet.xml
-C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\RayTracerGUI\obj\Debug\CG_cours.094B4EDC.Up2Date

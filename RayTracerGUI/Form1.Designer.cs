@@ -19,19 +19,20 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnRender = new System.Windows.Forms.Button();
-            this.trackBarReflection = new System.Windows.Forms.TrackBar();
-            this.labelReflection = new System.Windows.Forms.Label();
+            this.trackBarReflectiveness = new System.Windows.Forms.TrackBar();
+            this.labelReflectiveness = new System.Windows.Forms.Label();
             this.labelReflectionText = new System.Windows.Forms.Label();
             this.radioButtonPhong = new System.Windows.Forms.RadioButton();
             this.radioButtonFresnel = new System.Windows.Forms.RadioButton();
             this.SceneChooser = new System.Windows.Forms.ComboBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.trackIntensity = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.labelIntensity = new System.Windows.Forms.Label();
+            this.btnChangeColor = new System.Windows.Forms.Button();
+            this.objectListView = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarReflection)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,24 +54,24 @@
             this.btnRender.UseVisualStyleBackColor = true;
             this.btnRender.Click += new System.EventHandler(this.btnRender_Click);
             // 
-            // trackBarReflection
+            // trackBarReflectiveness
             // 
-            this.trackBarReflection.Location = new System.Drawing.Point(840, 80);
-            this.trackBarReflection.Maximum = 100;
-            this.trackBarReflection.Name = "trackBarReflection";
-            this.trackBarReflection.Size = new System.Drawing.Size(150, 45);
-            this.trackBarReflection.TabIndex = 2;
-            this.trackBarReflection.Value = 50;
-            this.trackBarReflection.Scroll += new System.EventHandler(this.trackBarReflection_Scroll);
+            this.trackBarReflectiveness.Location = new System.Drawing.Point(840, 80);
+            this.trackBarReflectiveness.Maximum = 100;
+            this.trackBarReflectiveness.Name = "trackBarReflectiveness";
+            this.trackBarReflectiveness.Size = new System.Drawing.Size(150, 45);
+            this.trackBarReflectiveness.TabIndex = 2;
+            this.trackBarReflectiveness.Value = 50;
+            this.trackBarReflectiveness.Scroll += new System.EventHandler(this.trackBarReflection_Scroll);
             // 
-            // labelReflection
+            // labelReflectiveness
             // 
-            this.labelReflection.AutoSize = true;
-            this.labelReflection.Location = new System.Drawing.Point(840, 120);
-            this.labelReflection.Name = "labelReflection";
-            this.labelReflection.Size = new System.Drawing.Size(81, 13);
-            this.labelReflection.TabIndex = 3;
-            this.labelReflection.Text = "Reflection: 50%";
+            this.labelReflectiveness.AutoSize = true;
+            this.labelReflectiveness.Location = new System.Drawing.Point(840, 120);
+            this.labelReflectiveness.Name = "labelReflectiveness";
+            this.labelReflectiveness.Size = new System.Drawing.Size(81, 13);
+            this.labelReflectiveness.TabIndex = 3;
+            this.labelReflectiveness.Text = "Reflection: 50%";
             // 
             // labelReflectionText
             // 
@@ -106,9 +107,9 @@
             // 
             // SceneChooser
             // 
-            this.SceneChooser.Location = new System.Drawing.Point(828, 366);
+            this.SceneChooser.Location = new System.Drawing.Point(828, 341);
             this.SceneChooser.Name = "SceneChooser";
-            this.SceneChooser.Size = new System.Drawing.Size(134, 21);
+            this.SceneChooser.Size = new System.Drawing.Size(160, 21);
             this.SceneChooser.TabIndex = 7;
             // 
             // progressBar
@@ -117,13 +118,6 @@
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(170, 23);
             this.progressBar.TabIndex = 8;
-            // 
-            // hScrollBar1
-            // 
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 0);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(80, 17);
-            this.hScrollBar1.TabIndex = 9;
             // 
             // trackIntensity
             // 
@@ -153,28 +147,47 @@
             this.labelIntensity.TabIndex = 12;
             this.labelIntensity.Text = "Intensity: 20%";
             // 
+            // btnChangeColor
+            // 
+            this.btnChangeColor.Location = new System.Drawing.Point(843, 137);
+            this.btnChangeColor.Name = "btnChangeColor";
+            this.btnChangeColor.Size = new System.Drawing.Size(145, 23);
+            this.btnChangeColor.TabIndex = 13;
+            this.btnChangeColor.Text = "Change Color";
+            this.btnChangeColor.UseVisualStyleBackColor = true;
+            // 
+            // objectListView
+            // 
+            this.objectListView.HideSelection = false;
+            this.objectListView.Location = new System.Drawing.Point(828, 417);
+            this.objectListView.Name = "objectListView";
+            this.objectListView.Size = new System.Drawing.Size(160, 150);
+            this.objectListView.TabIndex = 14;
+            this.objectListView.UseCompatibleStateImageBehavior = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 625);
+            this.Controls.Add(this.objectListView);
+            this.Controls.Add(this.btnChangeColor);
             this.Controls.Add(this.labelIntensity);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackIntensity);
-            this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.SceneChooser);
             this.Controls.Add(this.radioButtonFresnel);
             this.Controls.Add(this.radioButtonPhong);
             this.Controls.Add(this.labelReflectionText);
-            this.Controls.Add(this.labelReflection);
-            this.Controls.Add(this.trackBarReflection);
+            this.Controls.Add(this.labelReflectiveness);
+            this.Controls.Add(this.trackBarReflectiveness);
             this.Controls.Add(this.btnRender);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Ray Tracing Demo";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarReflection)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -185,16 +198,17 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnRender;
-        private System.Windows.Forms.TrackBar trackBarReflection;
-        private System.Windows.Forms.Label labelReflection;
+        private System.Windows.Forms.TrackBar trackBarReflectiveness;
+        private System.Windows.Forms.Label labelReflectiveness;
         private System.Windows.Forms.Label labelReflectionText;
         private System.Windows.Forms.RadioButton radioButtonPhong;
         private System.Windows.Forms.RadioButton radioButtonFresnel;
         private System.Windows.Forms.ComboBox SceneChooser;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.TrackBar trackIntensity;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelIntensity;
+        private System.Windows.Forms.Button btnChangeColor;
+        private System.Windows.Forms.ListView objectListView;
     }
 }
