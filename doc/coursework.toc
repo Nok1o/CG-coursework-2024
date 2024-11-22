@@ -1,27 +1,28 @@
 \babel@toc {russian}{}\relax 
-\contentsline {chapter}{ВВЕДЕНИЕ}{5}{Doc-Start}%
-\contentsline {chapter}{\numberline {1}Аналитическая часть}{6}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Оптические эффекты, учитываемые при построении реалистичного изображения}{6}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Алгоритмы удаления невидимых линий и поверхностей}{7}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Алгоритм Робертса}{7}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Алгоритм Варнока}{7}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Алгоритм, использующий z-буфер}{7}{subsection.1.2.3}%
-\contentsline {subsection}{\numberline {1.2.4}Алгоритм обратной трассировки лучей}{7}{subsection.1.2.4}%
-\contentsline {section}{\numberline {1.3}Методы закраски}{7}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Простая закраска}{7}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Закраска методом Гуро}{8}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Закраска методом Фонга}{9}{subsection.1.3.3}%
-\contentsline {section}{\numberline {1.4}Построение теней}{9}{section.1.4}%
-\contentsline {chapter}{\numberline {2}Конструкторская часть}{10}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Алгоритм трассировки лучей}{11}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Алгоритмы нахождения точки пересечения луча с объектом сцены}{12}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Алгоритм нахождения точки пересечения луча со сферой}{12}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Алгоритм нахождения точки пересечения луча и куба}{13}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Алгоритм нахождения точки пересечения луча и шахматной фигуры}{15}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Вывод}{17}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Технологическая часть}{18}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Вывод}{18}{section.3.1}%
-\contentsline {chapter}{\numberline {4}Исследовательская часть}{19}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Вывод}{19}{section.4.1}%
-\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{20}{section.4.1}%
-\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{21}{section.4.1}%
+\contentsline {chapter}{ВВЕДЕНИЕ}{6}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Аналитическая часть}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Оптические эффекты, учитываемые при построении реалистичного изображения}{7}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Алгоритмы удаления невидимых линий и поверхностей}{8}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Алгоритм Робертса}{8}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Алгоритм Варнока}{8}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Алгоритм, использующий z-буфер}{8}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Алгоритм обратной трассировки лучей}{8}{subsection.1.2.4}%
+\contentsline {section}{\numberline {1.3}Методы закраски}{9}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Простая закраска}{9}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Закраска методом Гуро}{9}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Закраска методом Фонга}{10}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Построение теней}{10}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Конструкторская часть}{12}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Формализация объектов синтезируемой сцены}{12}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Алгоритм трассировки лучей}{13}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Алгоритмы нахождения точки пересечения луча с объектом сцены}{14}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Алгоритм нахождения точки пересечения луча со сферой}{14}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Алгоритм нахождения точки пересечения луча и куба}{15}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Алгоритм нахождения точки пересечения луча и шахматной фигуры}{17}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Вывод}{19}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Технологическая часть}{20}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Вывод}{20}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Исследовательская часть}{21}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Вывод}{21}{section.4.1}%
+\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{22}{section.4.1}%
+\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{23}{section.4.1}%

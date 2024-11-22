@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.22)  20 NOV 2024 00:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.22)  22 NOV 2024 14:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2250,7 +2250,9 @@ MM)
 Package: lastpagemodern 2024-07-07 v2.1c Refers to last page's name (HMM; JPG)
 \c@lastpagecount=\count354
 ) 
-))
+)) (C:\Users\nikit\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty
+Package: xurl 2022/01/09 v 0.10 modify URL breaks
+)
 (C:\Users\nikit\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
 )
@@ -2436,10 +2438,62 @@ Package hyperref Info: Link coloring OFF on input line 3.
 \@outlinefile=\write4
 \openout4 = `coursework.out'.
 
+
+
+pdfTeX warning: pdflatex.exe (file ./images/Title_cg.pdf): PDF inclusion: found
+ PDF version <1.7>, but at most version <1.5> allowed
+<images/Title_cg.pdf, id=112, 597.55246pt x 845.07718pt>
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf>
+Package pdftex.def Info: images/Title_cg.pdf  used on input line 6.
+(pdftex.def)             Requested size: 597.551pt x 845.07512pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./images/Title_cg.pdf): PDF inclusion: found
+ PDF version <1.7>, but at most version <1.5> allowed
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf>
+Package pdftex.def Info: images/Title_cg.pdf  used on input line 6.
+(pdftex.def)             Requested size: 597.551pt x 845.07512pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./images/Title_cg.pdf): PDF inclusion: found
+ PDF version <1.7>, but at most version <1.5> allowed
+
+
+pdfTeX warning: pdflatex.exe (file ./images/Title_cg.pdf): PDF inclusion: found
+ PDF version <1.7>, but at most version <1.5> allowed
+<images/Title_cg.pdf, id=115, page=1, 597.55246pt x 845.07718pt>
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf, page 1>
+Package pdftex.def Info: images/Title_cg.pdf , page1 used on input line 6.
+(pdftex.def)             Requested size: 597.551pt x 845.07512pt.
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf, page 1>
+Package pdftex.def Info: images/Title_cg.pdf , page1 used on input line 6.
+(pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf, page 1>
+Package pdftex.def Info: images/Title_cg.pdf , page1 used on input line 6.
+(pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf, page 1>
+Package pdftex.def Info: images/Title_cg.pdf , page1 used on input line 6.
+(pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
+
+
+File: images/Title_cg.pdf Graphic file (type pdf)
+<use images/Title_cg.pdf, page 1>
+Package pdftex.def Info: images/Title_cg.pdf , page1 used on input line 6.
+(pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
+[1
+
+
+ <./images/Title_cg.pdf>]
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/m/n' will be
-(Font)              scaled to size 24.88pt on input line 9.
+(Font)              scaled to size 24.88pt on input line 10.
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/b/n' will be
-(Font)              scaled to size 24.88pt on input line 9.
+(Font)              scaled to size 24.88pt on input line 10.
  (coursework.toc
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/b/n' will be
 (Font)              scaled to size 12.0pt on input line 2.
@@ -2489,21 +2543,20 @@ LaTeX Font Warning: Font shape `PU/Tempora-TLF/m/up' undefined
 
 
 
-[4
+[4{C:/Users/nikit/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/ni
+kit/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/tempora/t2a-tempora.enc}]
 
-{C:/Users/nikit/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/niki
-t/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/tempora/t2a-tempora.enc}]
+[5]
 \openout2 = `intro.aux'.
 
-
-(intro.tex
+ (intro.tex
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/m/n' will be
 (Font)              scaled to size 22.0pt on input line 1.
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/b/n' will be
 (Font)              scaled to size 22.0pt on input line 1.
 
 
-[5
+[6
 
 ])
 \openout2 = `analytic_part.aux'.
@@ -2520,7 +2573,7 @@ LaTeX Font Info:    Font shape `T2A/Tempora-TLF/m/n' will be
 (Font)              scaled to size 6.0pt on input line 14.
 
 
-[6
+[7
 
 
 
@@ -2528,29 +2581,37 @@ LaTeX Font Info:    Font shape `T2A/Tempora-TLF/m/n' will be
 
 ]
 
-[7]
-<images/Knizhka.pdf, id=176, 596.98032pt x 324.46219pt>
+LaTeX Warning: Citation `lit4' on page 8 undefined on input line 52.
+
+
+
+[8]
+<images/Knizhka.pdf, id=239, 596.98032pt x 324.46219pt>
 File: images/Knizhka.pdf Graphic file (type pdf)
 <use images/Knizhka.pdf>
-Package pdftex.def Info: images/Knizhka.pdf  used on input line 68.
+Package pdftex.def Info: images/Knizhka.pdf  used on input line 69.
 (pdftex.def)             Requested size: 483.69687pt x 262.89214pt.
 
 
-[8 <./images/Knizhka.pdf>]
+[9
 
-[9])
+]
+
+[10 <./images/Knizhka.pdf>]
+
+[11])
 \openout2 = `design_part.aux'.
 
  (design_part.tex
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 2.
-<images/RayTracing.pdf, id=198, 795.97375pt x 1729.46124pt>
+<images/RayTracing.pdf, id=266, 795.97375pt x 1729.46124pt>
 File: images/RayTracing.pdf Graphic file (type pdf)
 <use images/RayTracing.pdf>
-Package pdftex.def Info: images/RayTracing.pdf  used on input line 7.
+Package pdftex.def Info: images/RayTracing.pdf  used on input line 17.
 (pdftex.def)             Requested size: 302.88612pt x 658.10779pt.
 
 
-[10
+[12
 
 
 
@@ -2558,56 +2619,56 @@ Package pdftex.def Info: images/RayTracing.pdf  used on input line 7.
 
 ]
 
-[11 <./images/RayTracing.pdf>]
-<images/SphereIntersection.pdf, id=213, 724.7075pt x 856.19875pt>
+[13 <./images/RayTracing.pdf>]
+<images/SphereIntersection.pdf, id=280, 724.7075pt x 856.19875pt>
 File: images/SphereIntersection.pdf Graphic file (type pdf)
 <use images/SphereIntersection.pdf>
-Package pdftex.def Info: images/SphereIntersection.pdf  used on input line 51.
+Package pdftex.def Info: images/SphereIntersection.pdf  used on input line 61.
 (pdftex.def)             Requested size: 309.4618pt x 365.61792pt.
 
 
-[12]
-<images/CubeIntersection_1.pdf, id=229, 674.52pt x 1060.96375pt>
+[14]
+<images/CubeIntersection_1.pdf, id=296, 674.52pt x 1060.96375pt>
 File: images/CubeIntersection_1.pdf Graphic file (type pdf)
 <use images/CubeIntersection_1.pdf>
-Package pdftex.def Info: images/CubeIntersection_1.pdf  used on input line 61.
+Package pdftex.def Info: images/CubeIntersection_1.pdf  used on input line 71.
 (pdftex.def)             Requested size: 325.42299pt x 511.86285pt.
 
 
-[13 <./images/SphereIntersection.pdf>]
-<images/CubeIntersection_2.pdf, id=238, 927.465pt x 1213.53375pt>
+[15 <./images/SphereIntersection.pdf>]
+<images/CubeIntersection_2.pdf, id=306, 927.465pt x 1213.53375pt>
 File: images/CubeIntersection_2.pdf Graphic file (type pdf)
 <use images/CubeIntersection_2.pdf>
-Package pdftex.def Info: images/CubeIntersection_2.pdf  used on input line 68.
+Package pdftex.def Info: images/CubeIntersection_2.pdf  used on input line 78.
 (pdftex.def)             Requested size: 435.32422pt x 569.60176pt.
 
 
-[14 <./images/CubeIntersection_1.pdf>]
+[16 <./images/CubeIntersection_1.pdf>]
 
-[15 <./images/CubeIntersection_2.pdf>]
-<images/TriangleIntersection.pdf, id=250, 1065.9825pt x 1367.1075pt>
+[17 <./images/CubeIntersection_2.pdf>]
+<images/TriangleIntersection.pdf, id=318, 1065.9825pt x 1367.1075pt>
 File: images/TriangleIntersection.pdf Graphic file (type pdf)
 <use images/TriangleIntersection.pdf>
-Package pdftex.def Info: images/TriangleIntersection.pdf  used on input line 78
+Package pdftex.def Info: images/TriangleIntersection.pdf  used on input line 88
 .
 (pdftex.def)             Requested size: 435.32422pt x 558.28564pt.
-<images/ChessIntersection.pdf, id=252, 1066.98625pt x 1368.11125pt>
+<images/ChessIntersection.pdf, id=320, 1066.98625pt x 1368.11125pt>
 File: images/ChessIntersection.pdf Graphic file (type pdf)
 <use images/ChessIntersection.pdf>
-Package pdftex.def Info: images/ChessIntersection.pdf  used on input line 87.
+Package pdftex.def Info: images/ChessIntersection.pdf  used on input line 97.
 (pdftex.def)             Requested size: 435.32422pt x 558.17366pt.
 
 
-[16 <./images/TriangleIntersection.pdf>]
+[18 <./images/TriangleIntersection.pdf>]
 
-[17 <./images/ChessIntersection.pdf>])
+[19 <./images/ChessIntersection.pdf>])
 \openout2 = `tech_part.aux'.
 
  (tech_part.tex
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 3.
 
 
-[18
+[20
 
 
 
@@ -2620,7 +2681,7 @@ Package pdftex.def Info: images/ChessIntersection.pdf  used on input line 87.
 {\cyrillictext \CYRG \cyrl \cyra \cyrv \cyra } 4.
 
 
-[19
+[21
 
 
 
@@ -2631,7 +2692,7 @@ Package pdftex.def Info: images/ChessIntersection.pdf  used on input line 87.
 
  (conclusion.tex)
 
-[20
+[22
 
 
 
@@ -2642,77 +2703,16 @@ Package pdftex.def Info: images/ChessIntersection.pdf  used on input line 87.
  (links.tex
 LaTeX Font Info:    Font shape `T2A/Tempora-TLF/b/n' will be
 (Font)              scaled to size 20.0pt on input line 2.
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-[]\T2A/Tempora-TLF/m/n/12 ѕроста€ мо-дель осве-ще-ни€ [Ёлек-трон-ный ре-сурс]. 
-URL:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-\T2A/Tempora-TLF/m/n/12 https://ychebnikkompgrafblog.wordpress.com/5-2-проста€-
-модель-освещени€/ (да-та об-ра-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--5
-[]\T2A/Tempora-TLF/m/n/12 јлгоритм –о-берт-са уда-ле-ни€ неви-ди-мых гра-ней [Ё
-лек-трон-ный ре-сурс]. URL:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
-[]\T2A/Tempora-TLF/m/n/12 ћетод об-рат-ной трас-си-ров-ки лу-чей [Ёлек-трон-ный
- ре-сурс]. URL:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
-\T2A/Tempora-TLF/m/n/12 https://cyberleninka.ru/article/n/metod-pryamoy-i-obrat
-noy-trassirovki/viewer (да-та об-ра-ще-
- []
-
-
-Underfull \hbox (badness 7888) in paragraph at lines 7--8
-[]\T2A/Tempora-TLF/m/n/12 «акрашивание. –ен-де-ринг по-ли-го-наль-ных мо-де-лей
- [Ёлек-трон-ный ре-сурс]. URL:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
-\T2A/Tempora-TLF/m/n/12 https://intuit.ru/studies/professional_skill_improvemen
-ts/1283/courses/70/lecture/21/08?page=2
- []
-
-
-Overfull \hbox (117.95403pt too wide) in paragraph at lines 8--9
-[]\T2A/Tempora-TLF/m/n/12 ѕостроение те-ней [Ёлек-трон-ный ре-сурс]. URL: https
-://stratum.ac.ru/education/textbooks/kgrafic/additional/addit28.html
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-[]\T2A/Tempora-TLF/m/n/12 Fast Minimum Storage Ray/Triangle Intersection [Ёлек-
-трон-ный ре-сурс]. URL:
- []
-
-
-Overfull \hbox (452.56186pt too wide) in paragraph at lines 10--11
-\T2A/Tempora-TLF/m/n/12 https://web.archive.org/web/20170517125238/http://www.c
-s.virginia.edu/ gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20Mini
-mumStorage%20RayTriangle%20Intersection.pdf 
- []
-
 )
 
-[21
+[23
 
 
 
 
 ]
 
-Package caption Warning: Unused \captionsetup[table] on input line 87.
+Package caption Warning: Unused \captionsetup[table] on input line 89.
 See the caption package documentation for explanation.
 
 
@@ -2727,17 +2727,20 @@ L3 programming layer <2024-08-30>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `coursework.out' has not changed.
-(rerunfilecheck)             Checksum: E7783DDDDCA267866F5C2CBE5E4274FD;7054.
+(rerunfilecheck)             Checksum: 8CB83A50871A59FE8BCD09D6B326BA48;7437.
  ) 
 Here is how much of TeX's memory you used:
- 43461 strings out of 473899
- 954094 string characters out of 5726500
- 1565846 words of memory out of 5000000
- 65461 multiletter control sequences out of 15000+600000
+ 43503 strings out of 473899
+ 955137 string characters out of 5726500
+ 1564136 words of memory out of 5000000
+ 65497 multiletter control sequences out of 15000+600000
  600241 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 106i,7n,112p,926b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 106i,17n,112p,1009b,655s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/nikit/AppData/Local/Programs/MiKTeX/fonts/type1/public/tempora/Temp
 ora-Bold.pfb><C:/Users/nikit/AppData/Local/Programs/MiKTeX/fonts/type1/public/t
 empora/Tempora-Regular.pfb><C:/Users/nikit/AppData/Local/Programs/MiKTeX/fonts/
@@ -2747,9 +2750,9 @@ ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/nikit/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/nikit/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/n
 ikit/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on coursework.pdf (18 pages, 754199 bytes).
+Output written on coursework.pdf (21 pages, 925088 bytes).
 PDF statistics:
- 336 PDF objects out of 1000 (max. 8388607)
- 71 named destinations out of 1000 (max. 500000)
- 256 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 416 PDF objects out of 1000 (max. 8388607)
+ 73 named destinations out of 1000 (max. 500000)
+ 284 words of extra memory for PDF output out of 10000 (max. 10000000)
 
