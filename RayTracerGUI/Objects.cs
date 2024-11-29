@@ -6,10 +6,23 @@ using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Assimp;
 
 namespace RayTracerGUI
 {
+    public struct Ray
+    {
+        public Vector3 origin;
+        public Vector3 dir;
+
+        public Ray(Vector3 origin, Vector3 dir)
+        {
+            this.origin = origin;
+            this.dir = dir;
+        }
+    }
+
     public class ObjectScene
     {
 
@@ -45,13 +58,13 @@ namespace RayTracerGUI
             CalculateBoundingSphere();
         }
 
-        public bool IntersectRay(Vector3 origin, Vector3 direction, out double distance, out Vector3 interpolatedNormal)
+        public bool IntersectRay(Ray ray, out double distance, out Vector3 interpolatedNormal)
         {
             distance = double.MaxValue;
             interpolatedNormal = new Vector3(0, 0, 0);
 
             // Step 1: Check if the ray intersects the bounding sphere of the chess piece
-            if (!BoundingSphere.Intersect(origin, direction, out double sphereDist))
+            if (!BoundingSphere.Intersect(ray, out double sphereDist))
             {
                 return false; // Skip the chess piece if no intersection with bounding sphere
             }
@@ -60,7 +73,7 @@ namespace RayTracerGUI
             bool hit = false;
             foreach (var triangle in Triangles)
             {
-                if (triangle.IntersectRay(origin, direction, out double dist, out Vector3 barycentricCoords) && dist < distance)
+                if (triangle.IntersectRay(ray, out double dist, out Vector3 barycentricCoords) && dist < distance)
                 {
                     distance = dist;
                     hit = true;
@@ -125,7 +138,7 @@ namespace RayTracerGUI
             FaceNormal = (normal1 + normal2 + normal3).Normalize();
         }
 
-        public bool IntersectRay(Vector3 origin, Vector3 direction, out double distance, out Vector3 barycentricCoords)
+        public bool IntersectRay(Ray ray, out double distance, out Vector3 barycentricCoords)
         {
             barycentricCoords = new Vector3(0, 0, 0);
             distance = 0;
@@ -134,7 +147,7 @@ namespace RayTracerGUI
             Vector3 edge2 = Vertex3 - Vertex1;
 
             // Begin Möller–Trumbore algorithm
-            Vector3 pvec = direction.Cross(edge2);
+            Vector3 pvec = ray.dir.Cross(edge2);
             double det = edge1.Dot(pvec);
 
             // Use a small epsilon for improved accuracy
@@ -146,7 +159,7 @@ namespace RayTracerGUI
 
             double invDet = 1.0 / det;
 
-            Vector3 tvec = origin - Vertex1;
+            Vector3 tvec = ray.origin - Vertex1;
             double u = tvec.Dot(pvec) * invDet;
 
             // Check if the intersection lies outside the triangle
@@ -156,7 +169,7 @@ namespace RayTracerGUI
             }
 
             Vector3 qvec = tvec.Cross(edge1);
-            double v = direction.Dot(qvec) * invDet;
+            double v = ray.dir.Dot(qvec) * invDet;
 
             // Check if the intersection lies outside the triangle
             if (v < 0.0 || u + v > 1.0)
@@ -196,11 +209,11 @@ namespace RayTracerGUI
             Reflection = reflection;
         }
 
-        public bool Intersect(Vector3 rayOrigin, Vector3 rayDirection, out double t)
+        public bool Intersect(Ray ray, out double t)
         {
-            Vector3 oc = rayOrigin - Center;
-            double a = rayDirection.Dot(rayDirection);
-            double b = 2.0 * oc.Dot(rayDirection);
+            Vector3 oc = ray.origin - Center;
+            double a = ray.dir.Dot(ray.dir);
+            double b = 2.0 * oc.Dot(ray.dir);
             double c = oc.Dot(oc) - Radius * Radius;
             double discriminant = b * b - 4 * a * c;
 
@@ -231,12 +244,12 @@ namespace RayTracerGUI
         }
 
 
-        public bool Intersect(Vector3 rayOrigin, Vector3 rayDirection, out double t)
+        public bool Intersect(Ray ray, out double t)
         {
-            double denom = Normal.Dot(rayDirection);
+            double denom = Normal.Dot(ray.dir);
             if (Math.Abs(denom) > 1e-6)
             {
-                t = (Point - rayOrigin).Dot(Normal) / denom;
+                t = (Point - ray.origin).Dot(Normal) / denom;
                 return t >= 0;
             }
             t = 0;
@@ -265,18 +278,18 @@ namespace RayTracerGUI
             Max = position + new Vector3(size / 2, size / 2, size / 2);
         }
 
-        public bool Intersect(Vector3 rayOrigin, Vector3 rayDirection, out double t, out Vector3 normal)
+        public bool Intersect(Ray ray, out double t, out Vector3 normal)
         {
             t = double.MaxValue;
             normal = new Vector3(0, 0, 0);
 
-            double tMin = (Min.X - rayOrigin.X) / rayDirection.X;
-            double tMax = (Max.X - rayOrigin.X) / rayDirection.X;
+            double tMin = (Min.X - ray.origin.X) / ray.dir.X;
+            double tMax = (Max.X - ray.origin.X) / ray.dir.X;
 
             if (tMin > tMax) (tMin, tMax) = (tMax, tMin);
 
-            double tyMin = (Min.Y - rayOrigin.Y) / rayDirection.Y;
-            double tyMax = (Max.Y - rayOrigin.Y) / rayDirection.Y;
+            double tyMin = (Min.Y - ray.origin.Y) / ray.dir.Y;
+            double tyMax = (Max.Y - ray.origin.Y) / ray.dir.Y;
 
             if (tyMin > tyMax) (tyMin, tyMax) = (tyMax, tyMin);
 
@@ -286,8 +299,8 @@ namespace RayTracerGUI
             if (tyMin > tMin) tMin = tyMin;
             if (tyMax < tMax) tMax = tyMax;
 
-            double tzMin = (Min.Z - rayOrigin.Z) / rayDirection.Z;
-            double tzMax = (Max.Z - rayOrigin.Z) / rayDirection.Z;
+            double tzMin = (Min.Z - ray.origin.Z) / ray.dir.Z;
+            double tzMax = (Max.Z - ray.origin.Z) / ray.dir.Z;
 
             if (tzMin > tzMax) (tzMin, tzMax) = (tzMax, tzMin);
 
@@ -310,7 +323,7 @@ namespace RayTracerGUI
             }
 
             // Calculate the surface normal at the intersection point
-            Vector3 hitPoint = rayOrigin + rayDirection * t;
+            Vector3 hitPoint = ray.origin + ray.dir * t;
 
             if (Math.Abs(hitPoint.X - Min.X) < epsilon) normal = new Vector3(-1, 0, 0); // Left face
             else if (Math.Abs(hitPoint.X - Max.X) < epsilon) normal = new Vector3(1, 0, 0);  // Right face

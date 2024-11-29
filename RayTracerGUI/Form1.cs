@@ -25,10 +25,6 @@ namespace RayTracerGUI
 
         ObjectScene currentScene = null;
 
-
-        //Sphere[] spheres = Array.Empty<Sphere>();
-        //Wall[] walls = Array.Empty<Wall>();
-        //ChessPiece[] chessPieces = Array.Empty<ChessPiece>();
         (object Object, int index, string type) selectedObject = (null, -1, null);
 
         Vector3 cameraPos, lightPos;
@@ -185,7 +181,7 @@ namespace RayTracerGUI
                 Vector3 rayDirection = (new Vector3(i, j, -1) + cameraDirection).Normalize();
 
                 // Trace ray to find the object clicked on
-                selectedObject = FindObjectUnderMouse(cameraPos, rayDirection);
+                selectedObject = FindObjectUnderMouse(new Ray(cameraPos, rayDirection));
                 SelectListViewItem(selectedObject.type, selectedObject.index);
 
                 //if (selection.selectedObject != null && colorDialog.ShowDialog() == DialogResult.OK)
@@ -197,7 +193,7 @@ namespace RayTracerGUI
         }
 
 
-        private (object selectedObject, int index, string type) FindObjectUnderMouse(Vector3 rayOrigin, Vector3 rayDirection)
+        private (object selectedObject, int index, string type) FindObjectUnderMouse(Ray ray)
         {
             double closestDistance = double.MaxValue;
             object clickedObject = null;
@@ -206,7 +202,7 @@ namespace RayTracerGUI
 
             for (int i = 0; i < currentScene.spheres.Length; i++)
             {
-                if (currentScene.spheres[i].Intersect(rayOrigin, rayDirection, out double distance) && distance < closestDistance)
+                if (currentScene.spheres[i].Intersect(ray, out double distance) && distance < closestDistance)
                 {
                     closestDistance = distance;
                     clickedObject = currentScene.spheres[i];
@@ -217,7 +213,7 @@ namespace RayTracerGUI
 
             for (int i = 0; i < currentScene.walls.Length; i++)
             {
-                if (currentScene.walls[i].Intersect(rayOrigin, rayDirection, out double distance) && distance < closestDistance)
+                if (currentScene.walls[i].Intersect(ray, out double distance) && distance < closestDistance)
                 {
                     closestDistance = distance;
                     clickedObject = currentScene.walls[i];
@@ -228,7 +224,7 @@ namespace RayTracerGUI
 
             for (int i = 0; i < currentScene.chessPieces.Length; i++)
             {
-                if (currentScene.chessPieces[i].IntersectRay(rayOrigin, rayDirection, out double distance, out _) && distance < closestDistance)
+                if (currentScene.chessPieces[i].IntersectRay(ray, out double distance, out _) && distance < closestDistance)
                 {
                     closestDistance = distance;
                     clickedObject = currentScene.chessPieces[i];
@@ -359,6 +355,16 @@ namespace RayTracerGUI
             pictureBox1.Image = bitmap;
         }
 
+        [ThreadStatic]
+        private static Random random;
+
+        private double GetRandomOffset()
+        {
+            if (random == null)
+                random = new Random();
+            return random.NextDouble() - 0.5; // Offset in the range [-0.5, 0.5]
+        }
+
         private void RenderScene(Bitmap bitmap, int width, int height, Vector3 cameraPos, Vector3 cameraDirection, Vector3 lightPos, Color backgroundColor, ObjectScene scene)
         {
             Vector3 cameraRight = cameraDirection.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
@@ -368,32 +374,77 @@ namespace RayTracerGUI
             double fov = Math.PI / 3.0; // 60 degrees field of view
             double scale = Math.Tan(fov / 2);
 
+            int samplesPerPixel = (chkAntiAliasing.Checked || depthOfFieldCheckbox.Checked) ? 16 : 1; // Enable anti-aliasing if checked
+            double apertureSize = depthOfFieldCheckbox.Checked ? 0.01 : 0; // Enable DOF if checked
+            double focalPlaneDistance = (double)focalPlaneDistanceControl.Value;
+
             int totalPixels = width * height;
             int processedPixels = 0;
-            object lockObj = new object();
 
             Parallel.For(0, height, y =>
             {
                 for (int x = 0; x < width; x++)
                 {
-                    // Convert pixel coordinates to normalized device coordinates (NDC)
-                    double ndcX = (2 * (x + 0.5) / width - 1) * aspectRatio;
-                    double ndcY = (1 - 2 * (y + 0.5) / height); // Flip Y-axis for screen space
+                    double rSum = 0, gSum = 0, bSum = 0;
 
-                    // Scale NDC by the FOV
-                    Vector3 rayDirInCameraSpace = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + cameraDirection).Normalize();
-
-                    // Ray originates at the camera position
-                    Vector3 rayOrigin = cameraPos;
-
-                    // Trace the ray
-                    Color pixelColor = TraceRay(rayOrigin, rayDirInCameraSpace, scene, lightPos, backgroundColor, 5);
-
-                    lock (lockObj)
+                    for (int s = 0; s < samplesPerPixel; s++)
                     {
-                        bitmap.SetPixel(x, y, pixelColor);
+                        // Random jitter for anti-aliasing
+                        double pixelWidth = 2.0 / width;
+                        double pixelHeight = 2.0 / height;
 
-                        // Update progress bar
+
+                        double jitterX = 0;
+                        double jitterY = 0;
+
+                        if (chkAntiAliasing.Checked)
+                        {
+                            jitterX = GetRandomOffset() * pixelWidth;
+                            jitterY = GetRandomOffset() * pixelHeight;
+                        }
+
+                        // Pixel position with jitter
+                        double ndcX = (2 * ((x + 0.5) / width) - 1) * aspectRatio + jitterX;
+                        double ndcY = (1 - 2 * ((y + 0.5) / height)) + jitterY;
+
+                        // Base ray direction
+                        Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + cameraDirection).Normalize();
+
+                        // Apply depth of field (DOF) if enabled
+                        Vector3 rayOrigin = cameraPos;
+                        if (apertureSize > 0)
+                        {
+                            Vector3 focalPoint = rayOrigin + rayDir * focalPlaneDistance;
+
+                            var jitter = RandomInUnitCircle() * apertureSize;
+                            Vector3 apertureOffset = jitter.X * cameraRight + jitter.Y * cameraUp;
+                            rayOrigin += apertureOffset;
+
+                            rayDir = (focalPoint - rayOrigin).Normalize();
+                        }
+
+                        Ray primaryRay = new Ray(rayOrigin, rayDir);
+                        Color sampleColor = TraceRay(primaryRay, scene, lightPos, backgroundColor, 5);
+
+                        rSum += sampleColor.R;
+                        gSum += sampleColor.G;
+                        bSum += sampleColor.B;
+                    }
+
+                    int r = (int)(rSum / samplesPerPixel);
+                    int g = (int)(gSum / samplesPerPixel);
+                    int b = (int)(bSum / samplesPerPixel);
+
+                    Color finalColor = Color.FromArgb(
+                        Clamp(r, 0, 255),
+                        Clamp(g, 0, 255),
+                        Clamp(b, 0, 255)
+                    );
+
+                    lock (bitmap)
+                    {
+                        bitmap.SetPixel(x, y, finalColor);
+
                         processedPixels++;
                         if (processedPixels % (totalPixels / 100) == 0)
                         {
@@ -404,9 +455,14 @@ namespace RayTracerGUI
                 }
             });
 
-            // Ensure progress bar completes
             progressBar.Invoke(new Action(() => progressBar.Value = 100));
         }
+
+
+
+
+
+
 
         private ChessPiece[] LoadChessPieces(int mode = 1)
         {
@@ -541,6 +597,8 @@ namespace RayTracerGUI
                 (int)(color1.G * (1 - factor) + color2.G * factor),
                 (int)(color1.B * (1 - factor) + color2.B * factor));
         }
+
+
         // Check if the point is in shadow by casting a ray towards the light
         private bool IsInShadow(Vector3 hitPoint, Vector3 lightDir, Vector3 lightPos, ObjectScene scene)
         {
@@ -550,7 +608,7 @@ namespace RayTracerGUI
             // Check for intersections with spheres
             foreach (Sphere sphere in scene.spheres)
             {
-                if (sphere.Intersect(shadowOrigin, lightDir, out double t))
+                if (sphere.Intersect(new Ray(shadowOrigin, lightDir), out double t))
                 {
                     if (t * t < lightDistance) // If intersection occurs before reaching the light
                         return true;
@@ -560,7 +618,7 @@ namespace RayTracerGUI
             // Check for intersections with walls
             foreach (Wall wall in scene.walls)
             {
-                if (wall.Intersect(shadowOrigin, lightDir, out double t))
+                if (wall.Intersect(new Ray(shadowOrigin, lightDir), out double t))
                 {
                     if (t * t < lightDistance)
                         return true;
@@ -570,7 +628,7 @@ namespace RayTracerGUI
             // Check for intersections with chess pieces
             foreach (ChessPiece chessPiece in scene.chessPieces)
             {
-                if (chessPiece.IntersectRay(shadowOrigin, lightDir, out double t, out Vector3 normal))
+                if (chessPiece.IntersectRay(new Ray(shadowOrigin, lightDir), out double t, out Vector3 normal))
                 {
                     if (t * t < lightDistance)
                         return true;

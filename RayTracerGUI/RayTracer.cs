@@ -10,7 +10,7 @@ namespace RayTracerGUI
 {
     public partial class Form1 : Form
     {
-        private Color TraceRay(Vector3 origin, Vector3 direction, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
+        private Color TraceRay(Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
         {
             if (depth <= 0)
                 return backgroundColor;
@@ -27,7 +27,7 @@ namespace RayTracerGUI
             // Check intersection with spheres
             foreach (Sphere sphere in scene.spheres)
             {
-                if (sphere.Intersect(origin, direction, out double t) && t < nearestT)
+                if (sphere.Intersect(ray, out double t) && t < nearestT)
                 {
                     nearestT = t;
                     nearestSphere = sphere;
@@ -40,7 +40,7 @@ namespace RayTracerGUI
             // Check intersection with walls
             foreach (Wall wall in scene.walls)
             {
-                if (wall.Intersect(origin, direction, out double t) && t < nearestT)
+                if (wall.Intersect(ray, out double t) && t < nearestT)
                 {
                     nearestT = t;
                     nearestWall = wall;
@@ -53,7 +53,7 @@ namespace RayTracerGUI
             // Check intersection with chess pieces
             foreach (ChessPiece chessPiece in scene.chessPieces)
             {
-                if (chessPiece.IntersectRay(origin, direction, out double t, out Vector3 potential_normal) && t < nearestT)
+                if (chessPiece.IntersectRay(ray, out double t, out Vector3 potential_normal) && t < nearestT)
                 {
                     nearestT = t;
                     nearestChessPiece = chessPiece;
@@ -66,7 +66,7 @@ namespace RayTracerGUI
 
             foreach (Cube cube in scene.cubes)
             {
-                if (cube.Intersect(origin, direction, out double t, out Vector3 potentialNormal) && t < nearestT)
+                if (cube.Intersect(ray, out double t, out Vector3 potentialNormal) && t < nearestT)
                 {
                     nearestT = t;
                     nearestCube = cube;
@@ -81,7 +81,7 @@ namespace RayTracerGUI
             if (!hitObject)
                 return backgroundColor; // No hit, return background color
 
-            Vector3 hitPoint = origin + direction * nearestT;
+            Vector3 hitPoint = ray.origin + ray.dir * nearestT;
             Vector3 normal;
             Color objectColor;
 
@@ -97,8 +97,8 @@ namespace RayTracerGUI
                 // Reflection
                 if (nearestSphere.Reflection > 0)
                 {
-                    Vector3 reflectionDir = Reflect(direction, normal);
-                    Color reflectionColor = TraceRay(hitPoint, reflectionDir, scene, lightPos, backgroundColor, depth - 1);
+                    Vector3 reflectionDir = Reflect(ray.dir, normal);
+                    Color reflectionColor = TraceRay(new Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
                     lightingColor = MixColors(lightingColor, reflectionColor, nearestSphere.Reflection);
                 }
 
@@ -123,8 +123,8 @@ namespace RayTracerGUI
                 // Reflection
                 if (nearestChessPiece.Reflection > 0)
                 {
-                    Vector3 reflectionDir = Reflect(direction, closest_normal);
-                    Color reflectionColor = TraceRay(hitPoint, reflectionDir, scene, lightPos, backgroundColor, depth - 1);
+                    Vector3 reflectionDir = Reflect(ray.dir, closest_normal);
+                    Color reflectionColor = TraceRay(new Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
                     lightingColor = MixColors(lightingColor, reflectionColor, nearestChessPiece.Reflection);
                 }
 
@@ -142,8 +142,8 @@ namespace RayTracerGUI
                 // Reflection
                 if (nearestCube.Reflection > 0)
                 {
-                    Vector3 reflectionDir = Reflect(direction, normal);
-                    Color reflectionColor = TraceRay(hitPoint, reflectionDir, scene, lightPos, backgroundColor, depth - 1);
+                    Vector3 reflectionDir = Reflect(ray.dir, normal);
+                    Color reflectionColor = TraceRay(new Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
                     lightingColor = MixColors(lightingColor, reflectionColor, nearestCube.Reflection);
                 }
 
@@ -151,6 +151,21 @@ namespace RayTracerGUI
             }
 
             return backgroundColor;
+        }
+
+        // Helper: Generate a random point in a unit circle (for aperture jittering)
+        private Vector3 RandomInUnitCircle()
+        {
+            Random random = new Random();
+            double angle = random.NextDouble() * 2 * Math.PI;
+            double radius = Math.Sqrt(random.NextDouble()); // Uniform sampling
+            return new Vector3(Math.Cos(angle) * radius, Math.Sin(angle) * radius, 0);
+        }
+
+        // Helper: Clamp a value between min and max
+        private int Clamp(int value, int min, int max)
+        {
+            return Math.Max(min, Math.Min(max, value));
         }
     }
 }

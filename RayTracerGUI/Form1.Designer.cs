@@ -31,9 +31,14 @@
             this.labelIntensity = new System.Windows.Forms.Label();
             this.btnChangeColor = new System.Windows.Forms.Button();
             this.objectListView = new System.Windows.Forms.ListView();
+            this.depthOfFieldCheckbox = new System.Windows.Forms.CheckBox();
+            this.focalPlaneLabel = new System.Windows.Forms.Label();
+            this.focalPlaneDistanceControl = new System.Windows.Forms.NumericUpDown();
+            this.chkAntiAliasing = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.focalPlaneDistanceControl)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -86,7 +91,7 @@
             // 
             this.radioButtonPhong.AutoSize = true;
             this.radioButtonPhong.Checked = true;
-            this.radioButtonPhong.Location = new System.Drawing.Point(846, 285);
+            this.radioButtonPhong.Location = new System.Drawing.Point(838, 317);
             this.radioButtonPhong.Name = "radioButtonPhong";
             this.radioButtonPhong.Size = new System.Drawing.Size(56, 17);
             this.radioButtonPhong.TabIndex = 5;
@@ -97,7 +102,7 @@
             // radioButtonFresnel
             // 
             this.radioButtonFresnel.AutoSize = true;
-            this.radioButtonFresnel.Location = new System.Drawing.Point(843, 308);
+            this.radioButtonFresnel.Location = new System.Drawing.Point(838, 340);
             this.radioButtonFresnel.Name = "radioButtonFresnel";
             this.radioButtonFresnel.Size = new System.Drawing.Size(59, 17);
             this.radioButtonFresnel.TabIndex = 6;
@@ -107,7 +112,7 @@
             // 
             // SceneChooser
             // 
-            this.SceneChooser.Location = new System.Drawing.Point(828, 341);
+            this.SceneChooser.Location = new System.Drawing.Point(828, 373);
             this.SceneChooser.Name = "SceneChooser";
             this.SceneChooser.Size = new System.Drawing.Size(160, 21);
             this.SceneChooser.TabIndex = 7;
@@ -165,11 +170,62 @@
             this.objectListView.TabIndex = 14;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             // 
+            // depthOfFieldCheckbox
+            // 
+            this.depthOfFieldCheckbox.AutoSize = true;
+            this.depthOfFieldCheckbox.Location = new System.Drawing.Point(838, 249);
+            this.depthOfFieldCheckbox.Name = "depthOfFieldCheckbox";
+            this.depthOfFieldCheckbox.Size = new System.Drawing.Size(123, 17);
+            this.depthOfFieldCheckbox.TabIndex = 15;
+            this.depthOfFieldCheckbox.Text = "Enable depth of field";
+            this.depthOfFieldCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // focalPlaneLabel
+            // 
+            this.focalPlaneLabel.AutoSize = true;
+            this.focalPlaneLabel.Location = new System.Drawing.Point(837, 269);
+            this.focalPlaneLabel.Name = "focalPlaneLabel";
+            this.focalPlaneLabel.Size = new System.Drawing.Size(111, 13);
+            this.focalPlaneLabel.TabIndex = 16;
+            this.focalPlaneLabel.Text = "Focal plane distance: ";
+            // 
+            // focalPlaneDistanceControl
+            // 
+            this.focalPlaneDistanceControl.DecimalPlaces = 1;
+            this.focalPlaneDistanceControl.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.focalPlaneDistanceControl.Location = new System.Drawing.Point(840, 285);
+            this.focalPlaneDistanceControl.Name = "focalPlaneDistanceControl";
+            this.focalPlaneDistanceControl.Size = new System.Drawing.Size(120, 20);
+            this.focalPlaneDistanceControl.TabIndex = 17;
+            this.focalPlaneDistanceControl.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // chkAntiAliasing
+            // 
+            this.chkAntiAliasing.AutoSize = true;
+            this.chkAntiAliasing.Location = new System.Drawing.Point(1008, 137);
+            this.chkAntiAliasing.Name = "chkAntiAliasing";
+            this.chkAntiAliasing.Size = new System.Drawing.Size(82, 17);
+            this.chkAntiAliasing.TabIndex = 18;
+            this.chkAntiAliasing.Text = "Anti-aliasing";
+            this.chkAntiAliasing.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 625);
+            this.ClientSize = new System.Drawing.Size(1126, 625);
+            this.Controls.Add(this.chkAntiAliasing);
+            this.Controls.Add(this.focalPlaneDistanceControl);
+            this.Controls.Add(this.focalPlaneLabel);
+            this.Controls.Add(this.depthOfFieldCheckbox);
             this.Controls.Add(this.objectListView);
             this.Controls.Add(this.btnChangeColor);
             this.Controls.Add(this.labelIntensity);
@@ -189,6 +245,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.focalPlaneDistanceControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,5 +267,9 @@
         private System.Windows.Forms.Label labelIntensity;
         private System.Windows.Forms.Button btnChangeColor;
         private System.Windows.Forms.ListView objectListView;
+        private System.Windows.Forms.CheckBox depthOfFieldCheckbox;
+        private System.Windows.Forms.Label focalPlaneLabel;
+        private System.Windows.Forms.NumericUpDown focalPlaneDistanceControl;
+        private System.Windows.Forms.CheckBox chkAntiAliasing;
     }
 }

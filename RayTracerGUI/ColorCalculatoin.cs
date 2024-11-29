@@ -15,7 +15,7 @@ namespace RayTracerGUI
             int shininess = 32;
 
             // Calculate reflection direction
-            Vector3 viewDir = (new Vector3(0, 0, 0) - hitPoint).Normalize(); // Assume camera at origin
+            Vector3 viewDir = (cameraPos - hitPoint).Normalize(); // Assume camera at origin
             Vector3 lightDir = (lightPos - hitPoint).Normalize();
             Vector3 reflectDir = (normal * (2.0 * normal.Dot(lightDir)) - lightDir).Normalize();
 

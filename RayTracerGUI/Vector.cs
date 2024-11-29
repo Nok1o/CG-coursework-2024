@@ -27,6 +27,9 @@ namespace RayTracerGUI
 
         public static Vector3 operator /(Vector3 a, double scalar) => new Vector3(a.X / scalar, a.Y / scalar, a.Z / scalar);
 
+        public static Vector3 operator /(double scalar, Vector3 a) => new Vector3(a.X / scalar, a.Y / scalar, a.Z / scalar);
+
+
         public double this[int num]
         {
             get
