@@ -35,6 +35,7 @@
             this.focalPlaneLabel = new System.Windows.Forms.Label();
             this.focalPlaneDistanceControl = new System.Windows.Forms.NumericUpDown();
             this.chkAntiAliasing = new System.Windows.Forms.CheckBox();
+            this.cameraComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).BeginInit();
@@ -166,7 +167,7 @@
             this.objectListView.HideSelection = false;
             this.objectListView.Location = new System.Drawing.Point(828, 417);
             this.objectListView.Name = "objectListView";
-            this.objectListView.Size = new System.Drawing.Size(160, 150);
+            this.objectListView.Size = new System.Drawing.Size(286, 150);
             this.objectListView.TabIndex = 14;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             // 
@@ -217,11 +218,20 @@
             this.chkAntiAliasing.Text = "Anti-aliasing";
             this.chkAntiAliasing.UseVisualStyleBackColor = true;
             // 
+            // cameraComboBox
+            // 
+            this.cameraComboBox.FormattingEnabled = true;
+            this.cameraComboBox.Location = new System.Drawing.Point(993, 373);
+            this.cameraComboBox.Name = "cameraComboBox";
+            this.cameraComboBox.Size = new System.Drawing.Size(121, 21);
+            this.cameraComboBox.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1126, 625);
+            this.Controls.Add(this.cameraComboBox);
             this.Controls.Add(this.chkAntiAliasing);
             this.Controls.Add(this.focalPlaneDistanceControl);
             this.Controls.Add(this.focalPlaneLabel);
@@ -271,5 +281,6 @@
         private System.Windows.Forms.Label focalPlaneLabel;
         private System.Windows.Forms.NumericUpDown focalPlaneDistanceControl;
         private System.Windows.Forms.CheckBox chkAntiAliasing;
+        private System.Windows.Forms.ComboBox cameraComboBox;
     }
 }

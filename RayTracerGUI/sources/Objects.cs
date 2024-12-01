@@ -12,6 +12,8 @@ namespace RayTracer
             public double Reflection { get; set; } = 0;
 
             public Color SurfaceColor { get; set; } = Color.Gray;
+
+            public string Name { get; set; } = null;
         }
 
 
@@ -69,8 +71,6 @@ namespace RayTracer
             private Sphere BoundingSphere = null;
             public Vector3 Position { get; set; }
             public Triangle[] Triangles { get; set; }
-
-            public string Name { get; set; }
 
             public class Triangle
             {
@@ -217,12 +217,13 @@ namespace RayTracer
             public Vector3 Center;
             public double Radius;
 
-            public Sphere(Vector3 center, double radius, Color color, double reflection)
+            public Sphere(Vector3 center, double radius, Color color, double reflection, string name=null)
             {
                 Center = center;
                 Radius = radius;
                 SurfaceColor = color;
                 Reflection = reflection;
+                Name = name;
             }
 
             public override bool IntersectRay(Ray ray, out double t, out Vector3 Normal)
@@ -254,12 +255,13 @@ namespace RayTracer
             public Vector3 Point { get; set; } // plane = point + normal
             public Vector3 Normal { get; set; }
 
-            public Wall(Vector3 point, Vector3 normal, Color color, double reflection)
+            public Wall(Vector3 point, Vector3 normal, Color color, double reflection, string name=null)
             {
                 Point = point;
                 Normal = normal.Normalize();
                 SurfaceColor = color;
                 Reflection = reflection;
+                Name = name;
             }
 
             public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
@@ -289,7 +291,7 @@ namespace RayTracer
             private Vector3 Min { get; set; }
             private Vector3 Max { get; set; }
 
-            public Cube(Vector3 position, double size, Color color, double reflection)
+            public Cube(Vector3 position, double size, Color color, double reflection, string name=null)
             {
                 Position = position;
                 Size = size;
@@ -298,6 +300,7 @@ namespace RayTracer
 
                 Min = position - new Vector3(size / 2, size / 2, size / 2);
                 Max = position + new Vector3(size / 2, size / 2, size / 2);
+                Name = name;
             }
 
             public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)

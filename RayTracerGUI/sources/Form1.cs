@@ -30,6 +30,57 @@ namespace RayTracer
         Vector3 lightPos;
         Camera camera = new Camera();
 
+        private Dictionary<string, List<(Camera camera, Vector3 lightPos)>> cameraPositions =
+            new Dictionary<string, List<(Camera, Vector3)>>();
+
+        private void InitializeCameraPositions()
+        {
+            cameraPositions["Sphere Scene"] = new List<(Camera, Vector3)>
+            {
+                (new Camera(new Vector3(0, 0, 2.5), new Vector3(0, 0, -1)), new Vector3(0, 4.7, -8)), // Default
+                (new Camera(new Vector3(0, 2, 5), new Vector3(0, -1, -1).Normalize()), new Vector3(0, 5, -5)),
+                (new Camera(new Vector3(-3, 0, 2), new Vector3(1, 0, -1).Normalize()), new Vector3(-2, 4, -6)),
+            };
+
+            cameraPositions["Chess Scene"] = new List<(Camera, Vector3)>
+            {
+                (new Camera(new Vector3(0, 2, 8), new Vector3(0, 0, -1)), new Vector3(0, 6, 0)), // Default
+                (new Camera(new Vector3(3, 5, 10), new Vector3(-1, -1, -1).Normalize()), new Vector3(2, 7, 2)),
+                (new Camera(new Vector3(-5, 2, 12), new Vector3(1, -0.5, -1).Normalize()), new Vector3(-3, 8, 4)),
+            };
+
+            cameraPositions["Knight Scene"] = new List<(Camera, Vector3)>
+            {
+                (new Camera(new Vector3(2.5, 2, 3.5), new Vector3(-1.5, 0, -2).Normalize()), new Vector3(2, 4, 0)), // Default
+                (new Camera(new Vector3(0, 3, 6), new Vector3(0, -1, -2).Normalize()), new Vector3(0, 6, -1)),
+                (new Camera(new Vector3(-3, 1, 4), new Vector3(1, 0.5, -1).Normalize()), new Vector3(-2, 4, -2)),
+            };
+        }
+
+        private void PopulateCameraComboBox()
+        {
+            cameraComboBox.Items.Clear();
+            if (cameraPositions.ContainsKey(selectedScene))
+            {
+                for (int i = 0; i < cameraPositions[selectedScene].Count; i++)
+                {
+                    cameraComboBox.Items.Add($"Camera {i + 1}");
+                }
+                cameraComboBox.SelectedIndex = 0; // Default to the first camera position
+            }
+        }
+
+        private void cameraComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cameraPositions.ContainsKey(selectedScene) && cameraComboBox.SelectedIndex >= 0)
+            {
+                var selectedCamera = cameraPositions[selectedScene][cameraComboBox.SelectedIndex];
+                camera.origin = selectedCamera.camera.origin;
+                camera.dir = selectedCamera.camera.dir;
+                lightPos = selectedCamera.lightPos;
+            }
+        }
+
 
         public Form1()
         {
@@ -48,14 +99,18 @@ namespace RayTracer
             pictureBox1.MouseClick += PictureBox1_MouseClick;
 
             InitializeListView();
+
+            InitializeCameraPositions();
+            cameraComboBox.SelectedIndexChanged += cameraComboBox_SelectedIndexChanged;
         }
 
         private void InitializeListView()
         {
             objectListView.View = View.Details;
             objectListView.FullRowSelect = true;
-            objectListView.Columns.Add("Object Type", -2, HorizontalAlignment.Left);
-            objectListView.Columns.Add("Index", -2, HorizontalAlignment.Left);
+            objectListView.Columns.Add("Тип объекта", -2, HorizontalAlignment.Left);
+            objectListView.Columns.Add("Имя объекта", -2, HorizontalAlignment.Left);
+            objectListView.Columns.Add("Индекс", -2, HorizontalAlignment.Left);
 
             //PopulateListView();
 
@@ -69,7 +124,7 @@ namespace RayTracer
 
             ListViewItem item = objectListView.SelectedItems[0];
             string type = item.SubItems[0].Text;
-            int index = int.Parse(item.SubItems[1].Text);
+            int index = int.Parse(item.SubItems[2].Text);
 
             selectedObject = (GetObjectByTypeAndIndex(type, index), index, type);
             //HighlightSelectedObject();
@@ -96,7 +151,7 @@ namespace RayTracer
             objectListView.SelectedItems.Clear();
             foreach (ListViewItem item in objectListView.Items)
             {
-                if (item.SubItems[0].Text == type && item.SubItems[1].Text == index.ToString())
+                if (item.SubItems[0].Text == type && item.SubItems[2].Text == index.ToString())
                 {
                     item.Selected = true;
                     item.EnsureVisible();
@@ -159,20 +214,29 @@ namespace RayTracer
         {
             if (e.Button == MouseButtons.Left)
             {
-                // Convert screen coordinates to ray direction
-                double i = (2 * (e.X + 0.5) / pictureBox1.Width - 1) * pictureBox1.Width / pictureBox1.Height;
-                double j = -(2 * (e.Y + 0.5) / pictureBox1.Height - 1);
-                Vector3 rayDirection = (new Vector3(i, j, -1) + camera.dir).Normalize();
+                // Get camera basis vectors
+                Vector3 cameraRight = camera.dir.Cross(new Vector3(0, 1, 0)).Normalize();
+                Vector3 cameraUp = cameraRight.Cross(camera.dir).Normalize();
+
+                // Screen-space coordinates normalized to [-1, 1]
+                double aspectRatio = (double)pictureBox1.Width / pictureBox1.Height;
+                double fov = Math.PI / 3.0; // Match the FOV used in RenderScene
+                double scale = Math.Tan(fov / 2);
+
+                double ndcX = (2 * ((e.X + 0.5) / pictureBox1.Width) - 1) * aspectRatio;
+                double ndcY = 1 - 2 * ((e.Y + 0.5) / pictureBox1.Height);
+
+                // Compute ray direction in world space
+                Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + camera.dir).Normalize();
+                Ray ray = new Ray(camera.origin, rayDir);
 
                 // Trace ray to find the object clicked on
-                selectedObject = FindObjectUnderMouse(new Ray(camera.origin, rayDirection));
+                selectedObject = FindObjectUnderMouse(ray);
                 SelectListViewItem(selectedObject.type, selectedObject.index);
 
-                //if (selection.selectedObject != null && colorDialog.ShowDialog() == DialogResult.OK)
-                //{
-                //    UpdateObjectColor(selection, colorDialog.Color);
-                //    btnRender.PerformClick(); // Re-render the scene to apply color change
-                //}
+                // Debugging (optional)
+                Console.WriteLine($"Ray Origin: {ray.origin}");
+                Console.WriteLine($"Ray Direction: {ray.dir}");
             }
         }
 
@@ -237,7 +301,7 @@ namespace RayTracer
 
             for (int i = 0; i < currentScene.objects.Count; i++)
             {
-                objectListView.Items.Add(new ListViewItem(new string[] { currentScene.objects[i].GetType().Name, i.ToString() }));
+                objectListView.Items.Add(new ListViewItem(new string[] { currentScene.objects[i].GetType().Name, currentScene.objects[i].Name, i.ToString() }));
             }
         }
 
@@ -254,8 +318,8 @@ namespace RayTracer
                 if (sphereScene.objects.Count == 0)
                 {
                     sphereScene = setupSphereScene();
+                    PopulateCameraComboBox();
                 }
-                setupSphereCamera();
                 currentScene = sphereScene;
             }
             else if (selectedScene == "Chess Scene")
@@ -263,8 +327,8 @@ namespace RayTracer
                 if (chessScene.objects.Count == 0)
                 {
                     chessScene = setupChessScene();
+                    PopulateCameraComboBox();
                 }
-                setupChessCamera();
                 currentScene = chessScene;
             }
             else if (selectedScene == "Knight Scene")
@@ -272,8 +336,8 @@ namespace RayTracer
                 if (knightScene.objects.Count == 0)
                 {
                     knightScene = setupKnightScene();
+                    PopulateCameraComboBox();
                 }
-                setupKnightCamera();
                 currentScene = knightScene;
             }
 
@@ -307,12 +371,14 @@ namespace RayTracer
             double fov = Math.PI / 3.0; // 60 degrees field of view
             double scale = Math.Tan(fov / 2);
 
-            int samplesPerPixel = (chkAntiAliasing.Checked || depthOfFieldCheckbox.Checked) ? 16 : 1; // Enable anti-aliasing if checked
-            double apertureSize = depthOfFieldCheckbox.Checked ? 0.01 : 0; // Enable DOF if checked
+            int samplesPerPixel = (chkAntiAliasing.Checked || depthOfFieldCheckbox.Checked) ? 32 : 1; // Enable anti-aliasing if checked
+            double apertureSize = depthOfFieldCheckbox.Checked ? 0.08 : 0; // Enable DOF if checked
             double focalPlaneDistance = (double)focalPlaneDistanceControl.Value;
 
             int totalPixels = width * height;
             int processedPixels = 0;
+            double pixelWidth = 1.0f / width;
+            double pixelHeight = 1.0f / height;
 
             Parallel.For(0, height, y =>
             {
@@ -322,11 +388,6 @@ namespace RayTracer
 
                     for (int s = 0; s < samplesPerPixel; s++)
                     {
-                        // Random jitter for anti-aliasing
-                        double pixelWidth = 2.0 / width;
-                        double pixelHeight = 2.0 / height;
-
-
                         double jitterX = 0;
                         double jitterY = 0;
 
@@ -342,6 +403,8 @@ namespace RayTracer
 
                         // Base ray direction
                         Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + camera.dir).Normalize();
+                        Vector3 localcameraRight = rayDir.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
+                        Vector3 localcameraUp = cameraRight.Cross(rayDir).Normalize();
 
                         // Apply depth of field (DOF) if enabled
                         Vector3 rayOrigin = camera.origin;
@@ -350,14 +413,13 @@ namespace RayTracer
                             Vector3 focalPoint = rayOrigin + rayDir * focalPlaneDistance;
 
                             var jitter = RandomInUnitCircle() * apertureSize;
-                            Vector3 apertureOffset = jitter.X * cameraRight + jitter.Y * cameraUp;
+                            Vector3 apertureOffset = jitter.X * localcameraRight + jitter.Y * localcameraUp;
                             rayOrigin += apertureOffset;
 
                             rayDir = (focalPoint - rayOrigin).Normalize();
                         }
 
-                        Ray primaryRay = new Ray(rayOrigin, rayDir);
-                        Color sampleColor = TraceRay(primaryRay, scene, lightPos, backgroundColor, 5);
+                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), scene, lightPos, backgroundColor, 3);
 
                         rSum += sampleColor.R;
                         gSum += sampleColor.G;
