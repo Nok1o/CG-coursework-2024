@@ -53,7 +53,8 @@ namespace RayTracer
         // Helper: Generate a random point in a unit circle (for aperture jittering)
         private Vector3 RandomInUnitCircle()
         {
-            Random random = new Random();
+            if (random is null)
+                random = new Random();
             double angle = random.NextDouble() * 2 * Math.PI;
             double radius = Math.Sqrt(random.NextDouble()); // Uniform sampling
             return new Vector3(Math.Cos(angle) * radius, Math.Sin(angle) * radius, 0);

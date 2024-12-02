@@ -382,6 +382,7 @@ namespace RayTracer
 
             Parallel.For(0, height, y =>
             {
+                Random random = new Random(y);
                 for (int x = 0; x < width; x++)
                 {
                     double rSum = 0, gSum = 0, bSum = 0;
