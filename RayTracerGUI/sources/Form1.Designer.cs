@@ -58,6 +58,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(800, 600);
@@ -70,7 +71,7 @@
             this.btnRender.Name = "btnRender";
             this.btnRender.Size = new System.Drawing.Size(283, 31);
             this.btnRender.TabIndex = 1;
-            this.btnRender.Text = "Отрисовать";
+            this.btnRender.Text = "Визуализировать";
             this.btnRender.UseVisualStyleBackColor = true;
             this.btnRender.Click += new System.EventHandler(this.btnRender_Click);
             // 
@@ -113,6 +114,7 @@
             this.radioButtonPhong.TabStop = true;
             this.radioButtonPhong.Text = "По Фонгу";
             this.radioButtonPhong.UseVisualStyleBackColor = true;
+            this.radioButtonPhong.CheckedChanged += new System.EventHandler(this.radioButtonPhong_CheckedChanged);
             // 
             // radioButtonFresnel
             // 
@@ -175,6 +177,7 @@
             this.btnChangeColor.TabIndex = 13;
             this.btnChangeColor.Text = "Изменить цвет";
             this.btnChangeColor.UseVisualStyleBackColor = true;
+            this.btnChangeColor.Click += new System.EventHandler(this.btnChangeColor_Click);
             // 
             // objectListView
             // 
@@ -404,7 +407,7 @@
             this.Controls.Add(this.btnRender);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
-            this.Text = "Ray Tracing Demo";
+            this.Text = "Курсовая работа. Трассировка лучей";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).EndInit();

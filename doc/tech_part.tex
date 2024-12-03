@@ -48,7 +48,7 @@
 \end{enumerate}
 
 \section{Реализация алгоритмов}
-В соответствии со схемой, изображенной на рисунке~\ref{fig:RayTracing} был реализован алгоритм, приведенный на листинге~\ref{lst:RayTracing}.
+В соответствии со схемой, изображенной на рисунке~\ref{fig:RayTracing} был реализован алгоритм трассировки лучей, приведенный на листинге~\ref{lst:RayTracing}.
 
 \clearpage
 \begin{center}
@@ -90,7 +90,239 @@
 	\end{lstlisting}
 \end{center}
 
-\section{Вывод}
+На листингах~\ref{lst:SphereIntersection}~-~\ref{lst:ChessIntersection} приведены алгоритмы пересечения объектов сцены с лучом.
 
+\begin{center}
+	\begin{lstlisting}[label={lst:SphereIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча со сферой}]
+		public override bool IntersectRay(Ray ray, out double t, out Vector3 Normal)
+		{
+			Vector3 oc = ray.origin - Center;
+			double a = ray.dir.Dot(ray.dir);
+			double b = 2.0 * oc.Dot(ray.dir);
+			double c = oc.Dot(oc) - Radius * Radius;
+			double discriminant = b * b - 4 * a * c;
+			Normal = null;
+			
+			if (discriminant < 0)
+			{
+				t = 0;
+				return false;
+			}
+			
+			t = (-b - Math.Sqrt(discriminant)) / (2.0 * a);
+			
+			if (t > 0)
+			Normal = (ray.origin + ray.dir * t - Center).Normalize();
+			
+			return t > 0;
+		}
+	\end{lstlisting}
+\end{center}
+
+\begin{center}
+	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
+		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
+		{
+			t = 0;
+			normal = new Vector3(0, 0, 0);
+			
+			double denom = Normal.Dot(ray.dir);
+			if (Math.Abs(denom) > 1e-6)
+			{
+				t = (Point - ray.origin).Dot(Normal) / denom;
+				if (t >= 0)
+				{
+					normal = Normal;
+					return true;
+				}
+			}
+			return false;
+		}
+	\end{lstlisting}
+\end{center}
+
+\begin{center}
+	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом}]
+		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
+		{
+			t = double.MaxValue;
+			normal = new Vector3(0, 0, 0);
+			
+			double tMin = (Min.X - ray.origin.X) / ray.dir.X;
+			double tMax = (Max.X - ray.origin.X) / ray.dir.X;
+			
+			if (tMin > tMax) (tMin, tMax) = (tMax, tMin);
+			
+			double tyMin = (Min.Y - ray.origin.Y) / ray.dir.Y;
+			double tyMax = (Max.Y - ray.origin.Y) / ray.dir.Y;
+			
+			if (tyMin > tyMax) (tyMin, tyMax) = (tyMax, tyMin);
+			
+			if ((tMin > tyMax) || (tyMin > tMax))
+			return false;
+			
+			if (tyMin > tMin) tMin = tyMin;
+			if (tyMax < tMax) tMax = tyMax;
+			
+			double tzMin = (Min.Z - ray.origin.Z) / ray.dir.Z;
+			double tzMax = (Max.Z - ray.origin.Z) / ray.dir.Z;
+			
+			if (tzMin > tzMax) (tzMin, tzMax) = (tzMax, tzMin);
+			
+			double epsilon = 1e-8;
+			
+			if (tMin > tzMax + epsilon || tzMin > tMax + epsilon)
+			return false;
+			
+			tMin = Math.Max(tMin, tzMin);
+			tMax = Math.Min(tMax, tzMax);
+			
+			if (tMin < 0)
+			{
+				t = tMax; // If inside the cube, use farther hit
+				if (tMax < 0) 
+				return false;
+			}
+			else
+			{
+				t = tMin;
+			}
+			
+			Vector3 hitPoint = ray.origin + ray.dir * t;
+			
+			if (Math.Abs(hitPoint.X - Min.X) < epsilon) normal = new Vector3(-1, 0, 0); // Left face
+			else if (Math.Abs(hitPoint.X - Max.X) < epsilon) normal = new Vector3(1, 0, 0);  // Right face
+			else if (Math.Abs(hitPoint.Y - Min.Y) < epsilon) normal = new Vector3(0, -1, 0); // Bottom face
+			else if (Math.Abs(hitPoint.Y - Max.Y) < epsilon) normal = new Vector3(0, 1, 0);  // Top face
+			else if (Math.Abs(hitPoint.Z - Min.Z) < epsilon) normal = new Vector3(0, 0, -1); // Front face
+			else if (Math.Abs(hitPoint.Z - Max.Z) < epsilon) normal = new Vector3(0, 0, 1);  // Back face
+			
+			return true;
+		}
+	\end{lstlisting}
+\end{center}
+
+
+\begin{center}
+	\begin{lstlisting}[label={lst:TriangleIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
+		public bool IntersectRay(Ray ray, out double distance, out Vector3 barycentricCoords)
+		{
+			barycentricCoords = new Vector3(0, 0, 0);
+			distance = 0;
+			
+			Vector3 edge1 = Vertex2 - Vertex1;
+			Vector3 edge2 = Vertex3 - Vertex1;
+			
+			Vector3 pvec = ray.dir.Cross(edge2);
+			double det = edge1.Dot(pvec);
+			
+			const double epsilon = 1e-8;
+			if (Math.Abs(det) < epsilon)
+			{
+				return false; // Ray is parallel to the triangle
+			}
+			
+			double invDet = 1.0 / det;
+			
+			Vector3 tvec = ray.origin - Vertex1;
+			double u = tvec.Dot(pvec) * invDet;
+			
+			if (u < 0.0 || u > 1.0)
+			{
+				return false;
+			}
+			
+			Vector3 qvec = tvec.Cross(edge1);
+			double v = ray.dir.Dot(qvec) * invDet;
+			
+			if (v < 0.0 || u + v > 1.0)
+			{
+				return false;
+			}
+			
+			distance = edge2.Dot(qvec) * invDet;
+			
+			if (distance > epsilon)
+			{
+				barycentricCoords = new Vector3(1 - u - v, u, v);
+				return true;
+			}
+			
+			return false;
+		}
+	\end{lstlisting}
+\end{center}
+
+\begin{center}
+	\begin{lstlisting}[label={lst:ChessIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
+		public override bool IntersectRay(Ray ray, out double distance, out Vector3 interpolatedNormal)
+		{
+			distance = double.MaxValue;
+			interpolatedNormal = new Vector3(0, 0, 0);
+			
+			if (!BoundingSphere.IntersectRay(ray, out double sphereDist, out Vector3 Normal))
+			{
+				return false;
+			}
+			
+			bool hit = false;
+			foreach (var triangle in Triangles)
+			{
+				if (triangle.IntersectRay(ray, out double dist, out Vector3 barycentricCoords) && dist < distance)
+				{
+					distance = dist;
+					hit = true;
+					
+					interpolatedNormal =
+					barycentricCoords.X * triangle.Normal1 +
+					barycentricCoords.Y * triangle.Normal2 +
+					barycentricCoords.Z * triangle.Normal3;
+					
+					interpolatedNormal = interpolatedNormal.Normalize();
+				}
+			}
+			
+			return hit;
+		}
+	\end{lstlisting}
+\end{center}
+
+\section{Интерфейс программного обеспечения}
+На рисунке~\ref{fig:InterfaceDemoStart} приведена демонстрация интерфейса программы при ее запуске.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{InterfaceDemoStart}
+	\caption{Пользовательский интерфейс ПО}
+	\label{fig:InterfaceDemoStart}
+\end{figure}
+
+В левой части окна приложения расположена графическая область в виде прямоугольника для отображения результатов визуализации. На любой объект сцены можно произвести нажатие левой кнопки мыши, после чего выбранный объект будет выделен в окне <<Список объектов сцены>> и объект будет доступен для изменения параметров.
+
+Пользователю на выбор предоставляются три варианта сцены, на каждом из них возможен выбор трех вариантов расположения камер. Изменяемым параметром камеры является ее поле зрения. Пример выбора сцены и камеры приведен на рисунке~\ref{fig:ChoosingSceneDemo}.
+
+Ниже перечисленных элементов графического интерфейса расположено окно <<Список объектов сцены>>, который заполняется наименованиями объектов сцены при нажатии кнопки <<Визуализировать>>. В данном элементе можно выбирать объекты сцены нажатием левой кнопки мыши на нужную строку для изменения свойств выбранного объекта.
+
+Группа параметров <<Параметры сцены>> позволяет настроить общие для всех объектов параметры. Пользователю предоставлена возможность изменить интенсивность источника света, включить сглаживание (Anti-Aliasing) и глубину поля (Depth Of Field), выбрать число лучей для двух описанных эффектов, изменить расстояние от камеры до фокальной плоскости (плоскость всегда перпендикулярна направлению взгляда), а также выбрать алгоритм закраски -- по методу Фонга или по методу Гуро.
+
+Группа параметров <<Свойства объектов сцены>> позволяет настроить зеркальность поверхности выбранного объекта и его цвет. Пример выбора объекта сцены и изменения его зеркальности приведен на рисунке~\ref{fig:ChoosingObjectDemo}.
+
+Для вступления в силу любого из перечисленных изменений параметров необходимо нажать кнопку <<Визуализировать>>, после чего дождаться визуализации сцены (под кнопкой расположена полоса статуса для отображения прогресса визуализации).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ChoosingSceneDemo}
+	\caption{Пример выбора сцены и камеры}
+	\label{fig:ChoosingSceneDemo}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ChoosingObjectDemo}
+	\caption{Пример выбора объекта на сцене и изменения его зеркальности}
+	\label{fig:ChoosingObjectDemo}
+\end{figure}
+
+\section{Вывод}
+В данном разделе были выбраны средства реализации, описана структура классов программы, а также приведено описание интерфейса ПО.
 
 \clearpage

@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RayTracer.ChessLoader">
-    <Position X="13.5" Y="0.5" Width="1.5" />
+    <Position X="13.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>sources\ChessLoader.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RayTracer.Form1" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+  <Class Name="RayTracer.Settings">
+    <Position X="13.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gIBCmSqRBiAEorgGUEKRBiICABoBKAwMAgTAiABtyRA=</HashCode>
-      <FileName>sources\ColorCalculatoin.cs</FileName>
+      <HashCode>AAAAAAIAIAAAAAACAAAAAAAAAAAAAAAIAABAAAAgAAA=</HashCode>
+      <FileName>sources\SceneSettings.cs</FileName>
+      <NewMemberFileName>sources\ColorCalculatoin.cs</NewMemberFileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RayTracer.Program">
@@ -91,6 +92,34 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAgAAgEAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>sources\Objects.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RayTracer.ColorCalculation">
+    <Position X="9.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAABAAAAgIACEAAAAgAAABAACAAAAAAAAAAAgAA=</HashCode>
+      <FileName>sources\ColorCalculatoin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RayTracer.Form1" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBCgQCQBjAEIDAAgECRBGICEAIBAAREACCAiABtARA=</HashCode>
+      <FileName>sources\Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RayTracer.RayTracer" Collapsed="true">
+    <Position X="13.25" Y="4.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="RayTracer.RayTracer.Shading" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>sources\RayTracerClass.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAACQgAAgAAgogAwAAwAAAIIBgACAgUAoQAAAALaAA=</HashCode>
+      <FileName>sources\RayTracerClass.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

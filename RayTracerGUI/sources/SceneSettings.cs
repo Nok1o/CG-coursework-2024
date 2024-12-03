@@ -5,18 +5,18 @@ using RayTracer.Objects;
 
 namespace RayTracer
 {
-    public partial class Form1 : Form
+    public class Settings
     {
-        private Sphere[] GetDefaultSpheres()
+        public static Sphere[] GetDefaultSpheres()
         {
             return new Sphere[]
             {
-                new Sphere(new Vector3(-2, 0, -6), 2, Color.Red, reflectionFactor, "Сфера не ближе к углу"),
-                new Sphere(new Vector3(2, 0, -8), 2, Color.Green, reflectionFactor, "Сфера ближе к углу"),
+                new Sphere(new Vector3(-2, 0, -6), 2, Color.Red, 0.5, "Сфера дальше от угла"),
+                new Sphere(new Vector3(2, 0, -8), 2, Color.Green, 0.5, "Сфера ближе к углу"),
             };
         }
 
-        private Wall[] GetDefaultWalls()
+        public static Wall[] GetDefaultWalls()
         {
             return new Wall[]
             {
@@ -30,7 +30,7 @@ namespace RayTracer
             };
         }
 
-        private Wall[] GetChessWalls()
+        public static Wall[] GetChessWalls()
         {
             return new Wall[]
             {
@@ -44,12 +44,12 @@ namespace RayTracer
             };
         }
 
-        private ObjectScene setupSphereScene()
+        public static ObjectScene setupSphereScene()
         {
             return new ObjectScene(GetDefaultSpheres(), GetDefaultWalls());
         }
 
-        private ObjectScene setupChessScene()
+        public static ObjectScene setupChessScene()
         {
             var king = ChessLoader.LoadChessPiece("king.obj", new Vector3(0.78, 0, 0), "Король");
             var queen = ChessLoader.LoadChessPiece("queen.obj", new Vector3(-0.78, 0, 0), "Ферзь");
@@ -75,7 +75,7 @@ namespace RayTracer
             });
         }
 
-        private ObjectScene SetupKnightScene()
+        public static ObjectScene SetupKnightScene()
         {
             var knight = ChessLoader.LoadChessPiece("knight.obj", new Vector3(0, 0, 0.22), "Конь");
             knight.SurfaceColor = Color.FromArgb(0, 128, 128);

@@ -26,8 +26,9 @@
 \contentsline {section}{\numberline {3.1}Средства реализации}{22}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Структура программы}{22}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Реализация алгоритмов}{23}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Вывод}{25}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Исследовательская часть}{26}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Вывод}{26}{section.4.1}%
-\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{27}{section.4.1}%
-\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{28}{section.4.1}%
+\contentsline {section}{\numberline {3.4}Интерфейс программного обеспечения}{29}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Вывод}{31}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Исследовательская часть}{32}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Вывод}{32}{section.4.1}%
+\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{33}{section.4.1}%
+\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{34}{section.4.1}%
