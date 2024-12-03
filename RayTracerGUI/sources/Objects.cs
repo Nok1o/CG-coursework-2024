@@ -145,6 +145,7 @@ namespace RayTracer
 
                     return false;
                 }
+
             }
 
             public ChessPiece(Vector3 position, Color color, Triangle[] triangles, double reflection, string name=null)

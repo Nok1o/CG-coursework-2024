@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RayTracer.Objects;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,7 +14,7 @@ namespace RayTracer
             int shininess = 32;
 
             // Calculate reflection direction
-            Vector3 viewDir = (camera.origin - hitPoint).Normalize(); // Assume camera at origin
+            Vector3 viewDir = (camera.origin - hitPoint).Normalize();
             Vector3 lightDir = (lightPos - hitPoint).Normalize();
             Vector3 reflectDir = (normal * (2.0 * normal.Dot(lightDir)) - lightDir).Normalize();
 
@@ -22,9 +23,9 @@ namespace RayTracer
 
             // Return specular component (white highlight)
             return Color.FromArgb(
-                (int)(255 * specFactor),
-                (int)(255 * specFactor),
-                (int)(255 * specFactor)
+                Clamp((int)(255 * specFactor), 0, 255),
+                Clamp((int)(255 * specFactor), 0, 255),
+                Clamp((int)(255 * specFactor), 0, 255)
             );
         }
 
@@ -52,5 +53,16 @@ namespace RayTracer
 
             return Color.FromArgb(r, g, b);
         }
+
+        private Color[] CalculateVertexLighting(ChessPiece.Triangle triangle, Vector3 lightPos, Color baseColor, ObjectScene scene)
+        {
+            return new[]
+            {
+                CalculateLighting(triangle.Vertex1, triangle.Normal1, lightPos, baseColor, scene),
+                CalculateLighting(triangle.Vertex2, triangle.Normal2, lightPos, baseColor, scene),
+                CalculateLighting(triangle.Vertex3, triangle.Normal3, lightPos, baseColor, scene)
+            };
+        }
+
     }
 }

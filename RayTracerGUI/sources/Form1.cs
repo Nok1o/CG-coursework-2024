@@ -13,9 +13,6 @@ namespace RayTracer
 {
     public partial class Form1 : Form
     {
-        private double reflectionFactor = 0.5;
-        private double intensity = 0.2;
-        private string selectedScene = "Default";
         private ColorDialog colorDialog;
 
 
@@ -30,30 +27,30 @@ namespace RayTracer
         Vector3 lightPos;
         Camera camera = new Camera();
 
-        private Dictionary<string, List<(Camera camera, Vector3 lightPos)>> cameraPositions =
-            new Dictionary<string, List<(Camera, Vector3)>>();
+        private Dictionary<string, List<(Camera camera, Vector3 lightPos, double fov)>> cameraPositions =
+            new Dictionary<string, List<(Camera, Vector3, double)>>();
 
         private void InitializeCameraPositions()
         {
-            cameraPositions["Sphere Scene"] = new List<(Camera, Vector3)>
+            cameraPositions["Sphere Scene"] = new List<(Camera, Vector3, double)>
             {
-                (new Camera(new Vector3(0, 0, 2.5), new Vector3(0, 0, -1)), new Vector3(0, 4.7, -8)), // Default
-                (new Camera(new Vector3(0, 2, 5), new Vector3(0, -1, -1).Normalize()), new Vector3(0, 5, -5)),
-                (new Camera(new Vector3(-3, 0, 2), new Vector3(1, 0, -1).Normalize()), new Vector3(-2, 4, -6)),
+                (new Camera(new Vector3(0, 0, 2.5), new Vector3(0, 0, -1)), new Vector3(0, 4.7, -8), Math.PI / 3), // Default
+                (new Camera(new Vector3(0, 2, 0), new Vector3(0, -0.5, -1).Normalize()), new Vector3(4.5, 4.5, 2.5), Math.PI / 3),
+                (new Camera(new Vector3(-4.8, 4.8, -9.8), new Vector3(1, -1, 1).Normalize()), new Vector3(-2, 4, -6), Math.PI / 2.5),
             };
 
-            cameraPositions["Chess Scene"] = new List<(Camera, Vector3)>
+            cameraPositions["Chess Scene"] = new List<(Camera, Vector3, double)>
             {
-                (new Camera(new Vector3(0, 2, 8), new Vector3(0, 0, -1)), new Vector3(0, 6, 0)), // Default
-                (new Camera(new Vector3(3, 5, 10), new Vector3(-1, -1, -1).Normalize()), new Vector3(2, 7, 2)),
-                (new Camera(new Vector3(-5, 2, 12), new Vector3(1, -0.5, -1).Normalize()), new Vector3(-3, 8, 4)),
+                (new Camera(new Vector3(0, 2, 8), new Vector3(0, 0, -1)), new Vector3(0, 6, 0), Math.PI / 3), // Default
+                (new Camera(new Vector3(-5, 5, 4), new Vector3(1, -1, -1).Normalize()), new Vector3(2, 7, 2), Math.PI / 3),
+                (new Camera(new Vector3(-4.8, 1.5, 1.28), new Vector3(1, 0, 0).Normalize()), new Vector3(-3, 8, 4), Math.PI / 3),
             };
 
-            cameraPositions["Knight Scene"] = new List<(Camera, Vector3)>
+            cameraPositions["Knight Scene"] = new List<(Camera, Vector3, double)>
             {
-                (new Camera(new Vector3(2.5, 2, 3.5), new Vector3(-1.5, 0, -2).Normalize()), new Vector3(2, 4, 0)), // Default
-                (new Camera(new Vector3(0, 3, 6), new Vector3(0, -1, -2).Normalize()), new Vector3(0, 6, -1)),
-                (new Camera(new Vector3(-3, 1, 4), new Vector3(1, 0.5, -1).Normalize()), new Vector3(-2, 4, -2)),
+                (new Camera(new Vector3(2.5, 2, 3.5), new Vector3(-1.5, 0, -2).Normalize()), new Vector3(2, 4, 0), Math.PI / 3), // Default
+                (new Camera(new Vector3(-2.5, 2, 3.5), new Vector3(1.5, 0, -2).Normalize()), new Vector3(-1.5, 6, 2), Math.PI / 3),
+                (new Camera(new Vector3(3.5, 5.5, -3.5), new Vector3(-1.5, -2.5, 1).Normalize()), new Vector3(-2, 4, -2), Math.PI / 3),
             };
         }
 
@@ -78,6 +75,8 @@ namespace RayTracer
                 camera.origin = selectedCamera.camera.origin;
                 camera.dir = selectedCamera.camera.dir;
                 lightPos = selectedCamera.lightPos;
+                if (! (sender is null) || !(e is null))
+                    FieldOfViewEntry.Value = (decimal) (selectedCamera.fov / Math.PI * 180);
             }
         }
 
@@ -101,7 +100,9 @@ namespace RayTracer
             InitializeListView();
 
             InitializeCameraPositions();
+            PopulateCameraComboBox();
             cameraComboBox.SelectedIndexChanged += cameraComboBox_SelectedIndexChanged;
+            //currentScene = sphereScene;
         }
 
         private void InitializeListView()
@@ -220,7 +221,6 @@ namespace RayTracer
 
                 // Screen-space coordinates normalized to [-1, 1]
                 double aspectRatio = (double)pictureBox1.Width / pictureBox1.Height;
-                double fov = Math.PI / 3.0; // Match the FOV used in RenderScene
                 double scale = Math.Tan(fov / 2);
 
                 double ndcX = (2 * ((e.X + 0.5) / pictureBox1.Width) - 1) * aspectRatio;
@@ -260,31 +260,9 @@ namespace RayTracer
             }   
 
             selectedObject = (clickedObject, clickedIndex, clickedType);
-            //HighlightSelectedObject();
             return selectedObject;
         }
 
-        //private void HighlightSelectedObject()
-        //{
-        //    if (selectedObject.Object is Sphere sphere)
-        //    {
-        //        originalColor = sphere.SurfaceColor;
-        //        sphere.SurfaceColor = Color.Yellow; // Highlight color
-        //    }
-        //    else if (selectedObject.Object is Wall wall)
-        //    {
-        //        originalColor = wall.SurfaceColor;
-        //        wall.SurfaceColor = Color.Yellow;
-        //    }
-        //    else if (selectedObject.Object is ChessPiece chessPiece)
-        //    {
-        //        originalColor = chessPiece.Color;
-        //        chessPiece.Color = Color.Yellow;
-        //    }
-        //    //btnRender.PerformClick(); // Update rendering to show the highlight
-        //}
-
-        // Update object color
         private void UpdateObjectColor((object obj, int index, string type) selection, Color newColor)
         {
             currentScene.objects[selection.index].SurfaceColor = newColor;
@@ -315,31 +293,26 @@ namespace RayTracer
 
             if (selectedScene == "Sphere Scene")
             {
-                if (sphereScene.objects.Count == 0)
-                {
+                    if (sphereScene.objects.Count == 0)
                     sphereScene = setupSphereScene();
-                    PopulateCameraComboBox();
-                }
                 currentScene = sphereScene;
             }
             else if (selectedScene == "Chess Scene")
             {
                 if (chessScene.objects.Count == 0)
-                {
                     chessScene = setupChessScene();
-                    PopulateCameraComboBox();
-                }
+
                 currentScene = chessScene;
             }
             else if (selectedScene == "Knight Scene")
             {
                 if (knightScene.objects.Count == 0)
-                {
-                    knightScene = setupKnightScene();
-                    PopulateCameraComboBox();
-                }
+                    knightScene = SetupKnightScene();
+
                 currentScene = knightScene;
             }
+
+            cameraComboBox_SelectedIndexChanged(null, null);
 
             fillListView();
 
@@ -368,17 +341,16 @@ namespace RayTracer
             Vector3 cameraUp = cameraRight.Cross(camera.dir).Normalize();            // Y-axis in camera space
 
             double aspectRatio = (double)width / height;
-            double fov = Math.PI / 3.0; // 60 degrees field of view
             double scale = Math.Tan(fov / 2);
 
-            int samplesPerPixel = (chkAntiAliasing.Checked || depthOfFieldCheckbox.Checked) ? 32 : 1; // Enable anti-aliasing if checked
+            int samplesPerPixel = (chkAntiAliasing.Checked || depthOfFieldCheckbox.Checked) ? (int) NumRaysEntry.Value : 1; // anti-aliasing = 32
             double apertureSize = depthOfFieldCheckbox.Checked ? 0.08 : 0; // Enable DOF if checked
             double focalPlaneDistance = (double)focalPlaneDistanceControl.Value;
 
             int totalPixels = width * height;
             int processedPixels = 0;
-            double pixelWidth = 1.0f / width;
-            double pixelHeight = 1.0f / height;
+            double pixelWidth = 2.0f / width;
+            double pixelHeight = 2.0f / height;
 
             Parallel.For(0, height, y =>
             {
@@ -597,6 +569,11 @@ namespace RayTracer
             }
             
             return false; // No obstruction found, not in shadow
+        }
+
+        private void FieldOfViewEntry_ValueChanged(object sender, EventArgs e)
+        {
+            fov = (double) FieldOfViewEntry.Value / 180 * Math.PI;
         }
     }
 }

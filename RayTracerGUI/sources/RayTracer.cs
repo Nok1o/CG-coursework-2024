@@ -8,7 +8,7 @@ namespace RayTracer
 {
     public partial class Form1 : Form
     {
-        private Color TraceRay(Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
+        private Color TraceRay(Objects.Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
         {
             if (depth <= 0)
             {
@@ -37,13 +37,14 @@ namespace RayTracer
             Vector3 hitPoint = ray.origin + ray.dir * closestDistance;
             Color objectColor = ((dynamic)closestObject).SurfaceColor;
 
+
             Color lightingColor = CalculateLighting(hitPoint, hitNormal, lightPos, objectColor, scene);
 
 
             if (closestObject.Reflection > 0)
             {
                 Vector3 reflectionDir = ray.dir.Reflect(hitNormal);
-                Color reflectionColor = TraceRay(new Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
+                Color reflectionColor = TraceRay(new Objects.Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
                 lightingColor = MixColors(lightingColor, reflectionColor, closestObject.Reflection);
             }
 
