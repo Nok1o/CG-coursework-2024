@@ -73,24 +73,23 @@ def get_median_from_file(filename):
     return workers, times
 
 
-#med_singlesphere = get_median_from_file('render_times_50_singlesphere_cracked.csv')
-# med_singlesphere = get_median_from_file('render_times_50_doublesphere_1.csv')
-# avgs_singlesphere = get_avgs_from_file('render_times_50_doublesphere_1.csv')
+med_singlesphere = get_median_from_file('render_times_50_singlesphere_cracked.csv')
+med_doublesphere = get_median_from_file('render_times_50_doublesphere_cracked_1.csv')
 
-med_singlesphere = get_median_from_file('./bin/x64/Debug/render_times.csv')
-avgs_singlesphere = get_avgs_from_file('./bin/x64/Debug/render_times.csv')
+s = 0
+for i in range(len(med_singlesphere[0])):
+    s += abs(med_singlesphere[1][i] - med_doublesphere[1][i]) / max(med_singlesphere[1][i], med_doublesphere[1][i]) * 100
+    print(f"{med_singlesphere[0][i]} & {med_singlesphere[1][i]:.2f} & {med_doublesphere[1][i]:.2f} \\\\ \\hline")
 
-#avgs_spheres = get_avgs_from_file('render_times_knight_test.csv')
+print(s / len(med_singlesphere[0]))
 
 
 plt.figure(figsize=(8, 5))
-plt.plot(avgs_singlesphere[0], avgs_singlesphere[1], color='skyblue', linestyle='--', marker='v')
+plt.plot(med_doublesphere[0], med_doublesphere[1], color='skyblue', linestyle='--', marker='v')
 plt.plot(med_singlesphere[0], med_singlesphere[1], color='brown', linestyle='-.', marker='p')
-plt.legend(['Средние сферы', "Медианные сферы"])
-plt.xlabel("Число лучей, используемых для эффекта глубины поля")
-plt.ylabel("Average Render Time (s)")
-plt.title("Average Render Time per Scene")
-plt.xticks(rotation=45)
+plt.legend(['Сцена с двумя сферами', "Сцена с одной сферой"])
+plt.xlabel("Число потоков, используемых при растеризации сцены")
+plt.ylabel("Время растеризации (мс)")
 plt.tight_layout()
 plt.savefig("render_times_plot.pdf")
 plt.show()
