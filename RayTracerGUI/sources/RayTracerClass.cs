@@ -89,17 +89,18 @@ namespace RayTracer
 
         private AbstractObject getObjectByTypeIndex(string type, int index)
         {
-            int i = -1;
-            int j = 0;
-            while (i < index && j < currentScene.objects.Count)
-            {
-                if (currentScene.objects[j].GetType().Name == type)
-                {
-                    i++;
-                }
-                j++;
-            }
-            return currentScene.objects[i];
+            //int i = -1;
+            //int j = 0;
+            //while (i < index && j < currentScene.objects.Count)
+            //{
+            //    if (currentScene.objects[j].GetType().Name == type)
+            //    {
+            //        i++;
+            //    }
+            //    else if (i == -1) i = 0;
+            //    j++;
+            //}
+            return currentScene.objects[index];
         }
 
         public void selectedObjectChanged(string type, int index)
@@ -247,6 +248,7 @@ namespace RayTracer
             Color[,] pixelBuffer = new Color[width, height];
             bar?.Invoke(new Action(() => bar.Value = 0));
 
+            
             Parallel.For(0, height, y =>
             {
                 for (int x = 0; x < width; x++)
@@ -286,7 +288,7 @@ namespace RayTracer
                             rayDir = (focalPoint - rayOrigin).Normalize();
                         }
 
-                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, 3);
+                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, 6);
 
                         rSum += sampleColor.R;
                         gSum += sampleColor.G;

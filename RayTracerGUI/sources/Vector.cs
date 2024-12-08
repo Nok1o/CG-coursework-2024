@@ -21,6 +21,8 @@ namespace RayTracer
         public static Vector3 operator +(Vector3 a, Vector3 b) => new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
         public static Vector3 operator -(Vector3 a, Vector3 b) => new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        public static Vector3 operator -(Vector3 a) => new Vector3(-a.X, -a.Y, -a.Z);
+
 
         public static Vector3 operator *(Vector3 a, double scalar) => new Vector3(a.X * scalar, a.Y * scalar, a.Z * scalar);
         public static Vector3 operator *(double scalar, Vector3 a) => new Vector3(a.X * scalar, a.Y * scalar, a.Z * scalar);

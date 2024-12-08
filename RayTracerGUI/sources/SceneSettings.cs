@@ -24,7 +24,7 @@ namespace RayTracer
                 new Wall(new Vector3(-5, 0, 0), new Vector3(1, 0, 0), Color.Red, 0, "Левая стена"),   // Left wall
                 new Wall(new Vector3(5, 0, 0), new Vector3(-1, 0, 0), Color.Green, 0, "Правая стена"), // Right wall
                 new Wall(new Vector3(0, 0, -10), new Vector3(0, 0, 1), Color.Blue, 0, "Передняя стена"), // Front wall
-                new Wall(new Vector3(0, 5, 0), new Vector3(0, -1, 0), Color.White, 0, "Потолок"), // Ceiling
+                new Wall(new Vector3(0, 5.01, 0), new Vector3(0, -1, 0), Color.White, 0, "Потолок"), // Ceiling
                 new Wall(new Vector3(0, -2, 0), new Vector3(0, 1, 0), Color.Yellow, 0, "Пол"), // Floor
                 new Wall(new Vector3(0, 0, 3), new Vector3(0, 0, -1), Color.SandyBrown, 0, "Задняя стена") // Back wall
             };

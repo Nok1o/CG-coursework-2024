@@ -8,7 +8,7 @@ namespace RayTracer
 {
     public partial class RayTracer
     {
-        private Color TraceRay(Objects.Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
+        private Color TraceRay(Objects.Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth, AbstractObject callingObject = null)
         {
             if (depth <= 0)
             {
@@ -21,12 +21,13 @@ namespace RayTracer
 
             foreach (var obj in scene.objects)
             {
-                if (obj.IntersectRay(ray, out double dist, out Vector3 normal) && dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    hitNormal = normal;
-                    closestObject = obj;
-                }
+                if (callingObject != obj)
+                    if (obj.IntersectRay(ray, out double dist, out Vector3 normal) && dist < closestDistance)
+                    {
+                        closestDistance = dist;
+                        hitNormal = normal;
+                        closestObject = obj;
+                    }
             }
 
             if (closestObject == null)
@@ -44,7 +45,7 @@ namespace RayTracer
             if (closestObject.Reflection > 0)
             {
                 Vector3 reflectionDir = ray.dir.Reflect(hitNormal);
-                Color reflectionColor = TraceRay(new Objects.Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1);
+                Color reflectionColor = TraceRay(new Objects.Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1, closestObject);
                 lightingColor = ColorCalculation.MixColors(lightingColor, reflectionColor, closestObject.Reflection);
             }
 

@@ -271,7 +271,7 @@ namespace RayTracer
                 normal = new Vector3(0, 0, 0);
 
                 double denom = Normal.Dot(ray.dir);
-                if (Math.Abs(denom) > 1e-6)
+                if (Math.Abs(denom) > 0)
                 {
                     t = (Point - ray.origin).Dot(Normal) / denom;
                     if (t >= 0)
