@@ -241,7 +241,7 @@ namespace RayTracer
             return new Vector3(Math.Cos(angle) * radius, Math.Sin(angle) * radius, 0);
         }
 
-        private void RenderScene(Bitmap bitmap, int width, int height, Color backgroundColor, bool antiAliasing=false, bool DOF=false, double fPlaneDistance=0, int numRays = 16, ProgressBar bar = null)
+        private void RenderScene(Bitmap bitmap, int width, int height, Color backgroundColor, bool antiAliasing = false, bool DOF = false, double fPlaneDistance = 0, int numRays = 16, ProgressBar bar = null)
         {
             Vector3 cameraRight = camera.dir.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
             Vector3 cameraUp = cameraRight.Cross(camera.dir).Normalize();            // Y-axis in camera space
@@ -249,8 +249,8 @@ namespace RayTracer
             double aspectRatio = (double)width / height;
             double scale = Math.Tan(fov / 2);
 
-            int samplesPerPixel = (antiAliasing || DOF) ? numRays : 1; // anti-aliasing = 32
-            double apertureSize = DOF ? 0.08 : 0; // Enable DOF if checked
+            int samplesPerPixel = (antiAliasing || DOF) ? numRays : 1;
+            double apertureSize = DOF ? 0.08 : 0;
             double focalPlaneDistance = fPlaneDistance;
 
             int totalPixels = width * height;
@@ -258,6 +258,10 @@ namespace RayTracer
             double pixelWidth = 2.0f / width;
             double pixelHeight = 2.0f / height;
             Color[,] pixelBuffer = new Color[width, height];
+
+            int threadCount = Environment.ProcessorCount; // Use available CPU cores
+            int rowsPerThread = height / threadCount;
+            List<Thread> threads = new List<Thread>();
 
             if (options.MaxDegreeOfParallelism == 1)
             {
@@ -335,80 +339,97 @@ namespace RayTracer
             }
             else
             {
-
-                Parallel.For(0, height, y =>
+                // Worker method for each thread
+                void RenderRows(int startRow, int endRow)
                 {
-                    for (int x = 0; x < width; x++)
+                    for (int y = startRow; y < endRow; y++)
                     {
-                        double rSum = 0, gSum = 0, bSum = 0;
-
-                        for (int s = 0; s < samplesPerPixel; s++)
+                        for (int x = 0; x < width; x++)
                         {
-                            double jitterX = 0;
-                            double jitterY = 0;
+                            double rSum = 0, gSum = 0, bSum = 0;
 
-                            if (antiAliasing)
+                            for (int s = 0; s < samplesPerPixel; s++)
                             {
-                                jitterX = GetRandomOffset() * pixelWidth;
-                                jitterY = GetRandomOffset() * pixelHeight;
+                                double jitterX = 0;
+                                double jitterY = 0;
+
+                                if (antiAliasing)
+                                {
+                                    jitterX = GetRandomOffset() * pixelWidth;
+                                    jitterY = GetRandomOffset() * pixelHeight;
+                                }
+
+                                // Pixel position with jitter
+                                double ndcX = (2 * ((x + 0.5) / width) - 1) * aspectRatio + jitterX;
+                                double ndcY = (1 - 2 * ((y + 0.5) / height)) + jitterY;
+
+                                // Base ray direction
+                                Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + camera.dir).Normalize();
+                                Vector3 localcameraRight = rayDir.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
+                                Vector3 localcameraUp = cameraRight.Cross(rayDir).Normalize();
+
+                                // Apply depth of field (DOF) if enabled
+                                Vector3 rayOrigin = camera.origin;
+                                if (apertureSize > 0)
+                                {
+                                    Vector3 focalPoint = rayOrigin + rayDir * focalPlaneDistance;
+
+                                    var jitter = RandomInUnitCircle() * apertureSize;
+                                    Vector3 apertureOffset = jitter.X * localcameraRight + jitter.Y * localcameraUp;
+                                    rayOrigin += apertureOffset;
+
+                                    rayDir = (focalPoint - rayOrigin).Normalize();
+                                }
+
+                                Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, 3);
+
+                                rSum += sampleColor.R;
+                                gSum += sampleColor.G;
+                                bSum += sampleColor.B;
                             }
 
-                            // Pixel position with jitter
-                            double ndcX = (2 * ((x + 0.5) / width) - 1) * aspectRatio + jitterX;
-                            double ndcY = (1 - 2 * ((y + 0.5) / height)) + jitterY;
+                            int r = (int)(rSum / samplesPerPixel);
+                            int g = (int)(gSum / samplesPerPixel);
+                            int b = (int)(bSum / samplesPerPixel);
 
-                            // Base ray direction
-                            Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + camera.dir).Normalize();
-                            Vector3 localcameraRight = rayDir.Cross(new Vector3(0, 1, 0)).Normalize(); // X-axis in camera space
-                            Vector3 localcameraUp = cameraRight.Cross(rayDir).Normalize();
+                            Color finalColor = Color.FromArgb(
+                                ColorCalculation.Clamp(r, 0, 255),
+                                ColorCalculation.Clamp(g, 0, 255),
+                                ColorCalculation.Clamp(b, 0, 255)
+                            );
 
-                            // Apply depth of field (DOF) if enabled
-                            Vector3 rayOrigin = camera.origin;
-                            if (apertureSize > 0)
+                            pixelBuffer[x, y] = finalColor;
+
+                            // Update progress safely
+                            Interlocked.Increment(ref processedPixels);
+                            if (bar != null && processedPixels % (totalPixels / 100) == 0)
                             {
-                                Vector3 focalPoint = rayOrigin + rayDir * focalPlaneDistance;
-
-                                var jitter = RandomInUnitCircle() * apertureSize;
-                                Vector3 apertureOffset = jitter.X * localcameraRight + jitter.Y * localcameraUp;
-                                rayOrigin += apertureOffset;
-
-                                rayDir = (focalPoint - rayOrigin).Normalize();
+                                int progress = (processedPixels * 100) / totalPixels;
+                                bar.Invoke(new Action(() => bar.Value = progress));
                             }
-
-                            Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, 3);
-
-                            rSum += sampleColor.R;
-                            gSum += sampleColor.G;
-                            bSum += sampleColor.B;
                         }
-
-                        int r = (int)(rSum / samplesPerPixel);
-                        int g = (int)(gSum / samplesPerPixel);
-                        int b = (int)(bSum / samplesPerPixel);
-
-                        Color finalColor = Color.FromArgb(
-                            ColorCalculation.Clamp(r, 0, 255),
-                            ColorCalculation.Clamp(g, 0, 255),
-                            ColorCalculation.Clamp(b, 0, 255)
-                        );
-
-
-                        pixelBuffer[x, y] = finalColor;
-                        //lock (bitmap)
-                        //{
-                        //    bitmap.SetPixel(x, y, finalColor);
-
-                        //    processedPixels++;
-                        //    if (bar != null && processedPixels % (totalPixels / 100) == 0)
-                        //    {
-                        //        int progress = (processedPixels * 100) / totalPixels;
-                        //        bar.Invoke(new Action(() => bar.Value = progress));
-                        //    }
-                        //}
                     }
-                });
+                }
+
+                // Create and start threads
+                for (int i = 0; i < threadCount; i++)
+                {
+                    int startRow = i * rowsPerThread;
+                    int endRow = (i == threadCount - 1) ? height : startRow + rowsPerThread;
+
+                    Thread thread = new Thread(() => RenderRows(startRow, endRow));
+                    threads.Add(thread);
+                    thread.Start();
+                }
+
+                // Wait for all threads to complete
+                foreach (var thread in threads)
+                {
+                    thread.Join();
+                }
             }
 
+            // Copy the pixel buffer to the bitmap
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -419,6 +440,8 @@ namespace RayTracer
 
             bar?.Invoke(new Action(() => bar.Value = 100));
         }
+
+
 
     }
 }

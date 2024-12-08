@@ -23,7 +23,7 @@ namespace Benchmarks
             this.height = height;
             this.renderScenes = renderScenes;
             this.outputFilePath = outputFilePath;
-            tracer.selectedSceneChanged(0);
+            tracer.selectedSceneChanged(2);
             tracer.selectedCameraChanged(0, false);
         }
 
@@ -37,7 +37,7 @@ namespace Benchmarks
             using (StreamWriter writer = new StreamWriter(outputFilePath))
             {
                 writer.WriteLine("Threads,Run,Time (ms)");
-                List<int> num_workers = new List<int> { 1, 2, 4, 8, 12, 16, 20, 32};
+                List<int> num_workers = new List<int> { 2, 4, 8, 12, 16, 20, 32};
 
                 foreach (int workers in num_workers)
                 {
@@ -46,7 +46,7 @@ namespace Benchmarks
                     renderTimes.Clear();
                     //Func<Bitmap> renderScene = renderScenes[sceneIndex];
 
-                    for (int run = -2; run <= 60; run++)
+                    for (int run = -2; run <= 100; run++)
                     {
                         // Measure rendering time
                         stopwatch.Restart();
@@ -58,9 +58,9 @@ namespace Benchmarks
                         if (run >= 0)
                         {
                             renderTimes.Add(elapsedMs);
-                            Console.WriteLine($"Workers {workers}, Run {run}: {elapsedMs} ms");
                             writer.WriteLine($"{workers},{run},{elapsedMs}");
                         }
+                        Console.WriteLine($"Workers {workers}, Run {run}: {elapsedMs} ms");
                     }
 
                     // Write average time for the scene
