@@ -80,9 +80,9 @@ namespace RayTracer
             var knight = ChessLoader.LoadChessPiece("knight.obj", new Vector3(0, 0, 0.22), "Конь");
             knight.SurfaceColor = Color.FromArgb(0, 128, 128);
 
-            return new ObjectScene(new[] { new Sphere(new Vector3(0, 2.5, -3), 1.5, Color.White, 0.5, "Сфера") },
+            return new ObjectScene(null,//new Sphere(new Vector3(0, 2.5, -3), 1.5, Color.White, 0.5, "Сфера") },
                 GetChessWalls(), new[] { knight },
-                cubes: new[] {new Cube(new Vector3(0, 0.5, -3), 1, Color.White, 0, "Подиум")});
+                null);//cubes: new[] {new Cube(new Vector3(0, 0.5, -3), 1, Color.White, 0, "Подиум")});
         }
     }
 }

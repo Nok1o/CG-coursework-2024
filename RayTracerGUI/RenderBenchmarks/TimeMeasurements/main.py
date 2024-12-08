@@ -1,52 +1,44 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 
 def get_avgs_from_file(filename):
     try:
-        df = pd.read_csv(filename)
+        f = open(filename, "r+")
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
         exit()
     except Exception as e:
         print(f"Error reading CSV file: {e}")
-        exit()
+        exit(1)
 
     # Print the first few rows to inspect the data structure
     print("CSV File Loaded Successfully!")
-    print(df.head())
 
-    avgs = []
-    curr_sc = df['Scene'][0]
-    s = 0
-    a = []
-    for i in range(len(df['Run'])):
-        if df['Scene'][i] == curr_sc:
-            #s += df['Time (ms)'][i]
-            a.append(df['Time (ms)'][i])
-        else:
-            #s /= df['Run'][i - 1]
-            a.sort()
-            #avgs.append(s / 1000.0)
-            avgs.append(a[len(a) // 2])
-            a.clear()
-            s = 0
-            curr_sc = df['Scene'][i]
-    #s /= df['Run'][len(df['Run']) - 1]
-    #avgs.append(s / 1000.0)
+    print(line:=f.readline().strip().split(","))
+    if line != ['Threads', 'Run', 'Time (ms)']:
+        print("Unexpected columns!")
+        exit(1)
 
-    a.sort()
-    # avgs.append(s / 1000.0)
-    avgs.append(a[len(a) // 2])
-    a.clear()
-    return avgs
+    workers = []
+    sums = []
+    cur_num_workers = 0
+    while line := f.readline():
+        line = line.split(',')
+        if int(line[0]) != cur_num_workers:
+            cur_num_workers = int(line[0])
+            workers.append(cur_num_workers)
+            sums.append([0, 0])
+        sums[-1][0] += float(line[-1])
+        sums[-1][1] += 1
 
-avgs_knight = get_avgs_from_file('render_times_knight.csv')
-avgs_spheres = get_avgs_from_file('render_times_spheres.csv')
+    return workers, [sm[0] / sm[1] for sm in sums]
+
+avgs_knight = get_avgs_from_file('./bin/x64/Debug/render_times.csv')
+avgs_spheres = get_avgs_from_file('render_times_knight_test.csv')
 
 
 plt.figure(figsize=(8, 5))
-plt.plot([2 ** i for i in range(len(avgs_knight))], avgs_knight, color='skyblue', linestyle='--', marker='v')
-plt.plot([10 * i if i > 0 else 1 for i in range(0, len(avgs_spheres))], avgs_spheres, color='brown', linestyle='-.', marker='p')
+plt.plot(avgs_knight[0], avgs_knight[1], color='skyblue', linestyle='--', marker='v')
+#plt.plot(avgs_spheres[0], avgs_spheres[1], color='brown', linestyle='-.', marker='p')
 plt.legend(['Сцена с конем', "Сцена со сферами"])
 plt.xlabel("Число лучей, используемых для эффекта глубины поля")
 plt.ylabel("Average Render Time (s)")

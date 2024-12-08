@@ -244,10 +244,11 @@ namespace RayTracer
             int processedPixels = 0;
             double pixelWidth = 2.0f / width;
             double pixelHeight = 2.0f / height;
+            Color[,] pixelBuffer = new Color[width, height];
+            bar?.Invoke(new Action(() => bar.Value = 0));
 
             Parallel.For(0, height, y =>
             {
-                Random random = new Random(y);
                 for (int x = 0; x < width; x++)
                 {
                     double rSum = 0, gSum = 0, bSum = 0;
@@ -302,19 +303,29 @@ namespace RayTracer
                         ColorCalculation.Clamp(b, 0, 255)
                     );
 
-                    lock (bitmap)
-                    {
-                        bitmap.SetPixel(x, y, finalColor);
 
-                        processedPixels++;
-                        if (bar != null && processedPixels % (totalPixels / 100) == 0)
-                        {
-                            int progress = (processedPixels * 100) / totalPixels;
-                            bar.Invoke(new Action(() => bar.Value = progress));
-                        }
+                    pixelBuffer[x, y] = finalColor;
+                    //lock (bitmap)
+                    //{
+                    //    bitmap.SetPixel(x, y, finalColor);
+
+                    processedPixels++;
+                    if (bar != null && processedPixels % (totalPixels / 100) == 0)
+                    {
+                        int progress = (processedPixels * 100) / totalPixels;
+                        bar.Invoke(new Action(() => bar.Value = progress));
                     }
+                    //}
                 }
             });
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    bitmap.SetPixel(x, y, pixelBuffer[x, y]);
+                }
+            }
 
             bar?.Invoke(new Action(() => bar.Value = 100));
         }

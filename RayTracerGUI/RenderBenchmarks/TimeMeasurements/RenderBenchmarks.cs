@@ -36,16 +36,17 @@ namespace Benchmarks
             // Open output file for writing
             using (StreamWriter writer = new StreamWriter(outputFilePath))
             {
-                writer.WriteLine("Scene,Run,Time (ms)");
+                writer.WriteLine("Threads,Run,Time (ms)");
+                List<int> num_workers = new List<int> { 1, 2, 4, 8, 12, 16, 20, 32};
 
-                for (int sceneIndex = 0; sceneIndex < 6; sceneIndex++)
+                foreach (int workers in num_workers)
                 {
-                    tracer.setAmountOfParallelWorkers((int) Math.Pow(2, sceneIndex));
+                    tracer.setAmountOfParallelWorkers(workers);
 
                     renderTimes.Clear();
                     //Func<Bitmap> renderScene = renderScenes[sceneIndex];
 
-                    for (int run = 0; run <= 5; run++)
+                    for (int run = -2; run <= 60; run++)
                     {
                         // Measure rendering time
                         stopwatch.Restart();
@@ -54,18 +55,20 @@ namespace Benchmarks
                         stopwatch.Stop();
 
                         double elapsedMs = stopwatch.Elapsed.TotalMilliseconds;
-                        if (run >= 2)
+                        if (run >= 0)
+                        {
                             renderTimes.Add(elapsedMs);
-
-                        // Write to file
-                        writer.WriteLine($"{sceneIndex + 1}, {run}, {elapsedMs}");
-                        Console.WriteLine($"Scene {sceneIndex + 1}, Run {run}: {elapsedMs} ms");
+                            Console.WriteLine($"Workers {workers}, Run {run}: {elapsedMs} ms");
+                            writer.WriteLine($"{workers},{run},{elapsedMs}");
+                        }
                     }
 
                     // Write average time for the scene
+                    renderTimes.Sort();
                     double averageTime = renderTimes.Average();
+                    double medianTime = renderTimes.OrderBy(t => t).ElementAt(renderTimes.Count / 2);
                     //writer.WriteLine($"{sceneIndex + 1}, Average, {averageTime}");
-                    Console.WriteLine($"Scene {sceneIndex + 1}: Average Time = {averageTime} ms");
+                    Console.WriteLine($"Workers {workers}: Average Time = {averageTime} ms, median = {medianTime}ms.");
                 }
             }
 
