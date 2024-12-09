@@ -52,7 +52,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:RayTracing}, captionpos={b}, caption={Алгоритм трассировки лучей}]
+	\begin{lstlisting}[label={lst:RayTracing}, captionpos={t}, caption={Алгоритм трассировки лучей}]
 	private Color TraceRay(Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
 	{
 		if (depth <= 0)
@@ -93,7 +93,7 @@
 На листингах~\ref{lst:SphereIntersection}~-~\ref{lst:ChessIntersection},~\ref{lst:CubeIntersection} приведены алгоритмы пересечения объектов сцены с лучом.
 
 \begin{center}
-	\begin{lstlisting}[label={lst:SphereIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча со сферой}]
+	\begin{lstlisting}[label={lst:SphereIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча со сферой}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 Normal)
 		{
 			Vector3 oc = ray.origin - Center;
@@ -121,7 +121,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
+	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
 		{
 			t = 0;
@@ -146,7 +146,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:TriangleIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
+	\begin{lstlisting}[label={lst:TriangleIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
 		public bool IntersectRay(Ray ray, out double distance, out Vector3 barycentricCoords)
 		{
 			barycentricCoords = new Vector3(0, 0, 0);
@@ -157,7 +157,7 @@
 			double det = edge1.Dot(pvec);
 			const double epsilon = 1e-8;
 			if (Math.Abs(det) < epsilon)
-				return false;
+			return false;
 			
 			double invDet = 1.0 / det;
 			
@@ -165,13 +165,13 @@
 			double u = tvec.Dot(pvec) * invDet;
 			
 			if (u < 0.0 || u > 1.0)
-				return false;
+			return false;
 			
 			Vector3 qvec = tvec.Cross(edge1);
 			double v = ray.dir.Dot(qvec) * invDet;
 			
 			if (v < 0.0 || u + v > 1.0)
-				return false;
+			return false;
 			
 			distance = edge2.Dot(qvec) * invDet;
 			
@@ -186,9 +186,10 @@
 	\end{lstlisting}
 \end{center}
 
+
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:ChessIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
+	\begin{lstlisting}[label={lst:ChessIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
 		public override bool IntersectRay(Ray ray, out double distance, out Vector3 interpolatedNormal)
 		{
 			distance = double.MaxValue;

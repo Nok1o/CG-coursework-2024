@@ -35,4 +35,4 @@
 \contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{37}{figure.caption.18}%
 \contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{38}{figure.caption.18}%
 \contentsline {chapter}{ПРИЛОЖЕНИЕ А}{40}{chapter*.19}%
-\contentsline {chapter}{ПРИЛОЖЕНИЕ Б}{41}{chapter*.19}%
+\contentsline {chapter}{ПРИЛОЖЕНИЕ Б}{42}{lstnumber.4.1.19}%

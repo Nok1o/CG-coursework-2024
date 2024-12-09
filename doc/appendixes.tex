@@ -1,11 +1,6 @@
 \ssr{ПРИЛОЖЕНИЕ А}
-Презентация к курсовой работе содержит \_\_ слайдов.
-
-\clearpage
-
-\ssr{ПРИЛОЖЕНИЕ Б}
 \begin{center}
-	\begin{lstlisting}[label={lst:CubeIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом (начало)}]
+	\begin{lstlisting}[label={lst:CubeIntersection}, caption={Алгоритм поиска точки пересечения луча с кубом (начало)}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
 		{
 			t = double.MaxValue;
@@ -32,26 +27,26 @@
 			double epsilon = 1e-8;
 			
 			if (tMin > tzMax + epsilon || tzMin > tMax + epsilon)
-				return false;
+			return false;
 			
 			tMin = Math.Max(tMin, tzMin);
 			tMax = Math.Min(tMax, tzMax);
 		\end{lstlisting}
-\end{center}	
-
-\setcounter{lstlisting}{0}
-\clearpage
-\begin{center}
-	\begin{lstlisting}[label={lst:CubeIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом (конец)}]
+	\end{center}	
+	
+	\setcounter{lstlisting}{0}
+	\clearpage
+	\begin{center}
+		\begin{lstlisting}[label={lst:CubeIntersection}, caption={Алгоритм поиска точки пересечения луча с кубом (конец)}]
 			if (tMin < 0)
 			{
 				t = tMax;
 				if (tMax < 0) 
-					return false;
+				return false;
 			}
 			else 
-				t = tMin;
-		
+			t = tMin;
+			
 			Vector3 hitPoint = ray.origin + ray.dir * t;
 			if (Math.Abs(hitPoint.X - Min.X) < epsilon) normal = new Vector3(-1, 0, 0);
 			
@@ -64,3 +59,8 @@
 		}
 	\end{lstlisting}
 \end{center}
+
+\clearpage
+
+\ssr{ПРИЛОЖЕНИЕ Б}
+Презентация к курсовой работе содержит \_\_ слайдов.

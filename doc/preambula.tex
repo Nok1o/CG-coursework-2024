@@ -109,8 +109,12 @@
 	breaklines=true,           % автоматически переносить строки (да\нет)
 	breakatwhitespace=false, % переносить строки только если есть пробел
 	escapeinside={\#*}{*)},   % если нужно добавить комментарии в коде
-	abovecaptionskip=-5pt
+	abovecaptionskip=-5pt,
+	caption=\raggedright
 }
+
+\captionsetup[lstlisting]{singlelinecheck=false, justification=raggedright}
+\captionsetup[longtable]{singlelinecheck=false, justification=raggedleft}
 
 \pgfplotsset{width=0.85\linewidth, height=0.5\columnwidth}
 
