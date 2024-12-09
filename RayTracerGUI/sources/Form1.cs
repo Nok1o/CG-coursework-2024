@@ -199,5 +199,10 @@ namespace RayTracer
         {
             tracer.shading = radioButtonPhong.Checked ? RayTracer.Shading.Phong : RayTracer.Shading.Gourand;
         }
+
+        private void maxRecRefl_ValueChanged(object sender, EventArgs e)
+        {
+            tracer.UpdateMaxRecursionDepthReflection((uint) maxRecRefl.Value);
+        }
     }
 }

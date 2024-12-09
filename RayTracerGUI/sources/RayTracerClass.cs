@@ -22,6 +22,8 @@ namespace RayTracer
         public double fov { get; set; } = Math.PI / 3;
         private int selectedScene { get; set; } = 0;
 
+        private uint maxRecursionDepth = 6;
+
         ObjectScene sphereScene = new ObjectScene();
         ObjectScene chessScene = new ObjectScene();
         ObjectScene knightScene = new ObjectScene();
@@ -158,6 +160,11 @@ namespace RayTracer
             }
         }
 
+        public void UpdateMaxRecursionDepthReflection(uint maxRecursionDepth)
+        {
+            this.maxRecursionDepth = maxRecursionDepth;
+        }
+
         public void selectedSceneChanged(int sceneIndex)
         {
             currentScene = sceneDict[selectedScene];
@@ -288,7 +295,7 @@ namespace RayTracer
                             rayDir = (focalPoint - rayOrigin).Normalize();
                         }
 
-                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, 6);
+                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, (int) maxRecursionDepth + 1);
 
                         rSum += sampleColor.R;
                         gSum += sampleColor.G;

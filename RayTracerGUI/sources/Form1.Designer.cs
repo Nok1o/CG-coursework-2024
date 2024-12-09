@@ -46,6 +46,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.FieldOfViewEntry = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.maxRecRefl = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).BeginInit();
@@ -54,6 +56,7 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumRaysEntry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FieldOfViewEntry)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -67,7 +70,7 @@
             // 
             // btnRender
             // 
-            this.btnRender.Location = new System.Drawing.Point(837, 541);
+            this.btnRender.Location = new System.Drawing.Point(838, 552);
             this.btnRender.Name = "btnRender";
             this.btnRender.Size = new System.Drawing.Size(283, 31);
             this.btnRender.TabIndex = 1;
@@ -249,15 +252,17 @@
             this.groupBox1.Controls.Add(this.labelReflectionText);
             this.groupBox1.Controls.Add(this.trackBarReflectiveness);
             this.groupBox1.Controls.Add(this.btnChangeColor);
-            this.groupBox1.Location = new System.Drawing.Point(838, 406);
+            this.groupBox1.Location = new System.Drawing.Point(838, 428);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(283, 129);
+            this.groupBox1.Size = new System.Drawing.Size(283, 118);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Свойства объектов сцены";
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.maxRecRefl);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.NumRaysEntry);
             this.groupBox2.Controls.Add(this.label5);
@@ -272,7 +277,7 @@
             this.groupBox2.Controls.Add(this.radioButtonFresnel);
             this.groupBox2.Location = new System.Drawing.Point(838, 233);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(285, 167);
+            this.groupBox2.Size = new System.Drawing.Size(285, 189);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Параметры сцены";
@@ -388,6 +393,38 @@
             this.label7.TabIndex = 25;
             this.label7.Text = "Поле зрения";
             // 
+            // maxRecRefl
+            // 
+            this.maxRecRefl.Location = new System.Drawing.Point(184, 166);
+            this.maxRecRefl.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.maxRecRefl.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxRecRefl.Name = "maxRecRefl";
+            this.maxRecRefl.Size = new System.Drawing.Size(51, 20);
+            this.maxRecRefl.TabIndex = 22;
+            this.maxRecRefl.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.maxRecRefl.ValueChanged += new System.EventHandler(this.maxRecRefl_ValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(22, 168);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(156, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Глубина рекурсии отражения";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -418,6 +455,7 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumRaysEntry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FieldOfViewEntry)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -454,5 +492,7 @@
         private System.Windows.Forms.NumericUpDown NumRaysEntry;
         private System.Windows.Forms.NumericUpDown FieldOfViewEntry;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown maxRecRefl;
     }
 }

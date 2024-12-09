@@ -8,19 +8,12 @@
 В качестве интегрированной среды разработки была выбрана Microsoft Visual Studio 2022~\cite{VS2022}, предоставляющая достаточный функционал для написания, профилирования и отладки написанной программы, равно как и реализация пользовательского графического интерфейса ПО.
 
 \section{Структура программы}
-На рисунках~\ref{fig:SceneObjects}~-~\ref{fig:ClassDiagram} представлена диаграмма разработанных классов.
+На рисунке~\ref{fig:SceneObjects} представлена диаграмма разработанных классов.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{objects_diagram}
+	\includegraphics[width=1\textwidth]{Class_Diagram_UML}
 	\caption{Диаграмма классов объектов сцены}
 	\label{fig:SceneObjects}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.4\textwidth]{ClassDiagram}
-	\caption{Диаграммы вспомогательных классов}
-	\label{fig:ClassDiagram}
 \end{figure}
 
 Разработанная программа состоит из следующих классов:
@@ -45,6 +38,13 @@
 		\item Wall -- класс, представляющий стену в качестве объекта сцены;
 	\end{itemize}
 	\item ObjectScene -- класс, представляющий сцену объектов. Содержит список всех объектов сцены.
+	\item вспомогательные классы
+	\begin{itemize}
+		\item ChessLoader -- класс, предназначенный для загрузки моделей шахматных фигур из объектных файлов;
+		\item Settings -- класс с настройками для трассировки лучей;
+		\item ColorCalculation -- класс, реализующий логику реализации выбранной модели освещения;
+	\end{itemize}
+	\item RayTracing -- класс, реализующий основную логику приложения.
 \end{enumerate}
 
 \section{Реализация алгоритмов}
@@ -90,7 +90,7 @@
 	\end{lstlisting}
 \end{center}
 
-На листингах~\ref{lst:SphereIntersection}~-~\ref{lst:ChessIntersection} приведены алгоритмы пересечения объектов сцены с лучом.
+На листингах~\ref{lst:SphereIntersection}~-~\ref{lst:ChessIntersection},~\ref{lst:CubeIntersection} приведены алгоритмы пересечения объектов сцены с лучом.
 
 \begin{center}
 	\begin{lstlisting}[label={lst:SphereIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча со сферой}]
@@ -119,6 +119,7 @@
 	\end{lstlisting}
 \end{center}
 
+\clearpage
 \begin{center}
 	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
@@ -141,86 +142,22 @@
 	\end{lstlisting}
 \end{center}
 
-\begin{center}
-	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом}]
-		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
-		{
-			t = double.MaxValue;
-			normal = new Vector3(0, 0, 0);
-			
-			double tMin = (Min.X - ray.origin.X) / ray.dir.X;
-			double tMax = (Max.X - ray.origin.X) / ray.dir.X;
-			
-			if (tMin > tMax) (tMin, tMax) = (tMax, tMin);
-			
-			double tyMin = (Min.Y - ray.origin.Y) / ray.dir.Y;
-			double tyMax = (Max.Y - ray.origin.Y) / ray.dir.Y;
-			
-			if (tyMin > tyMax) (tyMin, tyMax) = (tyMax, tyMin);
-			
-			if ((tMin > tyMax) || (tyMin > tMax))
-			return false;
-			
-			if (tyMin > tMin) tMin = tyMin;
-			if (tyMax < tMax) tMax = tyMax;
-			
-			double tzMin = (Min.Z - ray.origin.Z) / ray.dir.Z;
-			double tzMax = (Max.Z - ray.origin.Z) / ray.dir.Z;
-			
-			if (tzMin > tzMax) (tzMin, tzMax) = (tzMax, tzMin);
-			
-			double epsilon = 1e-8;
-			
-			if (tMin > tzMax + epsilon || tzMin > tMax + epsilon)
-			return false;
-			
-			tMin = Math.Max(tMin, tzMin);
-			tMax = Math.Min(tMax, tzMax);
-			
-			if (tMin < 0)
-			{
-				t = tMax; // If inside the cube, use farther hit
-				if (tMax < 0) 
-				return false;
-			}
-			else
-			{
-				t = tMin;
-			}
-			
-			Vector3 hitPoint = ray.origin + ray.dir * t;
-			
-			if (Math.Abs(hitPoint.X - Min.X) < epsilon) normal = new Vector3(-1, 0, 0); // Left face
-			else if (Math.Abs(hitPoint.X - Max.X) < epsilon) normal = new Vector3(1, 0, 0);  // Right face
-			else if (Math.Abs(hitPoint.Y - Min.Y) < epsilon) normal = new Vector3(0, -1, 0); // Bottom face
-			else if (Math.Abs(hitPoint.Y - Max.Y) < epsilon) normal = new Vector3(0, 1, 0);  // Top face
-			else if (Math.Abs(hitPoint.Z - Min.Z) < epsilon) normal = new Vector3(0, 0, -1); // Front face
-			else if (Math.Abs(hitPoint.Z - Max.Z) < epsilon) normal = new Vector3(0, 0, 1);  // Back face
-			
-			return true;
-		}
-	\end{lstlisting}
-\end{center}
+Реализация алгоритма пересечения луча трассировки с кубом представлена в листинге~\ref{lst:CubeIntersection} (см. приложение Б).
 
-
+\clearpage
 \begin{center}
 	\begin{lstlisting}[label={lst:TriangleIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
 		public bool IntersectRay(Ray ray, out double distance, out Vector3 barycentricCoords)
 		{
 			barycentricCoords = new Vector3(0, 0, 0);
 			distance = 0;
-			
 			Vector3 edge1 = Vertex2 - Vertex1;
 			Vector3 edge2 = Vertex3 - Vertex1;
-			
 			Vector3 pvec = ray.dir.Cross(edge2);
 			double det = edge1.Dot(pvec);
-			
 			const double epsilon = 1e-8;
 			if (Math.Abs(det) < epsilon)
-			{
-				return false; // Ray is parallel to the triangle
-			}
+				return false;
 			
 			double invDet = 1.0 / det;
 			
@@ -228,17 +165,13 @@
 			double u = tvec.Dot(pvec) * invDet;
 			
 			if (u < 0.0 || u > 1.0)
-			{
 				return false;
-			}
 			
 			Vector3 qvec = tvec.Cross(edge1);
 			double v = ray.dir.Dot(qvec) * invDet;
 			
 			if (v < 0.0 || u + v > 1.0)
-			{
 				return false;
-			}
 			
 			distance = edge2.Dot(qvec) * invDet;
 			
@@ -253,6 +186,7 @@
 	\end{lstlisting}
 \end{center}
 
+\clearpage
 \begin{center}
 	\begin{lstlisting}[label={lst:ChessIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
 		public override bool IntersectRay(Ray ray, out double distance, out Vector3 interpolatedNormal)
@@ -287,6 +221,36 @@
 	\end{lstlisting}
 \end{center}
 
+\section{Функциональное тестирование}
+В таблице \ref{tab:func} приведены функциональные тесты для программы, визуализирующей трехмерные сцены объектов. Все тесты пройдены программой успешно.
+
+	
+\begin{longtable}{|r|c|c|c|}
+	\caption{\label{tab:func}Функциональные тесты (начало)} \\ \hline
+	№ & \makecell{Состояние программы \\ до теста} & Изменяемый параметр/событие & Ожидаемый результат \\ \hline
+	\endfirsthead
+	\caption[]{Функциональные тесты (окончание табл. \ref{tab:func})} \\ \hline
+	№ & \makecell{Состояние программы \\ до теста} & Изменяемый параметр/событие & Ожидаемый результат \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	\hline
+	\endlastfoot
+	
+	1 & --- & \makecell{Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами и первой\\камерой} \\ \hline
+	2 & --- & \makecell{Выбор сцены \\<<Сцена с шахматными \\фигурами>>;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\шахматными фигурами и\\ первой камерой} \\ \hline
+	3 & --- & \makecell{Выбор сцены \\<<Сцена с конем и сферой>>;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\конем, кубом и сферой} \\ \hline
+	4 & \makecell{Выбрана и\\визуализирована\\сцена с двумя сферами} & \makecell{Выбор камеры №2\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами и второй\\камерой} \\ \hline
+	5 & \makecell{Выбрана и\\визуализирована\\сцена с двумя сферами} & \makecell{Выбор камеры №3\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами и третьей\\камерой} \\ \hline
+	6 & \makecell{Выбрана и \\визуализирована \\сцена с двумя сферами и \\третьей камерой} & \makecell{Изменение поля зрения\\на 90 градусов\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами и третьей\\камерой с углом\\обзора 90 градусов} \\ \hline
+	7 & \makecell{Выбрана и \\визуализирована \\сцена с конем и сферой\\и третьей камерой} & \makecell{Выбор фигуры коня нажатием\\левой кнопки мыши;\\Изменение цвета коня\\на желтый;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\желтым конем и сферой\\с третьей камерой} \\ \hline
+	8 & \makecell{Выбрана и \\визуализирована \\сцена с конем и сферой\\и третьей камерой} & \makecell{Выбор куба в \\списке объектов;\\Изменение зеркальности\\куба на 95\%;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\конем, зеркальным кубом\\ и сферой с третьей\\камерой} \\ \hline
+	9 & \makecell{Выбрана и \\визуализирована \\сцена с двумя сферами\\и первой камерой} & \makecell{Увеличение интенсивности \\света до 50\%;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами с первой\\камерой и с \\интенсивностью\\ освещения 50\% \\от максимальной} \\ \hline
+	10 & \makecell{Выбрана и \\визуализирована \\сцена с двумя сферами\\и первой камерой} & \makecell{Включение сглаживания;\\Изменение числа лучей на 64;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами с первой\\камерой и с сглаживаем} \\ \hline
+	11 & \makecell{Выбрана и \\визуализирована \\сцена с двумя сферами\\и первой камерой} & \makecell{Включение глубины поля;\\Изменение расстояния до\\фокальной точки на 8;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами с первой\\камерой и с эффектом \\глубины поля} \\ \hline
+	12 & \makecell{Выбрана и \\визуализирована \\сцена с двумя сферами\\и первой камерой} & \makecell{Изменение типа закраски\\на метод Гуро;\\Нажатие кнопки\\<<Визуализировать>>} & \makecell{Визуализация сцены с \\двумя сферами с первой\\камерой с помощью \\закраски Гуро} \\ \hline
+\end{longtable}
+
 \section{Интерфейс программного обеспечения}
 На рисунке~\ref{fig:InterfaceDemoStart} приведена демонстрация интерфейса программы при ее запуске.
 \begin{figure}[H]
@@ -302,7 +266,7 @@
 
 Ниже перечисленных элементов графического интерфейса расположено окно <<Список объектов сцены>>, который заполняется наименованиями объектов сцены при нажатии кнопки <<Визуализировать>>. В данном элементе можно выбирать объекты сцены нажатием левой кнопки мыши на нужную строку для изменения свойств выбранного объекта.
 
-Группа параметров <<Параметры сцены>> позволяет настроить общие для всех объектов параметры. Пользователю предоставлена возможность изменить интенсивность источника света, включить сглаживание (Anti-Aliasing)~\cite{Anti-aliasing} и глубину поля (Depth Of Field), выбрать число лучей для двух описанных эффектов, изменить расстояние от камеры до фокальной плоскости (плоскость всегда перпендикулярна направлению взгляда), а также выбрать алгоритм закраски -- по методу Фонга или по методу Гуро.
+Группа параметров <<Параметры сцены>> позволяет настроить общие для всех объектов параметры. Пользователю предоставлена возможность изменить интенсивность источника света, включить сглаживание (Anti-Aliasing)~\cite{Anti-aliasing} и глубину поля (Depth Of Field), выбрать число лучей для двух описанных эффектов, изменить расстояние от камеры до фокальной точки (расстояние измеряется по вектору направлению взгляда), а также выбрать алгоритм закраски -- по методу Фонга или по методу Гуро.
 
 Группа параметров <<Свойства объектов сцены>> позволяет настроить зеркальность поверхности выбранного объекта и его цвет. Пример выбора объекта сцены и изменения его зеркальности приведен на рисунке~\ref{fig:ChoosingObjectDemo}.
 

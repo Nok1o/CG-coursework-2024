@@ -1,2 +1,66 @@
 \ssr{ПРИЛОЖЕНИЕ А}
 Презентация к курсовой работе содержит \_\_ слайдов.
+
+\clearpage
+
+\ssr{ПРИЛОЖЕНИЕ Б}
+\begin{center}
+	\begin{lstlisting}[label={lst:CubeIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом (начало)}]
+		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
+		{
+			t = double.MaxValue;
+			normal = new Vector3(0, 0, 0);
+			double tMin = (Min.X - ray.origin.X) / ray.dir.X;
+			double tMax = (Max.X - ray.origin.X) / ray.dir.X;
+			
+			if (tMin > tMax) (tMin, tMax) = (tMax, tMin);
+			
+			double tyMin = (Min.Y - ray.origin.Y) / ray.dir.Y;
+			double tyMax = (Max.Y - ray.origin.Y) / ray.dir.Y;
+			
+			if (tyMin > tyMax) (tyMin, tyMax) = (tyMax, tyMin);
+			if ((tMin > tyMax) || (tyMin > tMax)) return false;
+			
+			if (tyMin > tMin) tMin = tyMin;
+			if (tyMax < tMax) tMax = tyMax;
+			
+			double tzMin = (Min.Z - ray.origin.Z) / ray.dir.Z;
+			double tzMax = (Max.Z - ray.origin.Z) / ray.dir.Z;
+			
+			if (tzMin > tzMax) (tzMin, tzMax) = (tzMax, tzMin);
+			
+			double epsilon = 1e-8;
+			
+			if (tMin > tzMax + epsilon || tzMin > tMax + epsilon)
+				return false;
+			
+			tMin = Math.Max(tMin, tzMin);
+			tMax = Math.Min(tMax, tzMax);
+		\end{lstlisting}
+\end{center}	
+
+\setcounter{lstlisting}{0}
+\clearpage
+\begin{center}
+	\begin{lstlisting}[label={lst:CubeIntersection}, captionpos={b}, caption={Алгоритм поиска точки пересечения луча с кубом (конец)}]
+			if (tMin < 0)
+			{
+				t = tMax;
+				if (tMax < 0) 
+					return false;
+			}
+			else 
+				t = tMin;
+		
+			Vector3 hitPoint = ray.origin + ray.dir * t;
+			if (Math.Abs(hitPoint.X - Min.X) < epsilon) normal = new Vector3(-1, 0, 0);
+			
+			else if (Math.Abs(hitPoint.X - Max.X) < epsilon) normal = new Vector3(1, 0, 0);
+			else if (Math.Abs(hitPoint.Y - Min.Y) < epsilon) normal = new Vector3(0, -1, 0);
+			else if (Math.Abs(hitPoint.Y - Max.Y) < epsilon) normal = new Vector3(0, 1, 0);
+			else if (Math.Abs(hitPoint.Z - Min.Z) < epsilon) normal = new Vector3(0, 0, -1);
+			else if (Math.Abs(hitPoint.Z - Max.Z) < epsilon) normal = new Vector3(0, 0, 1);
+			return true;
+		}
+	\end{lstlisting}
+\end{center}
