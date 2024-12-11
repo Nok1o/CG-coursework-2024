@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RayTracer.Properties {
+namespace RayTracerGUI.Properties {
     using System;
     
     

@@ -69,6 +69,14 @@ namespace RayTracer
             var pawn7 = ChessLoader.LoadChessPiece("pawn.obj", new Vector3(0.78 * 4 + 0.59 * 3, 0, 2.5), "Пешка");
             var pawn8 = ChessLoader.LoadChessPiece("pawn.obj", new Vector3(-(0.78 * 4 + 0.59 * 3), 0, 2.5), "Пешка");
 
+            pawn2.SurfaceColor = Color.Aqua;
+            pawn4.SurfaceColor = Color.Brown;
+            rook1.SurfaceColor = Color.Cyan;
+            bishop1.SurfaceColor = Color.DarkGreen;
+            knight2.SurfaceColor = Color.DarkOrange;
+            queen.SurfaceColor = Color.DarkRed;
+            king.SurfaceColor = Color.DarkViolet;
+
             return new ObjectScene(null, GetChessWalls(), new [] { 
                 king, queen, bishop1, bishop2, knight1, knight2, rook1, rook2,
                 pawn1, pawn2, pawn3, pawn4, pawn5, pawn6, pawn7, pawn8    

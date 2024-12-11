@@ -31,6 +31,12 @@ namespace RayTracer
 
         public static Vector3 operator /(double scalar, Vector3 a) => new Vector3(a.X / scalar, a.Y / scalar, a.Z / scalar);
 
+        public static bool operator ==(Vector3 a, Vector3 b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+        public static bool operator !=(Vector3 a, Vector3 b) => a.X != b.X || a.Y == b.Y || a.Z == b.Z;
+
+        public bool Equals(Vector3 a) => a.X == X && a.Y == Y && a.Z == Z;
+
+
 
         public double this[int num]
         {

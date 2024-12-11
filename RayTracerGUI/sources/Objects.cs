@@ -192,14 +192,19 @@ namespace RayTracer
 
             private void CalculateBoundingSphere()
             {
+                // Step 1: Compute the center
                 Vector3 sum = new Vector3(0, 0, 0);
+                int vertexCount = 0;
 
                 foreach (var triangle in Triangles)
-                    sum += (triangle.Vertex1 + triangle.Vertex2 + triangle.Vertex3) / 3;
+                {
+                    sum += triangle.Vertex1 + triangle.Vertex2 + triangle.Vertex3;
+                    vertexCount += 3;
+                }
 
-                Vector3 center = sum / Triangles.Length; // center of bounding sphere
+                Vector3 center = sum / vertexCount;
 
-                // finding radius as max distance from center
+                // Step 2: Compute the radius as the max distance from the center
                 double maxDistance = 0;
                 foreach (var triangle in Triangles)
                 {
@@ -208,8 +213,10 @@ namespace RayTracer
                     maxDistance = Math.Max(maxDistance, (triangle.Vertex3 - center).Length());
                 }
 
+                // Step 3: Set the bounding sphere
                 BoundingSphere = new Sphere(center, maxDistance, Color.Empty, 0);
             }
+
         }
 
 
@@ -229,23 +236,58 @@ namespace RayTracer
 
             public override bool IntersectRay(Ray ray, out double t, out Vector3 Normal)
             {
+                t = 0;
+                Normal = new Vector3(0, 0, 0);
+
                 Vector3 oc = ray.origin - Center;
                 double a = ray.dir.Dot(ray.dir);
                 double b = 2.0 * oc.Dot(ray.dir);
                 double c = oc.Dot(oc) - Radius * Radius;
                 double discriminant = b * b - 4 * a * c;
-                Normal = null;
+
+                double sqrtDiscriminant = Math.Sqrt(discriminant);
+                double t1 = (-b - sqrtDiscriminant) / (2.0 * a); // Closest intersection
+                double t2 = (-b + sqrtDiscriminant) / (2.0 * a); // Farther intersection
+
+                if (t1 > 0)
+                {
+                    // Ray origin is outside the sphere, and t1 is the closest intersection
+                    t = t1;
+                }
+                else if (t2 > 0)
+                {
+                    // Ray origin is inside the sphere, and t2 is the first valid intersection
+                    t = t2;
+                }
+                else
+                {
+                    // Both intersections are behind the ray
+                    return false;
+                }
+
+                // Compute the intersection normal
+                Vector3 hitPoint = ray.origin + ray.dir * t;
+                Normal = (hitPoint - Center).Normalize();
+                return true;
+            }
+
+            public bool IntersectRayForShadow(Ray ray, out double t)
+            {
+                t = 0;
+
+                Vector3 oc = ray.origin - Center;
+                double a = ray.dir.Dot(ray.dir);
+                double b = 2.0 * oc.Dot(ray.dir);
+                double c = oc.Dot(oc) - Radius * Radius;
+                double discriminant = b * b - 4 * a * c;
 
                 if (discriminant < 0)
                 {
-                    t = 0;
+                    // No intersection
                     return false;
                 }
 
                 t = (-b - Math.Sqrt(discriminant)) / (2.0 * a);
-
-                if (t > 0)
-                    Normal = (ray.origin + ray.dir * t - Center).Normalize();
 
                 return t > 0;
             }

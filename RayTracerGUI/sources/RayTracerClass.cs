@@ -11,8 +11,6 @@ namespace RayTracer
 {
     public partial class RayTracer
     {
-        //private double reflectionFactor { get; set; } = 0.5;
-
         public enum Shading {Phong, Gourand};
 
         public Shading shading = Shading.Phong;
@@ -91,17 +89,6 @@ namespace RayTracer
 
         private AbstractObject getObjectByTypeIndex(string type, int index)
         {
-            //int i = -1;
-            //int j = 0;
-            //while (i < index && j < currentScene.objects.Count)
-            //{
-            //    if (currentScene.objects[j].GetType().Name == type)
-            //    {
-            //        i++;
-            //    }
-            //    else if (i == -1) i = 0;
-            //    j++;
-            //}
             return currentScene.objects[index];
         }
 
@@ -214,6 +201,7 @@ namespace RayTracer
 
             RenderScene(bitmap, width, height, backgroundColor, antiAliasing, DOF, focalPlaneDistance, numRays, bar);
 
+            bitmap.Save("out.wmf", System.Drawing.Imaging.ImageFormat.Wmf);
             return bitmap;
         }
 

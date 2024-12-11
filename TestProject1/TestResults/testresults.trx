@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="02956798-ebc8-466c-8157-059c9e53f44d" name="nikit@LOVELY-PCBEAST 2024-12-10 22:48:26" runUser="LOVELY-PCBEAST\nikit" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2024-12-10T22:48:26.6920662+03:00" queuing="2024-12-10T22:48:26.6920666+03:00" start="2024-12-10T22:48:26.2767447+03:00" finish="2024-12-10T22:48:26.7107677+03:00" />
+  <TestSettings name="default" id="cf53f41e-2c4e-4762-bc90-32a4250fcb92">
+    <Deployment runDeploymentRoot="nikit_LOVELY-PCBEAST_2024-12-10_22_48_26" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7ef24f7a-a13c-4bbe-9e52-7f858aaec719" testId="9a168abe-17b0-11ca-c043-80368bebb2f2" testName="TestProject1.Vector3Tests.Constructor_SetsValuesCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000378" startTime="2024-12-10T22:48:26.6774170+03:00" endTime="2024-12-10T22:48:26.6774170+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ef24f7a-a13c-4bbe-9e52-7f858aaec719" />
+    <UnitTestResult executionId="d8d31c0c-2de5-421b-8a9e-b0d35032082e" testId="0dca0a91-7014-a9c1-2d3f-9c8c0bb30615" testName="TestProject1.IntersectRayTests.CubeIntersectRay_MissesCube" computerName="LOVELY-PCBEAST" duration="00:00:00.0005944" startTime="2024-12-10T22:48:26.6612913+03:00" endTime="2024-12-10T22:48:26.6612914+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d8d31c0c-2de5-421b-8a9e-b0d35032082e" />
+    <UnitTestResult executionId="57b04498-88c3-46a1-a25b-62c5ae0535f8" testId="0048ab4c-7d82-9073-264b-f833f4628a32" testName="TestProject1.Vector3Tests.ScalarMultiplicationOperator_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000397" startTime="2024-12-10T22:48:26.6770981+03:00" endTime="2024-12-10T22:48:26.6770981+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57b04498-88c3-46a1-a25b-62c5ae0535f8" />
+    <UnitTestResult executionId="bd815aaf-5f8e-4b15-8e5a-8f2f9dc70790" testId="e43cddfc-4514-0f64-5913-9f3399ab1f6d" testName="TestProject1.IntersectRayTests.ChessPieceIntersectRay_MissesTriangle" computerName="LOVELY-PCBEAST" duration="00:00:00.0025024" startTime="2024-12-10T22:48:26.6606079+03:00" endTime="2024-12-10T22:48:26.6606079+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bd815aaf-5f8e-4b15-8e5a-8f2f9dc70790" />
+    <UnitTestResult executionId="9b07b2f9-1b21-4419-85f2-afb44e13d911" testId="a82c4954-c9e5-f6d8-dd34-9e3003f733bc" testName="TestProject1.Vector3Tests.Length_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000349" startTime="2024-12-10T22:48:26.6773960+03:00" endTime="2024-12-10T22:48:26.6773960+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9b07b2f9-1b21-4419-85f2-afb44e13d911" />
+    <UnitTestResult executionId="17970ae7-6642-46b8-babb-f076e65eed6c" testId="3576c7f7-6b37-3e10-2ac6-85d562afd58c" testName="TestProject1.ColorCalculationTests.TestShadowCalculation" computerName="LOVELY-PCBEAST" duration="00:00:00.0003741" startTime="2024-12-10T22:48:26.6771627+03:00" endTime="2024-12-10T22:48:26.6771627+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="17970ae7-6642-46b8-babb-f076e65eed6c" />
+    <UnitTestResult executionId="57033b51-99be-418a-be25-f2bdfd26680f" testId="b377a320-a4ae-29b0-d218-8e04904328ef" testName="TestProject1.ColorCalculationTests.TestMixColors" computerName="LOVELY-PCBEAST" duration="00:00:00.0001259" startTime="2024-12-10T22:48:26.6774106+03:00" endTime="2024-12-10T22:48:26.6774107+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57033b51-99be-418a-be25-f2bdfd26680f" />
+    <UnitTestResult executionId="59a3399d-9114-41b2-b207-b73d812dce8b" testId="bcb6c19e-b5b1-6463-4a2b-559325012133" testName="TestProject1.Vector3Tests.Indexer_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0004082" startTime="2024-12-10T22:48:26.6771803+03:00" endTime="2024-12-10T22:48:26.6771803+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59a3399d-9114-41b2-b207-b73d812dce8b" />
+    <UnitTestResult executionId="843ba399-e72b-49df-9cd2-569ac650489a" testId="ff08d2a0-c55b-70ce-99f0-08fed51740b5" testName="TestProject1.Vector3Tests.Normalize_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000635" startTime="2024-12-10T22:48:26.6611336+03:00" endTime="2024-12-10T22:48:26.6611337+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="843ba399-e72b-49df-9cd2-569ac650489a" />
+    <UnitTestResult executionId="35c877fc-f437-43e7-b221-cb3e0c2f31b8" testId="58ef29d2-9444-b7cd-9c50-095a110feb49" testName="TestProject1.Vector3Tests.ScalarDivisionOperator_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000483" startTime="2024-12-10T22:48:26.6773808+03:00" endTime="2024-12-10T22:48:26.6773809+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35c877fc-f437-43e7-b221-cb3e0c2f31b8" />
+    <UnitTestResult executionId="96417ca2-f81c-4f14-bb76-646b3104920f" testId="73c170b9-b701-2f5b-aba8-77560ade0960" testName="TestProject1.Vector3Tests.Reflect_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000684" startTime="2024-12-10T22:48:26.6764128+03:00" endTime="2024-12-10T22:48:26.6764129+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96417ca2-f81c-4f14-bb76-646b3104920f" />
+    <UnitTestResult executionId="365f94d9-546b-4e6b-8194-4002919e1683" testId="cc90c9a1-cc07-518a-49d2-4374ad78c925" testName="TestProject1.Vector3Tests.SubtractionOperator_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0021716" startTime="2024-12-10T22:48:26.6607429+03:00" endTime="2024-12-10T22:48:26.6607430+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="365f94d9-546b-4e6b-8194-4002919e1683" />
+    <UnitTestResult executionId="70ae3d87-735d-435e-a3a4-becfe4a60445" testId="a0a20699-5ccb-fbb9-04f6-3cc0d35ab495" testName="TestProject1.IntersectRayTests.SphereIntersectRay_MissesSphere" computerName="LOVELY-PCBEAST" duration="00:00:00.0000596" startTime="2024-12-10T22:48:26.6771569+03:00" endTime="2024-12-10T22:48:26.6771569+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="70ae3d87-735d-435e-a3a4-becfe4a60445" />
+    <UnitTestResult executionId="df8db61d-2b12-4524-aeaa-e9f2424d23e7" testId="3bcb34bb-c333-aeac-6099-05b8ee5c9f54" testName="TestProject1.ColorCalculationTests.TestCombineLighting" computerName="LOVELY-PCBEAST" duration="00:00:00.0001826" startTime="2024-12-10T22:48:26.6771769+03:00" endTime="2024-12-10T22:48:26.6771769+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df8db61d-2b12-4524-aeaa-e9f2424d23e7" />
+    <UnitTestResult executionId="eef80bd3-af59-47bb-8e38-fec96d9b72e0" testId="460e0796-c857-900a-8a29-9b372ec37074" testName="TestProject1.IntersectRayTests.CubeIntersectRay_HitsCube" computerName="LOVELY-PCBEAST" duration="00:00:00.0000746" startTime="2024-12-10T22:48:26.6771448+03:00" endTime="2024-12-10T22:48:26.6771448+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eef80bd3-af59-47bb-8e38-fec96d9b72e0" />
+    <UnitTestResult executionId="645d6623-082c-40d9-9713-9b45a333338c" testId="1f2d9f6a-882b-84aa-6361-f9a475568f8e" testName="TestProject1.ColorCalculationTests.TestCalculateAmbientLighting" computerName="LOVELY-PCBEAST" duration="00:00:00.0014396" startTime="2024-12-10T22:48:26.6613194+03:00" endTime="2024-12-10T22:48:26.6613195+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="645d6623-082c-40d9-9713-9b45a333338c" />
+    <UnitTestResult executionId="f48128b2-0545-4d54-a180-7268fcf02918" testId="0a50f363-4bfc-3dc9-5e5f-e8a2fb2a3254" testName="TestProject1.ColorCalculationTests.TestCalculatePhongSpecular" computerName="LOVELY-PCBEAST" duration="00:00:00.0028395" startTime="2024-12-10T22:48:26.6593783+03:00" endTime="2024-12-10T22:48:26.6593894+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f48128b2-0545-4d54-a180-7268fcf02918" />
+    <UnitTestResult executionId="c2c37480-2b37-405a-8380-8dec0a6e45fa" testId="41b76348-fc1c-92fd-b31f-984480d125fd" testName="TestProject1.IntersectRayTests.SphereIntersectRay_HitsSphere" computerName="LOVELY-PCBEAST" duration="00:00:00.0000903" startTime="2024-12-10T22:48:26.6763709+03:00" endTime="2024-12-10T22:48:26.6763710+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2c37480-2b37-405a-8380-8dec0a6e45fa" />
+    <UnitTestResult executionId="18854e4e-3781-4285-9d5e-6b64efa92920" testId="432209c1-9d26-20ae-80b3-4a360d9fa2a4" testName="TestProject1.IntersectRayTests.WallIntersectRay_MissesWall" computerName="LOVELY-PCBEAST" duration="00:00:00.0002606" startTime="2024-12-10T22:48:26.6613078+03:00" endTime="2024-12-10T22:48:26.6613078+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18854e4e-3781-4285-9d5e-6b64efa92920" />
+    <UnitTestResult executionId="b05df28f-c1e3-4ee4-b336-7eaf869e210d" testId="b09110a6-f65a-c82f-ca81-d2bab147d589" testName="TestProject1.Vector3Tests.CrossProduct_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000620" startTime="2024-12-10T22:48:26.6763555+03:00" endTime="2024-12-10T22:48:26.6763555+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b05df28f-c1e3-4ee4-b336-7eaf869e210d" />
+    <UnitTestResult executionId="647b8712-aa27-4170-8a91-267df5c513f1" testId="9af1ce2b-dfd3-e840-89ff-f9343368ec39" testName="TestProject1.Vector3Tests.DotProduct_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0013688" startTime="2024-12-10T22:48:26.6762409+03:00" endTime="2024-12-10T22:48:26.6762410+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="647b8712-aa27-4170-8a91-267df5c513f1" />
+    <UnitTestResult executionId="dcec25bf-8676-422f-99de-7408b3fde504" testId="18578028-1e47-09b4-9c5e-6dfe7ee4176b" testName="TestProject1.ColorCalculationTests.TestCalculateFresnelSpecular" computerName="LOVELY-PCBEAST" duration="00:00:00.0001722" startTime="2024-12-10T22:48:26.6764007+03:00" endTime="2024-12-10T22:48:26.6764007+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dcec25bf-8676-422f-99de-7408b3fde504" />
+    <UnitTestResult executionId="cde6a4aa-afc3-4a14-9afa-0f10793c86a2" testId="72d206cd-525e-91a6-6985-2d7ac0d2f491" testName="TestProject1.IntersectRayTests.ChessPieceIntersectRay_HitsTriangle" computerName="LOVELY-PCBEAST" duration="00:00:00.0005786" startTime="2024-12-10T22:48:26.6763393+03:00" endTime="2024-12-10T22:48:26.6763393+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cde6a4aa-afc3-4a14-9afa-0f10793c86a2" />
+    <UnitTestResult executionId="38c4dda5-669c-4521-bd83-60ff0e9ce96d" testId="16454dbe-3938-6028-de7f-12f3494326b9" testName="TestProject1.IntersectRayTests.WallIntersectRay_HitsWall" computerName="LOVELY-PCBEAST" duration="00:00:00.0001639" startTime="2024-12-10T22:48:26.6771165+03:00" endTime="2024-12-10T22:48:26.6771166+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38c4dda5-669c-4521-bd83-60ff0e9ce96d" />
+    <UnitTestResult executionId="46911fe2-e709-4367-a132-120bdec817ba" testId="523c4b49-294f-3e00-0686-a717395b6cbc" testName="TestProject1.Vector3Tests.AdditionOperator_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000407" startTime="2024-12-10T22:48:26.6763850+03:00" endTime="2024-12-10T22:48:26.6763850+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46911fe2-e709-4367-a132-120bdec817ba" />
+    <UnitTestResult executionId="cf56ffa6-e123-443e-8464-863efa39da19" testId="2d3b4d66-4881-c5c5-1195-80de37cc7f54" testName="TestProject1.Vector3Tests.UnaryNegationOperator_WorksCorrectly" computerName="LOVELY-PCBEAST" duration="00:00:00.0000575" startTime="2024-12-10T22:48:26.6771325+03:00" endTime="2024-12-10T22:48:26.6771325+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf56ffa6-e123-443e-8464-863efa39da19" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestShadowCalculation" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="3576c7f7-6b37-3e10-2ac6-85d562afd58c">
+      <Execution id="17970ae7-6642-46b8-babb-f076e65eed6c" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestShadowCalculation" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.Normalize_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="ff08d2a0-c55b-70ce-99f0-08fed51740b5">
+      <Execution id="843ba399-e72b-49df-9cd2-569ac650489a" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="Normalize_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.ScalarMultiplicationOperator_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="0048ab4c-7d82-9073-264b-f833f4628a32">
+      <Execution id="57b04498-88c3-46a1-a25b-62c5ae0535f8" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="ScalarMultiplicationOperator_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.CubeIntersectRay_HitsCube" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="460e0796-c857-900a-8a29-9b372ec37074">
+      <Execution id="eef80bd3-af59-47bb-8e38-fec96d9b72e0" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="CubeIntersectRay_HitsCube" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.DotProduct_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="9af1ce2b-dfd3-e840-89ff-f9343368ec39">
+      <Execution id="647b8712-aa27-4170-8a91-267df5c513f1" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="DotProduct_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestMixColors" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="b377a320-a4ae-29b0-d218-8e04904328ef">
+      <Execution id="57033b51-99be-418a-be25-f2bdfd26680f" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestMixColors" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.SphereIntersectRay_MissesSphere" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="a0a20699-5ccb-fbb9-04f6-3cc0d35ab495">
+      <Execution id="70ae3d87-735d-435e-a3a4-becfe4a60445" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="SphereIntersectRay_MissesSphere" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.ScalarDivisionOperator_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="58ef29d2-9444-b7cd-9c50-095a110feb49">
+      <Execution id="35c877fc-f437-43e7-b221-cb3e0c2f31b8" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="ScalarDivisionOperator_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestCalculateAmbientLighting" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="1f2d9f6a-882b-84aa-6361-f9a475568f8e">
+      <Execution id="645d6623-082c-40d9-9713-9b45a333338c" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestCalculateAmbientLighting" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.CubeIntersectRay_MissesCube" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="0dca0a91-7014-a9c1-2d3f-9c8c0bb30615">
+      <Execution id="d8d31c0c-2de5-421b-8a9e-b0d35032082e" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="CubeIntersectRay_MissesCube" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.CrossProduct_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="b09110a6-f65a-c82f-ca81-d2bab147d589">
+      <Execution id="b05df28f-c1e3-4ee4-b336-7eaf869e210d" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="CrossProduct_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestCombineLighting" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="3bcb34bb-c333-aeac-6099-05b8ee5c9f54">
+      <Execution id="df8db61d-2b12-4524-aeaa-e9f2424d23e7" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestCombineLighting" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.WallIntersectRay_MissesWall" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="432209c1-9d26-20ae-80b3-4a360d9fa2a4">
+      <Execution id="18854e4e-3781-4285-9d5e-6b64efa92920" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="WallIntersectRay_MissesWall" />
+    </UnitTest>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestCalculatePhongSpecular" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="0a50f363-4bfc-3dc9-5e5f-e8a2fb2a3254">
+      <Execution id="f48128b2-0545-4d54-a180-7268fcf02918" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestCalculatePhongSpecular" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.Reflect_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="73c170b9-b701-2f5b-aba8-77560ade0960">
+      <Execution id="96417ca2-f81c-4f14-bb76-646b3104920f" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="Reflect_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.UnaryNegationOperator_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="2d3b4d66-4881-c5c5-1195-80de37cc7f54">
+      <Execution id="cf56ffa6-e123-443e-8464-863efa39da19" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="UnaryNegationOperator_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.WallIntersectRay_HitsWall" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="16454dbe-3938-6028-de7f-12f3494326b9">
+      <Execution id="38c4dda5-669c-4521-bd83-60ff0e9ce96d" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="WallIntersectRay_HitsWall" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.ChessPieceIntersectRay_HitsTriangle" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="72d206cd-525e-91a6-6985-2d7ac0d2f491">
+      <Execution id="cde6a4aa-afc3-4a14-9afa-0f10793c86a2" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="ChessPieceIntersectRay_HitsTriangle" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.Indexer_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="bcb6c19e-b5b1-6463-4a2b-559325012133">
+      <Execution id="59a3399d-9114-41b2-b207-b73d812dce8b" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="Indexer_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.SubtractionOperator_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="cc90c9a1-cc07-518a-49d2-4374ad78c925">
+      <Execution id="365f94d9-546b-4e6b-8194-4002919e1683" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="SubtractionOperator_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.ColorCalculationTests.TestCalculateFresnelSpecular" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="18578028-1e47-09b4-9c5e-6dfe7ee4176b">
+      <Execution id="dcec25bf-8676-422f-99de-7408b3fde504" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.ColorCalculationTests" name="TestCalculateFresnelSpecular" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.Constructor_SetsValuesCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="9a168abe-17b0-11ca-c043-80368bebb2f2">
+      <Execution id="7ef24f7a-a13c-4bbe-9e52-7f858aaec719" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="Constructor_SetsValuesCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.AdditionOperator_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="523c4b49-294f-3e00-0686-a717395b6cbc">
+      <Execution id="46911fe2-e709-4367-a132-120bdec817ba" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="AdditionOperator_WorksCorrectly" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.SphereIntersectRay_HitsSphere" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="41b76348-fc1c-92fd-b31f-984480d125fd">
+      <Execution id="c2c37480-2b37-405a-8380-8dec0a6e45fa" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="SphereIntersectRay_HitsSphere" />
+    </UnitTest>
+    <UnitTest name="TestProject1.IntersectRayTests.ChessPieceIntersectRay_MissesTriangle" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="e43cddfc-4514-0f64-5913-9f3399ab1f6d">
+      <Execution id="bd815aaf-5f8e-4b15-8e5a-8f2f9dc70790" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.IntersectRayTests" name="ChessPieceIntersectRay_MissesTriangle" />
+    </UnitTest>
+    <UnitTest name="TestProject1.Vector3Tests.Length_WorksCorrectly" storage="c:\users\nikit\onedrive\рабочий стол\cg_coursework\testproject1\bin\x64\debug\net8.0\testproject1.dll" id="a82c4954-c9e5-f6d8-dd34-9e3003f733bc">
+      <Execution id="9b07b2f9-1b21-4419-85f2-afb44e13d911" />
+      <TestMethod codeBase="C:\Users\nikit\OneDrive\Рабочий стол\cg_coursework\TestProject1\bin\x64\Debug\net8.0\TestProject1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TestProject1.Vector3Tests" name="Length_WorksCorrectly" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="9a168abe-17b0-11ca-c043-80368bebb2f2" executionId="7ef24f7a-a13c-4bbe-9e52-7f858aaec719" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0dca0a91-7014-a9c1-2d3f-9c8c0bb30615" executionId="d8d31c0c-2de5-421b-8a9e-b0d35032082e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0048ab4c-7d82-9073-264b-f833f4628a32" executionId="57b04498-88c3-46a1-a25b-62c5ae0535f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e43cddfc-4514-0f64-5913-9f3399ab1f6d" executionId="bd815aaf-5f8e-4b15-8e5a-8f2f9dc70790" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a82c4954-c9e5-f6d8-dd34-9e3003f733bc" executionId="9b07b2f9-1b21-4419-85f2-afb44e13d911" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3576c7f7-6b37-3e10-2ac6-85d562afd58c" executionId="17970ae7-6642-46b8-babb-f076e65eed6c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b377a320-a4ae-29b0-d218-8e04904328ef" executionId="57033b51-99be-418a-be25-f2bdfd26680f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bcb6c19e-b5b1-6463-4a2b-559325012133" executionId="59a3399d-9114-41b2-b207-b73d812dce8b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff08d2a0-c55b-70ce-99f0-08fed51740b5" executionId="843ba399-e72b-49df-9cd2-569ac650489a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="58ef29d2-9444-b7cd-9c50-095a110feb49" executionId="35c877fc-f437-43e7-b221-cb3e0c2f31b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="73c170b9-b701-2f5b-aba8-77560ade0960" executionId="96417ca2-f81c-4f14-bb76-646b3104920f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc90c9a1-cc07-518a-49d2-4374ad78c925" executionId="365f94d9-546b-4e6b-8194-4002919e1683" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0a20699-5ccb-fbb9-04f6-3cc0d35ab495" executionId="70ae3d87-735d-435e-a3a4-becfe4a60445" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bcb34bb-c333-aeac-6099-05b8ee5c9f54" executionId="df8db61d-2b12-4524-aeaa-e9f2424d23e7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="460e0796-c857-900a-8a29-9b372ec37074" executionId="eef80bd3-af59-47bb-8e38-fec96d9b72e0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f2d9f6a-882b-84aa-6361-f9a475568f8e" executionId="645d6623-082c-40d9-9713-9b45a333338c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0a50f363-4bfc-3dc9-5e5f-e8a2fb2a3254" executionId="f48128b2-0545-4d54-a180-7268fcf02918" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41b76348-fc1c-92fd-b31f-984480d125fd" executionId="c2c37480-2b37-405a-8380-8dec0a6e45fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="432209c1-9d26-20ae-80b3-4a360d9fa2a4" executionId="18854e4e-3781-4285-9d5e-6b64efa92920" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b09110a6-f65a-c82f-ca81-d2bab147d589" executionId="b05df28f-c1e3-4ee4-b336-7eaf869e210d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9af1ce2b-dfd3-e840-89ff-f9343368ec39" executionId="647b8712-aa27-4170-8a91-267df5c513f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18578028-1e47-09b4-9c5e-6dfe7ee4176b" executionId="dcec25bf-8676-422f-99de-7408b3fde504" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="72d206cd-525e-91a6-6985-2d7ac0d2f491" executionId="cde6a4aa-afc3-4a14-9afa-0f10793c86a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16454dbe-3938-6028-de7f-12f3494326b9" executionId="38c4dda5-669c-4521-bd83-60ff0e9ce96d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="523c4b49-294f-3e00-0686-a717395b6cbc" executionId="46911fe2-e709-4367-a132-120bdec817ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2d3b4d66-4881-c5c5-1195-80de37cc7f54" executionId="cf56ffa6-e123-443e-8464-863efa39da19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Список результатов" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Все загруженные результаты" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="26" executed="26" passed="26" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.11)&#xD;
+[xUnit.net 00:00:00.04]   Discovering: TestProject1&#xD;
+[xUnit.net 00:00:00.06]   Discovered:  TestProject1&#xD;
+[xUnit.net 00:00:00.06]   Starting:    TestProject1&#xD;
+[xUnit.net 00:00:00.11]   Finished:    TestProject1&#xD;
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.11)&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
