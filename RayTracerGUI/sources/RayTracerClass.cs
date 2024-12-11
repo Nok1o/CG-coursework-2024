@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camera = RayTracer.Objects.Ray;
@@ -211,7 +212,7 @@ namespace RayTracer
         private double GetRandomOffset()
         {
             if (random == null)
-                random = new Random();
+                random = new Random(Guid.NewGuid().GetHashCode());
             return random.NextDouble() - 0.5; // Offset in the range [-0.5, 0.5]
         }
 
@@ -232,6 +233,9 @@ namespace RayTracer
             double aspectRatio = (double)width / height;
             double scale = Math.Tan(fov / 2);
 
+            double invWid = 1.0 / width;
+            double invHid = 1.0 / height;
+
             int samplesPerPixel = (antiAliasing || DOF) ? numRays : 1; // anti-aliasing = 32
             double apertureSize = DOF ? 0.08 : 0; // Enable DOF if checked
             double focalPlaneDistance = fPlaneDistance;
@@ -242,8 +246,9 @@ namespace RayTracer
             double pixelHeight = 2.0f / height;
             Color[,] pixelBuffer = new Color[width, height];
             bar?.Invoke(new Action(() => bar.Value = 0));
+            int progressUpdateInterval = totalPixels / 100;
 
-            
+
             Parallel.For(0, height, y =>
             {
                 for (int x = 0; x < width; x++)
@@ -262,8 +267,8 @@ namespace RayTracer
                         }
 
                         // Pixel position with jitter
-                        double ndcX = (2 * ((x + 0.5) / width) - 1) * aspectRatio + jitterX;
-                        double ndcY = (1 - 2 * ((y + 0.5) / height)) + jitterY;
+                        double ndcX = (2 * ((x + 0.5) * invWid) - 1) * aspectRatio + jitterX;
+                        double ndcY = (1 - 2 * ((y + 0.5) * invHid)) + jitterY;
 
                         // Base ray direction
                         Vector3 rayDir = (cameraRight * (ndcX * scale) + cameraUp * (ndcY * scale) + camera.dir).Normalize();
@@ -283,7 +288,7 @@ namespace RayTracer
                             rayDir = (focalPoint - rayOrigin).Normalize();
                         }
 
-                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, (int) maxRecursionDepth + 1);
+                        Color sampleColor = TraceRay(new Ray(rayOrigin, rayDir), currentScene, lightPos, backgroundColor, (int)maxRecursionDepth + 1);
 
                         rSum += sampleColor.R;
                         gSum += sampleColor.G;
@@ -302,17 +307,12 @@ namespace RayTracer
 
 
                     pixelBuffer[x, y] = finalColor;
-                    //lock (bitmap)
-                    //{
-                    //    bitmap.SetPixel(x, y, finalColor);
-
-                    processedPixels++;
-                    if (bar != null && processedPixels % (totalPixels / 100) == 0)
+                    Interlocked.Increment(ref processedPixels);
+                    if (bar != null && processedPixels % progressUpdateInterval == 0)
                     {
                         int progress = (processedPixels * 100) / totalPixels;
                         bar.Invoke(new Action(() => bar.Value = progress));
                     }
-                    //}
                 }
             });
 
@@ -325,6 +325,17 @@ namespace RayTracer
             }
 
             bar?.Invoke(new Action(() => bar.Value = 100));
+        }
+
+        public void ShininessChanged(int sh)
+        {
+            colorCalculation.finishFactor = sh / 130.0;
+        }
+
+        public double getSelectedObjectReflection()
+        {
+            if (selectedObject == null) { return 0; }
+            return selectedObject.Reflection;
         }
 
     }

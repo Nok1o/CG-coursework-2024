@@ -22,8 +22,6 @@
             this.trackBarReflectiveness = new System.Windows.Forms.TrackBar();
             this.labelReflectiveness = new System.Windows.Forms.Label();
             this.labelReflectionText = new System.Windows.Forms.Label();
-            this.radioButtonPhong = new System.Windows.Forms.RadioButton();
-            this.radioButtonFresnel = new System.Windows.Forms.RadioButton();
             this.SceneChooser = new System.Windows.Forms.ComboBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.trackIntensity = new System.Windows.Forms.TrackBar();
@@ -38,6 +36,10 @@
             this.cameraComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ShininessLabel = new System.Windows.Forms.Label();
+            this.ShininessTrackBar = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.maxRecRefl = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.NumRaysEntry = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
@@ -46,17 +48,16 @@
             this.label4 = new System.Windows.Forms.Label();
             this.FieldOfViewEntry = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.maxRecRefl = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarReflectiveness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackIntensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.focalPlaneDistanceControl)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumRaysEntry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FieldOfViewEntry)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -105,30 +106,6 @@
             this.labelReflectionText.Size = new System.Drawing.Size(79, 13);
             this.labelReflectionText.TabIndex = 4;
             this.labelReflectionText.Text = "Зеркальность";
-            // 
-            // radioButtonPhong
-            // 
-            this.radioButtonPhong.AutoSize = true;
-            this.radioButtonPhong.Checked = true;
-            this.radioButtonPhong.Location = new System.Drawing.Point(164, 120);
-            this.radioButtonPhong.Name = "radioButtonPhong";
-            this.radioButtonPhong.Size = new System.Drawing.Size(75, 17);
-            this.radioButtonPhong.TabIndex = 5;
-            this.radioButtonPhong.TabStop = true;
-            this.radioButtonPhong.Text = "По Фонгу";
-            this.radioButtonPhong.UseVisualStyleBackColor = true;
-            this.radioButtonPhong.CheckedChanged += new System.EventHandler(this.radioButtonPhong_CheckedChanged);
-            // 
-            // radioButtonFresnel
-            // 
-            this.radioButtonFresnel.AutoSize = true;
-            this.radioButtonFresnel.Location = new System.Drawing.Point(164, 143);
-            this.radioButtonFresnel.Name = "radioButtonFresnel";
-            this.radioButtonFresnel.Size = new System.Drawing.Size(65, 17);
-            this.radioButtonFresnel.TabIndex = 6;
-            this.radioButtonFresnel.TabStop = true;
-            this.radioButtonFresnel.Text = "По Гуро";
-            this.radioButtonFresnel.UseVisualStyleBackColor = true;
             // 
             // SceneChooser
             // 
@@ -261,6 +238,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.ShininessLabel);
+            this.groupBox2.Controls.Add(this.ShininessTrackBar);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.maxRecRefl);
             this.groupBox2.Controls.Add(this.label6);
@@ -273,14 +252,64 @@
             this.groupBox2.Controls.Add(this.depthOfFieldCheckbox);
             this.groupBox2.Controls.Add(this.focalPlaneDistanceControl);
             this.groupBox2.Controls.Add(this.focalPlaneLabel);
-            this.groupBox2.Controls.Add(this.radioButtonPhong);
-            this.groupBox2.Controls.Add(this.radioButtonFresnel);
             this.groupBox2.Location = new System.Drawing.Point(838, 233);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(285, 189);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Параметры сцены";
+            // 
+            // ShininessLabel
+            // 
+            this.ShininessLabel.AutoSize = true;
+            this.ShininessLabel.Location = new System.Drawing.Point(167, 150);
+            this.ShininessLabel.Name = "ShininessLabel";
+            this.ShininessLabel.Size = new System.Drawing.Size(98, 13);
+            this.ShininessLabel.TabIndex = 25;
+            this.ShininessLabel.Text = "Глянцевость: 32%";
+            // 
+            // ShininessTrackBar
+            // 
+            this.ShininessTrackBar.Location = new System.Drawing.Point(159, 120);
+            this.ShininessTrackBar.Maximum = 100;
+            this.ShininessTrackBar.Name = "ShininessTrackBar";
+            this.ShininessTrackBar.Size = new System.Drawing.Size(120, 45);
+            this.ShininessTrackBar.SmallChange = 5;
+            this.ShininessTrackBar.TabIndex = 24;
+            this.ShininessTrackBar.Value = 32;
+            this.ShininessTrackBar.Scroll += new System.EventHandler(this.ShininessTrackBar_Scroll);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(22, 168);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(156, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Глубина рекурсии отражения";
+            // 
+            // maxRecRefl
+            // 
+            this.maxRecRefl.Location = new System.Drawing.Point(184, 166);
+            this.maxRecRefl.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.maxRecRefl.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxRecRefl.Name = "maxRecRefl";
+            this.maxRecRefl.Size = new System.Drawing.Size(51, 20);
+            this.maxRecRefl.TabIndex = 22;
+            this.maxRecRefl.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.maxRecRefl.ValueChanged += new System.EventHandler(this.maxRecRefl_ValueChanged);
             // 
             // label6
             // 
@@ -322,11 +351,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(161, 104);
+            this.label5.Location = new System.Drawing.Point(168, 104);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.Size = new System.Drawing.Size(72, 13);
             this.label5.TabIndex = 19;
-            this.label5.Text = "Алгоритм закраски";
+            this.label5.Text = "Глянцевость";
             // 
             // label2
             // 
@@ -393,38 +422,6 @@
             this.label7.TabIndex = 25;
             this.label7.Text = "Поле зрения";
             // 
-            // maxRecRefl
-            // 
-            this.maxRecRefl.Location = new System.Drawing.Point(184, 166);
-            this.maxRecRefl.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.maxRecRefl.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.maxRecRefl.Name = "maxRecRefl";
-            this.maxRecRefl.Size = new System.Drawing.Size(51, 20);
-            this.maxRecRefl.TabIndex = 22;
-            this.maxRecRefl.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            this.maxRecRefl.ValueChanged += new System.EventHandler(this.maxRecRefl_ValueChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(22, 168);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(156, 13);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "Глубина рекурсии отражения";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,9 +450,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumRaysEntry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FieldOfViewEntry)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maxRecRefl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -468,8 +466,6 @@
         private System.Windows.Forms.TrackBar trackBarReflectiveness;
         private System.Windows.Forms.Label labelReflectiveness;
         private System.Windows.Forms.Label labelReflectionText;
-        private System.Windows.Forms.RadioButton radioButtonPhong;
-        private System.Windows.Forms.RadioButton radioButtonFresnel;
         private System.Windows.Forms.ComboBox SceneChooser;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TrackBar trackIntensity;
@@ -494,5 +490,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown maxRecRefl;
+        private System.Windows.Forms.TrackBar ShininessTrackBar;
+        private System.Windows.Forms.Label ShininessLabel;
     }
 }

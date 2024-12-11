@@ -112,6 +112,11 @@ namespace RayTracer
             selectedScene = comboBox.SelectedItem.ToString();
             selectedSceneIndex = comboBox.SelectedIndex;
             tracer.selectedSceneChanged(selectedSceneIndex);
+
+            
+            var reflection = tracer.getSelectedObjectReflection();
+            trackBarReflectiveness.Value = (int)(reflection * 100);
+            labelReflectiveness.Text = $"Зеркальность: {trackBarReflectiveness.Value}%";
         }
 
         // Update reflection factor when the slider is adjusted
@@ -140,6 +145,9 @@ namespace RayTracer
 
                 // Trace ray to find the object clicked on
                 selectedObject = tracer.getClickedObject(ndcX, ndcY);
+                var reflection = tracer.getSelectedObjectReflection();
+                trackBarReflectiveness.Value = (int) (reflection * 100);
+                labelReflectiveness.Text = $"Зеркальность: {trackBarReflectiveness.Value}%";
                 SelectListViewItem(selectedObject.type, selectedObject.index);
             }
         }
@@ -149,10 +157,7 @@ namespace RayTracer
             tracer.UpdateObjectColor(selection, newColor);
         }
 
-        private void UpdateObjectReflectiveness((int index, string type) selection, double reflectiveness)
-        {
-            tracer.UpdateObjectReflectiveness(selection, reflectiveness);
-        }
+            
 
         private void fillListView()
         {
@@ -195,14 +200,16 @@ namespace RayTracer
             }
         }
 
-        private void radioButtonPhong_CheckedChanged(object sender, EventArgs e)
-        {
-            tracer.shading = radioButtonPhong.Checked ? RayTracer.Shading.Phong : RayTracer.Shading.Gourand;
-        }
-
         private void maxRecRefl_ValueChanged(object sender, EventArgs e)
         {
             tracer.UpdateMaxRecursionDepthReflection((uint) maxRecRefl.Value);
         }
+
+        private void ShininessTrackBar_Scroll(object sender, EventArgs e)
+        {
+            tracer.ShininessChanged(ShininessTrackBar.Value);
+            ShininessLabel.Text = $"Глянцевость: {ShininessTrackBar.Value}%";
+        }
+
     }
 }

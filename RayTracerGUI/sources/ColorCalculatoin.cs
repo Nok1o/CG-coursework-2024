@@ -7,40 +7,104 @@ using System.Windows.Forms;
 
 namespace RayTracer
 {
+
     public class ColorCalculation
     {
-        public Color CalculateLighting(Vector3 CameraOrigin, Vector3 hitPoint, Vector3 normal, Vector3 lightPos, Color objectColor, ObjectScene scene, double ambientIntensity, bool Phong)
+        public double finishFactor { get; set; } = 32 / 130.0;
+
+        public Color CalculateLighting(Vector3 cameraOrigin, Vector3 hitPoint, Vector3 normal, Vector3 lightPos, Color objectColor, ObjectScene scene, double ambientIntensity)
         {
-            // Ambient light factor (constant across the entire scene)
+            // Ambient light factor
             Color ambientLight = ApplyAmbientLight(objectColor, ambientIntensity);
 
-            // Diffuse lighting (based on angle of incidence)
+            // Diffuse lighting (angle of incidence)
             Vector3 lightDir = (lightPos - hitPoint).Normalize();
-            double diffuseIntensity = Math.Max(0, normal.Dot(lightDir)); // Diffuse component
+            double diffuseIntensity = Math.Max(0, normal.Dot(lightDir));
 
-            // Specular lighting (Phong or Fresnel, depends on user selection)
-            Color specularLight = Color.Black;
-            if (Phong)
-            {
-                specularLight = CalculatePhongSpecular(CameraOrigin, hitPoint, normal, lightPos, ambientIntensity);
-            }
-            else
-            {
-                specularLight = CalculateFresnelSpecular(CameraOrigin, hitPoint, normal, lightPos, ambientIntensity);
-            }
+            // Specular lighting (Phong and Fresnel combined)
+            int shininess = (int)(20 + finishFactor * 150);
+            Color specularLight = CalculateSpecular(cameraOrigin, hitPoint, normal, lightPos, ambientIntensity, shininess, objectColor);
 
-            // Combine the ambient, diffuse, and specular components
-            Color finalColor = CombineLighting(objectColor, ambientLight, diffuseIntensity, specularLight);
+            // Combine diffuse and specular contributions
+            double specularFactor = finishFactor; // Controls shininess
+            double diffuseFactor = 1.0 - finishFactor; // Controls matteness
+            double normalizationFactor = 1.0 / (diffuseFactor + specularFactor); // Normalize
 
-            // Shadow checking
-            bool inShadow = IsInShadow(hitPoint, lightDir, lightPos, scene);
-            if (inShadow)
+            diffuseFactor *= normalizationFactor;
+            specularFactor *= normalizationFactor;
+            double ambientBoost = 1.0 - finishFactor; // Increase ambient for matte surfaces
+            ambientIntensity += ambientBoost * 0.1;  // Adjust factor as needed
+
+
+            // Compute final lighting
+            int r = Clamp((int)(
+                objectColor.R * (ambientIntensity + diffuseIntensity) +
+                specularLight.R * finishFactor));
+
+            int g = Clamp((int)(
+                objectColor.G * (ambientIntensity + diffuseIntensity) +
+                specularLight.G * finishFactor));
+
+            int b = Clamp((int)(
+                objectColor.B * (ambientIntensity + diffuseIntensity) +
+                specularLight.B * finishFactor));
+
+            Color finalColor = Color.FromArgb(r, g, b);
+
+            // Shadow handling
+            if (IsInShadow(hitPoint, lightDir, lightPos, scene))
             {
-                finalColor = ApplyShadow(finalColor);
+                finalColor = ApplyShadow(finalColor, ambientIntensity);
             }
 
             return finalColor;
         }
+
+        int Clamp(int value)
+        {
+            return Math.Max(0, Math.Min(255, value));
+        }
+
+
+        public Color CombineLighting(Color objectColor, Color ambientLight, double diffuseIntensity, double diffuseWeight, Color specularLight, double specularWeight)
+        {
+            // Combine ambient, normalized diffuse, and normalized specular lighting
+            int r = Math.Min(255, (int)(objectColor.R * (diffuseIntensity * diffuseWeight) + ambientLight.R + specularLight.R * specularWeight));
+            int g = Math.Min(255, (int)(objectColor.G * (diffuseIntensity * diffuseWeight) + ambientLight.G + specularLight.G * specularWeight));
+            int b = Math.Min(255, (int)(objectColor.B * (diffuseIntensity * diffuseWeight) + ambientLight.B + specularLight.B * specularWeight));
+
+            return Color.FromArgb(r, g, b);
+        }
+
+
+
+
+
+        public Color CalculateSpecular(Vector3 cameraOrigin, Vector3 hitPoint, Vector3 normal, Vector3 lightPos, double intensity, int shininess, Color objectColor)
+        {
+            // Phong Specular Calculation
+            Vector3 viewDir = (cameraOrigin - hitPoint).Normalize();
+            Vector3 lightDir = (lightPos - hitPoint).Normalize();
+            Vector3 reflectDir = (normal * (2.0 * normal.Dot(lightDir)) - lightDir).Normalize();
+            double phongSpecFactor = Math.Pow(Math.Max(viewDir.Dot(reflectDir), 0), shininess);
+
+            // Fresnel Specular Calculation
+            double cosTheta = Math.Max(0, viewDir.Dot(normal));
+            double fresnelFactor = Math.Pow(1 - cosTheta, 5) * intensity + 0.1; // Schlick's approximation
+
+            // Adjust blending rate based on shininess
+            double phongWeight = Math.Min(1.0, shininess / 89.6); // Shinier surfaces favor Phong
+            double fresnelWeight = 1.0 - phongWeight;             // Matte surfaces favor Fresnel
+
+            // Combine Phong and Fresnel components
+            double specFactor = phongSpecFactor * phongWeight + fresnelFactor * fresnelWeight;
+
+            // Return combined specular highlight (white for simplicity)
+            int specIntensity = Clamp((int)(255 * specFactor), 0, 255);
+            return Color.FromArgb(Clamp((int) (specFactor * objectColor.R)), Clamp((int)(specFactor * objectColor.G)), Clamp((int)(specFactor * objectColor.B)));
+        }
+
+
 
         public Color CalculatePhongSpecular(Vector3 cameraOrigin, Vector3 hitPoint, Vector3 normal, Vector3 lightPos, double intensity)
         {
@@ -78,15 +142,17 @@ namespace RayTracer
             );
         }
 
-        public Color CombineLighting(Color objectColor, Color ambientLight, double diffuseIntensity, Color specularLight)
+        public Color CombineLighting(Color objectColor, Color ambientLight, double diffuseWeight, Color specularLight, double specularWeight)
         {
-            // Combine ambient and diffuse lighting
-            int r = Math.Min(255, (int)(objectColor.R * diffuseIntensity + ambientLight.R + specularLight.R));
-            int g = Math.Min(255, (int)(objectColor.G * diffuseIntensity + ambientLight.G + specularLight.G));
-            int b = Math.Min(255, (int)(objectColor.B * diffuseIntensity + ambientLight.B + specularLight.B));
+            // Combine ambient, normalized diffuse, and normalized specular lighting
+            int r = Math.Min(255, (int)(objectColor.R * diffuseWeight + ambientLight.R + specularLight.R * specularWeight));
+            int g = Math.Min(255, (int)(objectColor.G * diffuseWeight + ambientLight.G + specularLight.G * specularWeight));
+            int b = Math.Min(255, (int)(objectColor.B * diffuseWeight + ambientLight.B + specularLight.B * specularWeight));
 
             return Color.FromArgb(r, g, b);
         }
+
+
 
 
         public Color ApplyAmbientLight(Color objectColor, double ambientIntensity)
@@ -98,13 +164,13 @@ namespace RayTracer
             );
         }
 
-        public Color ApplyShadow(Color finalColor)
+        public Color ApplyShadow(Color finalColor, double lightIntensity)
         {
             // Reduce brightness of the color for shadow areas
             return Color.FromArgb(
-                (int)(finalColor.R * 0.5),
-                (int)(finalColor.G * 0.5),
-                (int)(finalColor.B * 0.5)
+                (int)(finalColor.R * Math.Max(0.4, Math.Min(lightIntensity, 0.8))),
+                (int)(finalColor.G * Math.Max(0.4, Math.Min(lightIntensity, 0.8))),
+                (int)(finalColor.B * Math.Max(0.4, Math.Min(lightIntensity, 0.8)))
             );
         }
 

@@ -39,7 +39,7 @@ namespace RayTracer
             Color objectColor = ((dynamic)closestObject).SurfaceColor;
 
 
-            Color lightingColor = colorCalculation.CalculateLighting(ray.origin, hitPoint, hitNormal, lightPos, objectColor, scene, intensity, shading == Shading.Phong);
+            Color lightingColor = colorCalculation.CalculateLighting(ray.origin, hitPoint, hitNormal, lightPos, objectColor, scene, intensity);
 
 
             if (closestObject.Reflection > 0)
