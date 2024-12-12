@@ -66,7 +66,7 @@ namespace RayTracer
             }
         }
 
-        public class ChessPiece: AbstractObject
+        public class ChessPiece : AbstractObject
         {
             private Sphere BoundingSphere = null;
             public Vector3 Position { get; set; }
@@ -148,7 +148,7 @@ namespace RayTracer
 
             }
 
-            public ChessPiece(Vector3 position, Color color, Triangle[] triangles, double reflection, string name=null)
+            public ChessPiece(Vector3 position, Color color, Triangle[] triangles, double reflection, string name = null)
             {
                 Position = position;
                 SurfaceColor = color;
@@ -177,7 +177,7 @@ namespace RayTracer
                         distance = dist;
                         hit = true;
 
-                        // GURO KNIGHT TODO: PHONG
+                        // Directly use the normal at the point of intersection (Phong shading)
                         interpolatedNormal =
                             barycentricCoords.X * triangle.Normal1 +
                             barycentricCoords.Y * triangle.Normal2 +

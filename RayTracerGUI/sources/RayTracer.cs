@@ -15,37 +15,44 @@ namespace RayTracer
                 return backgroundColor;
             }
 
+            // Find closest intersection
             double closestDistance = double.MaxValue;
-            Vector3 hitNormal = new Vector3(0, 0, 0);
+            Vector3 hitNormal = default;
             AbstractObject closestObject = null;
 
             foreach (var obj in scene.objects)
             {
-                if (callingObject != obj)
-                    if (obj.IntersectRay(ray, out double dist, out Vector3 normal) && dist < closestDistance)
-                    {
-                        closestDistance = dist;
-                        hitNormal = normal;
-                        closestObject = obj;
-                    }
+                if (callingObject != obj && obj.IntersectRay(ray, out double dist, out Vector3 normal) && dist < closestDistance)
+                {
+                    closestDistance = dist;
+                    hitNormal = normal;
+                    closestObject = obj;
+                }
             }
 
+            // No intersection: return background color
             if (closestObject == null)
             {
                 return backgroundColor;
             }
 
+            // Compute hit point
             Vector3 hitPoint = ray.origin + ray.dir * closestDistance;
-            Color objectColor = ((dynamic)closestObject).SurfaceColor;
+            Color objectColor = closestObject.SurfaceColor;
 
+            // Calculate lighting using Phong shading (lighting at the intersection point)
+            Color lightingColor = colorCalculation.CalculateLighting(
+                ray.origin, hitPoint, hitNormal, lightPos, objectColor, scene, intensity);
 
-            Color lightingColor = colorCalculation.CalculateLighting(ray.origin, hitPoint, hitNormal, lightPos, objectColor, scene, intensity);
-
-
+            // Handle reflections
             if (closestObject.Reflection > 0)
             {
-                Vector3 reflectionDir = ray.dir.Reflect(hitNormal);
-                Color reflectionColor = TraceRay(new Objects.Ray(hitPoint, reflectionDir), scene, lightPos, backgroundColor, depth - 1, closestObject);
+                Vector3 reflectionDir = ray.dir.Reflect(hitNormal).Normalize();
+                Objects.Ray reflectedRay = new Objects.Ray(hitPoint, reflectionDir);
+
+                Color reflectionColor = TraceRay(reflectedRay, scene, lightPos, backgroundColor, depth - 1, closestObject);
+
+                // Blend lighting and reflection colors
                 lightingColor = ColorCalculation.MixColors(lightingColor, reflectionColor, closestObject.Reflection);
             }
 

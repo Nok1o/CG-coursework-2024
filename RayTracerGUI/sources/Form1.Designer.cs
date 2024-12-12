@@ -181,11 +181,11 @@
             // focalPlaneLabel
             // 
             this.focalPlaneLabel.AutoSize = true;
-            this.focalPlaneLabel.Location = new System.Drawing.Point(7, 104);
+            this.focalPlaneLabel.Location = new System.Drawing.Point(6, 104);
             this.focalPlaneLabel.Name = "focalPlaneLabel";
-            this.focalPlaneLabel.Size = new System.Drawing.Size(122, 26);
+            this.focalPlaneLabel.Size = new System.Drawing.Size(122, 13);
             this.focalPlaneLabel.TabIndex = 16;
-            this.focalPlaneLabel.Text = "Расстояние до \r\nфокальной плоскости ";
+            this.focalPlaneLabel.Text = "Расстояние до фокуса";
             // 
             // focalPlaneDistanceControl
             // 
@@ -195,7 +195,7 @@
             0,
             0,
             65536});
-            this.focalPlaneDistanceControl.Location = new System.Drawing.Point(9, 133);
+            this.focalPlaneDistanceControl.Location = new System.Drawing.Point(8, 120);
             this.focalPlaneDistanceControl.Name = "focalPlaneDistanceControl";
             this.focalPlaneDistanceControl.Size = new System.Drawing.Size(120, 20);
             this.focalPlaneDistanceControl.TabIndex = 17;
@@ -262,7 +262,7 @@
             // ShininessLabel
             // 
             this.ShininessLabel.AutoSize = true;
-            this.ShininessLabel.Location = new System.Drawing.Point(167, 150);
+            this.ShininessLabel.Location = new System.Drawing.Point(168, 163);
             this.ShininessLabel.Name = "ShininessLabel";
             this.ShininessLabel.Size = new System.Drawing.Size(98, 13);
             this.ShininessLabel.TabIndex = 25;
@@ -270,7 +270,7 @@
             // 
             // ShininessTrackBar
             // 
-            this.ShininessTrackBar.Location = new System.Drawing.Point(159, 120);
+            this.ShininessTrackBar.Location = new System.Drawing.Point(163, 131);
             this.ShininessTrackBar.Maximum = 100;
             this.ShininessTrackBar.Name = "ShininessTrackBar";
             this.ShininessTrackBar.Size = new System.Drawing.Size(120, 45);
@@ -282,7 +282,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(22, 168);
+            this.label8.Location = new System.Drawing.Point(5, 147);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(156, 13);
             this.label8.TabIndex = 23;
@@ -290,7 +290,7 @@
             // 
             // maxRecRefl
             // 
-            this.maxRecRefl.Location = new System.Drawing.Point(184, 166);
+            this.maxRecRefl.Location = new System.Drawing.Point(9, 163);
             this.maxRecRefl.Maximum = new decimal(new int[] {
             50,
             0,
@@ -302,7 +302,7 @@
             0,
             0});
             this.maxRecRefl.Name = "maxRecRefl";
-            this.maxRecRefl.Size = new System.Drawing.Size(51, 20);
+            this.maxRecRefl.Size = new System.Drawing.Size(63, 20);
             this.maxRecRefl.TabIndex = 22;
             this.maxRecRefl.Value = new decimal(new int[] {
             6,
@@ -314,7 +314,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(189, 62);
+            this.label6.Location = new System.Drawing.Point(175, 62);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(70, 13);
             this.label6.TabIndex = 21;
@@ -327,7 +327,7 @@
             0,
             0,
             0});
-            this.NumRaysEntry.Location = new System.Drawing.Point(191, 78);
+            this.NumRaysEntry.Location = new System.Drawing.Point(178, 78);
             this.NumRaysEntry.Maximum = new decimal(new int[] {
             128,
             0,
@@ -351,7 +351,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(168, 104);
+            this.label5.Location = new System.Drawing.Point(168, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 13);
             this.label5.TabIndex = 19;

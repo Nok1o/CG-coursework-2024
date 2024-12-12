@@ -307,7 +307,7 @@ namespace TestProject1
             double diffuseIntensity = 0.5;
             Color specularLight = Color.FromArgb(100, 100, 100);
 
-            Color result = colorCalc.CombineLighting(objectColor, ambientLight, diffuseIntensity, specularLight);
+            Color result = colorCalc.CombineLighting(objectColor, ambientLight, diffuseIntensity, 0.5, specularLight, 0.5);
 
             // Test combined lighting result, ensuring it is within valid color range
             Assert.InRange(result.R, 0, 255);

@@ -106,6 +106,13 @@ namespace RayTracer
             SceneChooser.SelectedIndex = 0;  // Default scene
         }
 
+        private void UpdateReflectivenessLabel(int value)
+        {
+            trackBarReflectiveness.Value = value;
+            labelReflectiveness.Text = $"Зеркальность: {value}%";
+        }
+
+
         private void SceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -115,8 +122,7 @@ namespace RayTracer
 
             
             var reflection = tracer.getSelectedObjectReflection();
-            trackBarReflectiveness.Value = (int)(reflection * 100);
-            labelReflectiveness.Text = $"Зеркальность: {trackBarReflectiveness.Value}%";
+            UpdateReflectivenessLabel((int) (reflection * 100));
         }
 
         // Update reflection factor when the slider is adjusted
@@ -146,8 +152,8 @@ namespace RayTracer
                 // Trace ray to find the object clicked on
                 selectedObject = tracer.getClickedObject(ndcX, ndcY);
                 var reflection = tracer.getSelectedObjectReflection();
-                trackBarReflectiveness.Value = (int) (reflection * 100);
-                labelReflectiveness.Text = $"Зеркальность: {trackBarReflectiveness.Value}%";
+                
+            UpdateReflectivenessLabel((int) (reflection * 100));
                 SelectListViewItem(selectedObject.type, selectedObject.index);
             }
         }
@@ -170,6 +176,8 @@ namespace RayTracer
 
         private async void btnRender_Click(object sender, EventArgs e)
         {
+            SetUIEnabled(false);
+
             int width = 800;
             int height = 600;
 
@@ -182,7 +190,27 @@ namespace RayTracer
                 var bitmap = tracer.RenderSceneInterface(width, height, chkAntiAliasing.Checked, depthOfFieldCheckbox.Checked, (double) focalPlaneDistanceControl.Value, (int) NumRaysEntry.Value, progressBar);
                 pictureBox1.Image = bitmap;
             });
+            SetUIEnabled(true);
 
+        }
+
+        private void SetUIEnabled(bool enabled)
+        {
+            // Disable or enable UI components based on the parameter
+            cameraComboBox.Enabled = enabled;
+            SceneChooser.Enabled = enabled;
+            trackBarReflectiveness.Enabled = enabled;
+            trackIntensity.Enabled = enabled;
+            trackBarReflectiveness.Enabled = enabled;
+            FieldOfViewEntry.Enabled = enabled;
+            btnChangeColor.Enabled = enabled;
+            btnRender.Enabled = enabled;
+            maxRecRefl.Enabled = enabled;
+            ShininessTrackBar.Enabled = enabled;
+            depthOfFieldCheckbox.Enabled = enabled;
+            chkAntiAliasing.Enabled = enabled;
+            NumRaysEntry.Enabled = enabled;
+            focalPlaneDistanceControl.Enabled = enabled;
         }
 
         private void FieldOfViewEntry_ValueChanged(object sender, EventArgs e)
