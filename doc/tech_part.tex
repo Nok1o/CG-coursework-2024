@@ -53,7 +53,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:RayTracing}, captionpos={t}, caption={Алгоритм трассировки лучей}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:RayTracing}, captionpos={t}, caption={Алгоритм трассировки лучей}]
 	private Color TraceRay(Ray ray, ObjectScene scene, Vector3 lightPos, Color backgroundColor, int depth)
 	{
 		if (depth <= 0)
@@ -94,7 +94,7 @@
 На листингах~\ref{lst:SphereIntersection}~-~\ref{lst:ChessIntersection},~\ref{lst:CubeIntersection} приведены алгоритмы пересечения объектов сцены с лучом.
 
 \begin{center}
-	\begin{lstlisting}[label={lst:SphereIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча со сферой}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:SphereIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча со сферой}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 Normal)
 		{
 			Vector3 oc = ray.origin - Center;
@@ -122,7 +122,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:WallIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:WallIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с плоскостью (стеной)}]
 		public override bool IntersectRay(Ray ray, out double t, out Vector3 normal)
 		{
 			t = 0;
@@ -147,7 +147,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:TriangleIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:TriangleIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с треугольным полигоном}]
 		public bool IntersectRay(Ray ray, out double distance, out Vector3 barycentricCoords)
 		{
 			barycentricCoords = new Vector3(0, 0, 0);
@@ -190,7 +190,7 @@
 
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:ChessIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:ChessIntersection}, captionpos={t}, caption={Алгоритм поиска точки пересечения луча с шахматной фигурой}]
 		public override bool IntersectRay(Ray ray, out double distance, out Vector3 interpolatedNormal)
 		{
 			distance = double.MaxValue;
@@ -350,7 +350,7 @@
 Примеры модульных тестов приведены на листингах~\ref{lst:VAdd}~-~\ref{lst:HSphere}.
 \clearpage
 \begin{center}
-	\begin{lstlisting}[label={lst:VAdd}, captionpos={t}, caption={Пример модульного теста для сложения двух векторов}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:VAdd}, captionpos={t}, caption={Пример модульного теста для сложения двух векторов}]
 	[Fact]
 	public void AdditionOperatorTest()
 	{
@@ -364,7 +364,7 @@
 \end{center}
 
 \begin{center}
-	\begin{lstlisting}[label={lst:HSphere}, captionpos={t}, caption={Пример модульного теста для неуспешного поиска пересечения луча со сферой}]
+	\begin{lstlisting}[linewidth=\linewidth, label={lst:HSphere}, captionpos={t}, caption={Пример модульного теста для неуспешного поиска пересечения луча со сферой}]
 	[Fact]
 	public void SphereIntersectRay_MissesSphere()
 	{
